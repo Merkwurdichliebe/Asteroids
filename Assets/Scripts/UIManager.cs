@@ -22,13 +22,14 @@ public class UIManager : MonoBehaviour {
     // Entities
 
     // Player and its Rigidbody
-    public GameObject player;
+    private GameObject player;
     private Rigidbody2D player_rb;
     private Vector3 playerVP;
 
     void Start()
     {
         // Initialize Player references
+        player = GameObject.FindWithTag("Player");
         player_rb = player.GetComponent<Rigidbody2D>();
         textAnnounce.text = "";
     }

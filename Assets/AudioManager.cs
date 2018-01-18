@@ -12,7 +12,7 @@ public class AudioManager : MonoBehaviour {
 
     void Awake()
     {
-        audiosource = GetComponent<AudioSource>();
+        
     }
 
 }

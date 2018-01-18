@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -18,17 +19,24 @@ public class GameManager : MonoBehaviour
     private bool gameover = false;
     private float playerDiedTime;
 
+
+
     void Awake()
     {
+        // Get reference to the UI Manager script
         UIManager = gameObject.GetComponent<UIManager>();
+
+        // Spawn player
+        // Needs to be done in Awake so that the UI Manager Script
+        // can get the reference to the player in Start
+        player = SpawnPlayer(Vector2.zero);
+        playerController = player.GetComponent<PlayerController>();
     }
+
+
 
     void Start()
     {
-        // Spawn player
-        player = SpawnPlayer(Vector2.zero);
-        playerController = player.GetComponent<PlayerController>();
-
         // Spawn asteroids
         for (int i = 0; i < 4; i++)
         {
@@ -39,6 +47,8 @@ public class GameManager : MonoBehaviour
         UIManager.UpdateLives(playerLives);
     }
 
+
+
     void Update()
     {
         if (!playerController.isAlive && (Time.time - playerDiedTime > 3) && !gameover)
@@ -48,9 +58,20 @@ public class GameManager : MonoBehaviour
 
         if (gameover)
         {
-            UIManager.DisplayGameOver();
+            StartCoroutine(GameOver());
         }
     }
+
+
+
+    IEnumerator GameOver()
+    {
+        UIManager.DisplayGameOver();
+        yield return new WaitForSeconds(4.0f);
+        SceneManager.LoadScene("Menu");
+    }
+
+
 
     public void HitAsteroid(GameObject go)
     {
@@ -66,6 +87,8 @@ public class GameManager : MonoBehaviour
         ScorePoints(phase);
     }
 
+
+
     private void SpawnAsteroid(Vector2 pos, int phase)
     {
         // Instantiate the asteroid and set its phase
@@ -75,16 +98,22 @@ public class GameManager : MonoBehaviour
         ast.transform.position = pos;
     }
 
+
+
     private GameObject SpawnPlayer(Vector2 pos)
     {
         return Instantiate(pfPlayer, pos, Quaternion.identity);
     }
+
+
 
     void ScorePoints(int points)
     {
         playerScore += points;
         UIManager.UpdateScore(playerScore);
     }
+
+
 
     public void PlayerDied(GameObject go)
     {

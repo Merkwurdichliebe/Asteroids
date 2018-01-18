@@ -7,6 +7,7 @@ public class PlayerController : MonoBehaviour
 
     public int RotationScaler = 5;
     public int ThrustScaler = 2;
+    private bool accelerating = false;
 
     private Rigidbody2D rb;
     private SpriteSwitcher spriteSwitcher;
@@ -40,14 +41,16 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.UpArrow))
         {
             spriteSwitcher.SpriteThrust();
+            accelerating = true;
         }
 
         if (Input.GetKeyUp(KeyCode.UpArrow))
         {
             spriteSwitcher.SpriteIdle();
+            accelerating = false;
         }
 
-        if (Input.GetKey(KeyCode.UpArrow))
+        if (accelerating)
         {
             rb.AddRelativeForce(Vector2.up * ThrustScaler, ForceMode2D.Force);
             audiosource.PlayOneShot(engine);
@@ -67,7 +70,6 @@ public class PlayerController : MonoBehaviour
         {
             Instantiate(prefabWeaponBullet, anchorMainGun.position, transform.rotation);
             audiosource.PlayOneShot(laser);
-
         }
     }
 
