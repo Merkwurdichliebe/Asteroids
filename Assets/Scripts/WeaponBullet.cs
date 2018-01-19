@@ -6,19 +6,21 @@ public class WeaponBullet : MonoBehaviour {
 
     public float speed = 1.0f;
     private Rigidbody2D rb;
-    private GameManager gameManager;
+
+    public float lifespan = 0.3f;
+    private float timeAtSpawn;
 
     void Awake()
     {
         // Get the Rigidbody2D when instantiated
         rb = (Rigidbody2D)GetComponent(typeof(Rigidbody2D));
-        gameManager = FindObjectOfType<GameManager>();
     }
 
 	void Start ()
     {
         // Add forward impulse
         rb.AddRelativeForce(Vector2.up * speed * 10, ForceMode2D.Impulse);
+        timeAtSpawn = Time.time;
 	}
 
     void FixedUpdate()
@@ -29,14 +31,21 @@ public class WeaponBullet : MonoBehaviour {
         {
             Destroy(gameObject);
         }
+        if (Time.time - timeAtSpawn > lifespan)
+        {
+            Destroy(gameObject);
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.tag == "Asteroid")
+        AsteroidController ast = collision.gameObject.GetComponent<AsteroidController>();
+
+        if (ast != null)
         {
-            gameManager.HitAsteroid(collision.gameObject);
-            Destroy(gameObject);
+            ast.Break();
         }
+
+        Destroy(gameObject);
     }
 }

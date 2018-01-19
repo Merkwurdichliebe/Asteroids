@@ -990,9 +990,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pfAsteroid: {fileID: 1715864568824846, guid: 165fce1b024b44eb7a9ac1c1ea667665, type: 2}
-  pfPlayer: {fileID: 1729157800514620, guid: 1cd0fc377425e480f912e5efcaa6121b, type: 2}
-  player: {fileID: 0}
-  playerController: {fileID: 0}
+  player: {fileID: 114579725366848430, guid: 1cd0fc377425e480f912e5efcaa6121b, type: 2}
   soundPlayerDestroyed: {fileID: 8300000, guid: f96550c7e73a74f4db42faa9d351b6c2,
     type: 3}
 --- !u!82 &2104122571
@@ -1050,7 +1048,7 @@ AudioSource:
       tangentMode: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
-    m_RotationOrder: 4
+    m_RotationOrder: 0
   spreadCustomCurve:
     serializedVersion: 2
     m_Curve:
@@ -1062,7 +1060,7 @@ AudioSource:
       tangentMode: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
-    m_RotationOrder: 4
+    m_RotationOrder: 0
   reverbZoneMixCustomCurve:
     serializedVersion: 2
     m_Curve:
@@ -1074,4 +1072,4 @@ AudioSource:
       tangentMode: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
-    m_RotationOrder: 4
+    m_RotationOrder: 0

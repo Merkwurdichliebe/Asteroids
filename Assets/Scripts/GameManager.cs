@@ -1,25 +1,28 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
 
+    // Entities Prefabs
     public GameObject pfAsteroid;
-    public GameObject pfPlayer;
+    // public GameObject pfPlayer;
 
-    public GameObject player;
-    public PlayerController playerController;
-
+    // Reference to other scripts
+    public PlayerController player;
     private UIManager UIManager;
 
+    // Score, level, lives etc
     private int playerScore = 0;
     private int playerLives = 3;
     private bool gameover = false;
     private float playerDiedTime;
+    private int startingAsteroids = 4;
+    private int level = 1;
 
-    private AudioSource audio;
+    // Audio
+    private AudioSource audioSource;
     public AudioClip soundPlayerDestroyed;
 
 
@@ -31,21 +34,23 @@ public class GameManager : MonoBehaviour
         // Spawn player
         // Needs to be done in Awake so that the UI Manager Script
         // can get the reference to the player in Start
-        player = SpawnPlayer(Vector2.zero);
-        playerController = player.GetComponent<PlayerController>();
+        player = Instantiate(player, Vector2.zero, Quaternion.identity);
+        player.isAlive = false;
 
-        audio = GetComponent<AudioSource>();
+        audioSource = GetComponent<AudioSource>();
     }
 
 
 
     void Start()
     {
-        // Spawn asteroids
-        for (int i = 0; i < 4; i++)
+        // Spawn starting asteroids
+        for (int i = 0; i < startingAsteroids; i++)
         {
-            SpawnAsteroid(new Vector2(Random.Range(-15, 15), Random.Range(3, 6)), 1);
+            Instantiate(pfAsteroid, Vector2.zero, Quaternion.identity);
         }
+
+        player.isAlive = true;
 
         UIManager.UpdateScore(playerScore);
         UIManager.UpdateLives(playerLives);
@@ -55,14 +60,18 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
-        if (!playerController.isAlive && (Time.time - playerDiedTime > 3) && !gameover)
+        if (!player.isAlive && (Time.time - playerDiedTime > 3) && !gameover)
         {
-            playerController.Respawn();
+            player.Respawn();
         }
 
         if (gameover)
         {
             StartCoroutine(GameOver());
+        }
+
+        if (AsteroidController.countAsteroids == 0) {
+            Debug.Log("Level Done");
         }
     }
 
@@ -77,41 +86,7 @@ public class GameManager : MonoBehaviour
 
 
 
-    public void HitAsteroid(GameObject go)
-    {
-        // Get the phase of the destroyed asteroid
-        // Spawn two smaller ones if needed
-        int phase = go.GetComponent<AsteroidController>().Phase;
-        if (phase < 3)
-        {
-            SpawnAsteroid(go.transform.position, phase + 1);
-            SpawnAsteroid(go.transform.position, phase + 1);
-        }
-        Destroy(go);
-        ScorePoints(phase);
-    }
-
-
-
-    private void SpawnAsteroid(Vector2 pos, int phase)
-    {
-        // Instantiate the asteroid and set its phase
-        GameObject ast = Instantiate(pfAsteroid, Vector2.zero, Quaternion.identity);
-        AsteroidController astController = ast.GetComponent(typeof(AsteroidController)) as AsteroidController;
-        astController.Phase = phase;
-        ast.transform.position = pos;
-    }
-
-
-
-    private GameObject SpawnPlayer(Vector2 pos)
-    {
-        return Instantiate(pfPlayer, pos, Quaternion.identity);
-    }
-
-
-
-    void ScorePoints(int points)
+    public void ScorePoints(int points)
     {
         playerScore += points;
         UIManager.UpdateScore(playerScore);
@@ -121,7 +96,7 @@ public class GameManager : MonoBehaviour
 
     public void PlayerDied(GameObject go)
     {
-        audio.PlayOneShot(soundPlayerDestroyed);
+        audioSource.PlayOneShot(soundPlayerDestroyed);
         playerLives -= 1;
         UIManager.UpdateLives(playerLives);
         playerDiedTime = Time.time;

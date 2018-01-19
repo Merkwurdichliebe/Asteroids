@@ -5,9 +5,9 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
 
-    public int rotScaler = 5;
-    public int ThrustScaler = 2;
-    private bool accelerating = false;
+    public int rotScaler;
+    public float thrustScaler;
+    private bool isAccelerating = false;
 
     private Rigidbody2D rb;
     private SpriteSwitcher spriteSwitcher;
@@ -19,7 +19,6 @@ public class PlayerController : MonoBehaviour
     private GameManager gameManager;
 
     private AudioSource audioEngine;
-    private AudioSource audioFX;
     public AudioClip laser;
     public AudioClip destroyed;
     public AudioClip engine;
@@ -36,7 +35,6 @@ public class PlayerController : MonoBehaviour
         anchorMainGun = transform.Find("AnchorMainGun");
         gameManager = FindObjectOfType<GameManager>();
         audioEngine = GetComponent<AudioSource>();
-        audioFX = GetComponent<AudioSource>();
         audioEngine.clip = engine;
         isAlive = true;
     }
@@ -50,7 +48,7 @@ public class PlayerController : MonoBehaviour
             GetUserInput();   
         }
 
-        if (accelerating)
+        if (isAccelerating)
         {
             audioEngine.PlayOneShot(engine);
         }
@@ -64,9 +62,9 @@ public class PlayerController : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (accelerating)
+        if (isAccelerating)
         {
-            rb.AddRelativeForce(Vector2.up * ThrustScaler, ForceMode2D.Force);
+            rb.AddRelativeForce(Vector2.up * thrustScaler, ForceMode2D.Force);
         }
     }
 
@@ -78,6 +76,7 @@ public class PlayerController : MonoBehaviour
         {
             sr.enabled = false;
             isAlive = false;
+            isAccelerating = false;
             gameManager.PlayerDied(this.gameObject);
         }
     }
@@ -100,13 +99,13 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.UpArrow))
         {
             spriteSwitcher.SpriteThrust();
-            accelerating = true;
+            isAccelerating = true;
         }
 
         if (Input.GetKeyUp(KeyCode.UpArrow))
         {
             spriteSwitcher.SpriteIdle();
-            accelerating = false;
+            isAccelerating = false;
         }
 
         // Fire
