@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
 
-    public int RotationScaler = 5;
+    public int rotScaler = 5;
     public int ThrustScaler = 2;
     private bool accelerating = false;
 
@@ -18,12 +18,15 @@ public class PlayerController : MonoBehaviour
 
     private GameManager gameManager;
 
-    private AudioSource audiosource;
+    private AudioSource audioEngine;
+    private AudioSource audioFX;
     public AudioClip laser;
     public AudioClip destroyed;
     public AudioClip engine;
 
     public bool isAlive;
+
+
 
     void Awake()
     {
@@ -32,12 +35,68 @@ public class PlayerController : MonoBehaviour
         sr = GetComponentInChildren<SpriteRenderer>();
         anchorMainGun = transform.Find("AnchorMainGun");
         gameManager = FindObjectOfType<GameManager>();
-        audiosource = GetComponent<AudioSource>();
+        audioEngine = GetComponent<AudioSource>();
+        audioFX = GetComponent<AudioSource>();
+        audioEngine.clip = engine;
         isAlive = true;
     }
 
+
+
+    void Update()
+    {
+        if (isAlive)
+        {
+            GetUserInput();   
+        }
+
+        if (accelerating)
+        {
+            audioEngine.PlayOneShot(engine);
+        }
+        else
+        {
+            audioEngine.Stop();
+        }
+    }
+
+
+
     void FixedUpdate()
     {
+        if (accelerating)
+        {
+            rb.AddRelativeForce(Vector2.up * ThrustScaler, ForceMode2D.Force);
+        }
+    }
+
+
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.tag == "Asteroid" && isAlive)
+        {
+            sr.enabled = false;
+            isAlive = false;
+            gameManager.PlayerDied(this.gameObject);
+        }
+    }
+
+
+
+    public void Respawn()
+    {
+        sr.enabled = true;
+        isAlive = true;
+        transform.position = Vector2.zero;
+        rb.velocity = Vector2.zero;
+    }
+
+     
+
+    private void GetUserInput()
+    {
+        // Acceleration
         if (Input.GetKeyDown(KeyCode.UpArrow))
         {
             spriteSwitcher.SpriteThrust();
@@ -50,45 +109,21 @@ public class PlayerController : MonoBehaviour
             accelerating = false;
         }
 
-        if (accelerating)
+        // Fire
+        if (Input.GetKeyDown(KeyCode.Space))
         {
-            rb.AddRelativeForce(Vector2.up * ThrustScaler, ForceMode2D.Force);
-            audiosource.PlayOneShot(engine);
+            Instantiate(prefabWeaponBullet, anchorMainGun.position, transform.rotation);
         }
 
+        // Rotation
         if (Input.GetKey(KeyCode.LeftArrow))
         {
-            rb.transform.Rotate(Vector3.forward * RotationScaler);
+            rb.transform.Rotate(Vector3.forward * rotScaler);
         }
 
         if (Input.GetKey(KeyCode.RightArrow))
         {
-            rb.transform.Rotate(Vector3.back * RotationScaler);
+            rb.transform.Rotate(Vector3.back * rotScaler);
         }
-
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            Instantiate(prefabWeaponBullet, anchorMainGun.position, transform.rotation);
-            audiosource.PlayOneShot(laser);
-        }
-    }
-
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (collision.gameObject.tag == "Asteroid" && isAlive)
-        {
-            audiosource.PlayOneShot(destroyed);
-            sr.enabled = false;
-            isAlive = false;
-            gameManager.PlayerDied(this.gameObject);
-        }
-    }
-
-    public void Respawn()
-    {
-        sr.enabled = true;
-        isAlive = true;
-        transform.position = new Vector2(0, 0);
-        rb.velocity = new Vector2(0, 0);
     }
 }

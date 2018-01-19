@@ -33,6 +33,11 @@ public class AsteroidController : MonoBehaviour
         sr.sprite = sprite[Random.Range(0, 3)];
         rb = GetComponent<Rigidbody2D>();
 
+
+    }
+
+    void Start()
+    {
         // Position and rotation variations
         float x = Random.Range(transform.position.x - 0.5f, transform.position.x + 0.5f);
         float y = Random.Range(transform.position.y - 0.5f, transform.position.y + 0.5f);
@@ -40,10 +45,7 @@ public class AsteroidController : MonoBehaviour
 
         transform.position = new Vector2(x, y);
         transform.Rotate(new Vector3(0, 0, rot));
-    }
 
-    void Start()
-    {
         // Gets its Rigidbody2D and give a random force and torque
         float dirX = Random.Range(-1f, 1f);
         float dirY = Random.Range(-1f, 1f);

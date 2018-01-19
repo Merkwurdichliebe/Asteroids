@@ -19,6 +19,8 @@ public class GameManager : MonoBehaviour
     private bool gameover = false;
     private float playerDiedTime;
 
+    private AudioSource audio;
+    public AudioClip soundPlayerDestroyed;
 
 
     void Awake()
@@ -31,6 +33,8 @@ public class GameManager : MonoBehaviour
         // can get the reference to the player in Start
         player = SpawnPlayer(Vector2.zero);
         playerController = player.GetComponent<PlayerController>();
+
+        audio = GetComponent<AudioSource>();
     }
 
 
@@ -117,6 +121,7 @@ public class GameManager : MonoBehaviour
 
     public void PlayerDied(GameObject go)
     {
+        audio.PlayOneShot(soundPlayerDestroyed);
         playerLives -= 1;
         UIManager.UpdateLives(playerLives);
         playerDiedTime = Time.time;
