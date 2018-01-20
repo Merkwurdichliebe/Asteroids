@@ -37,7 +37,7 @@ public class UIManager : MonoBehaviour {
     void Update()
     {
         // Update UI text to show player speed to one decimal place
-        textSpeed.text = string.Format("SPEED: {0:0.0}", player_rb.velocity.sqrMagnitude);
+        textSpeed.text = string.Format("SPEED: {0:0.0}", player_rb.velocity.magnitude);
     }
 
     public void UpdateScore(int score)

@@ -30,6 +30,8 @@ public class AsteroidController : MonoBehaviour
         }
     }
 
+
+
     private GameManager gameManager;
     public static int countAsteroids = 0;
 
@@ -43,6 +45,8 @@ public class AsteroidController : MonoBehaviour
         gameManager = FindObjectOfType<GameManager>();
         audioSource = GetComponent<AudioSource>();
     }
+
+
 
     void Start()
     {
@@ -72,6 +76,7 @@ public class AsteroidController : MonoBehaviour
         }
         gameManager.ScorePoints((phase + 1) * 2);
         countAsteroids -= 1;
+        audioSource.pitch = Random.Range(0.8f, 1.2f);
         audioSource.Play();
         sr.enabled = false;
         col.enabled = false;

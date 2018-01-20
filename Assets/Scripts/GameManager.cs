@@ -67,7 +67,8 @@ public class GameManager : MonoBehaviour
 
         if (gameover)
         {
-            StartCoroutine(GameOver());
+            UIManager.DisplayGameOver();
+            Invoke("DisplayMenu", 4.0f);
         }
 
         if (AsteroidController.countAsteroids == 0) {
@@ -77,10 +78,8 @@ public class GameManager : MonoBehaviour
 
 
 
-    IEnumerator GameOver()
+    void DisplayMenu()
     {
-        UIManager.DisplayGameOver();
-        yield return new WaitForSeconds(4.0f);
         SceneManager.LoadScene("Menu");
     }
 
@@ -107,3 +106,10 @@ public class GameManager : MonoBehaviour
     }
 
 }
+
+
+// TODO: don't spawn on asteroid
+// TODO: levels
+// TODO: death animation
+// TODO: ufo
+// TODO: powerups

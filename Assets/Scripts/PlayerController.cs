@@ -65,6 +65,7 @@ public class PlayerController : MonoBehaviour
         if (isAccelerating)
         {
             rb.AddRelativeForce(Vector2.up * thrustScaler, ForceMode2D.Force);
+            rb.velocity = Vector2.ClampMagnitude(rb.velocity, 9.9f);
         }
     }
 
