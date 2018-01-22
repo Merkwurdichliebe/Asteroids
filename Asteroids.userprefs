@@ -1,13 +1,14 @@
 ﻿<Properties StartupConfiguration="{644F8B3B-773E-06CE-D89F-7ADA47CB3411}|">
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/GameManager.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/WeaponBullet.cs">
     <Files>
-      <File FileName="Assets/Scripts/AsteroidController.cs" Line="64" Column="85" />
-      <File FileName="Assets/Scripts/PlayerController.cs" Line="117" Column="38" />
-      <File FileName="Assets/Scripts/GameManager.cs" Line="9" Column="34" />
-      <File FileName="Assets/Scripts/UIManager.cs" Line="50" Column="53" />
+      <File FileName="Assets/Scripts/AsteroidController.cs" Line="88" Column="29" />
+      <File FileName="Assets/Scripts/PlayerController.cs" Line="144" Column="35" />
+      <File FileName="Assets/Scripts/GameManager.cs" Line="70" Column="20" />
+      <File FileName="Assets/Scripts/UIManager.cs" Line="52" Column="139" />
       <File FileName="Assets/Scripts/SpriteSwitcher.cs" Line="18" Column="22" />
       <File FileName="Assets/FragmentController.cs" Line="9" Column="30" />
       <File FileName="Assets/Scripts/MenuManager.cs" Line="16" Column="57" />
+      <File FileName="Assets/Scripts/WeaponBullet.cs" Line="27" Column="6" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />

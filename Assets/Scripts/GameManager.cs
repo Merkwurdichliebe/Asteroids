@@ -5,21 +5,19 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
 
-    // Entities Prefabs
+    // References to Asteroid, Player and UI script
     public GameObject pfAsteroid;
-
-    // Reference to other scripts
     public PlayerController player;
     private UIManager UIManager;
 
-    // Center trigger
+    // Center trigger collider, for avoiding player spawning on asteroids
     private Collider2D centerCollider;
     public bool centerIsFree = true;
 
     // Score, level, lives etc
     private int playerScore = 0;
     private int startingAsteroids = 4;
-    public int level = 1;
+    public int level = 0;
 
     // Audio
     private AudioSource audioSource;
@@ -33,6 +31,7 @@ public class GameManager : MonoBehaviour
         // Spawn player
         player = Instantiate(player, Vector2.zero, Quaternion.identity);
 
+        // Get reference to the AudioSource
         audioSource = GetComponent<AudioSource>();
     }
 
@@ -40,29 +39,23 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
+        // Reset the (static) count variable
         AsteroidController.countAsteroids = 0;
+
+        // Play background music
+        audioSource.Play();
+
         UIManager.UpdateLives(player.lives);
-        StartLevel();
+        NextLevel();
     }
 
 
 
-    private void OnTriggerExit2D(Collider2D collision)
+    public void NextLevel()
     {
-        centerIsFree = true;
-    }
-
-
-
-    private void OnTriggerStay2D(Collider2D collision)
-    {
-        centerIsFree = false;
-    }
-
-
-
-    void StartLevel()
-    {
+        // Increase level number, display it for three seconds,
+        // disable (hide) the player while doing do
+        level += 1;
         UIManager.Announce(string.Format("LEVEL {0}", level));
         player.gameObject.SetActive(false);
         Invoke("SpawnAsteroids", 3.0f);
@@ -70,23 +63,18 @@ public class GameManager : MonoBehaviour
 
 
 
-    public void LevelDone()
-    {
-        level += 1;
-        StartLevel();
-    }
-
-
-
     void SpawnAsteroids()
     {
+        // Clear the level message
         UIManager.Announce("");
-        // Spawn starting asteroids
+
+        // Spawn asteroids based on level number
         for (int i = 0; i < startingAsteroids + level - 1; i++)
         {
             Instantiate(pfAsteroid, Vector2.zero, Quaternion.identity);
         }
 
+        // Reset player to center and enable (unhide) it
         player.gameObject.transform.position = Vector2.zero;
         player.gameObject.SetActive(true);
     }
@@ -95,12 +83,17 @@ public class GameManager : MonoBehaviour
 
     public void GameOver()
     {
+        // Display Game Over message
         UIManager.Announce("GAME OVER");
+
+        // Handle high score if necessary
         int highscore = PlayerPrefs.GetInt("highscore");
         if (playerScore > highscore)
         {
             PlayerPrefs.SetInt("highscore", playerScore);
         }
+
+        // Go back to the title screen
         Invoke("DisplayMenu", 6.0f);
     }
 
@@ -124,6 +117,23 @@ public class GameManager : MonoBehaviour
     public void PlayerDied()
     {
         UIManager.UpdateLives(player.lives);
+    }
+
+
+
+    // Methods for checking if the center of the screen
+    // is free from asteroids, before respawning the player
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        centerIsFree = true;
+    }
+
+
+
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        centerIsFree = false;
     }
 
 }

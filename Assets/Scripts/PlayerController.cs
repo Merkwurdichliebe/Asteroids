@@ -110,7 +110,7 @@ public class PlayerController : MonoBehaviour
 
                 // We add the velocity at impact to the random vector
                 // This looks more natural
-                _rb.AddForce(randomVector + velocity, ForceMode2D.Impulse);
+                _rb.AddForce((randomVector + velocity) * 1.5f, ForceMode2D.Impulse);
                 _rb.AddTorque(vel);  
             }
 

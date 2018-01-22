@@ -4,46 +4,51 @@ using UnityEngine;
 
 public class AsteroidController : MonoBehaviour
 {
-
+    // Reference for asteroid sprites variations
     public Sprite[] sprite;
+
+    // Reference caching
     private SpriteRenderer sr;
     private Rigidbody2D rb;
     private CircleCollider2D col;
     private AudioSource audioSource;
+    private GameManager gameManager;
 
     // Phase Property
+    // Asteroids start at Phase 0
+    // and go through 1 & 2 until completely destroyed
     // When set, adjust the scale of the asteroid
     private int phase = 0;
     public int Phase
     {
-        get
-        {
-            return phase;
-        }
-
+        get { return phase; }
         set
         {
             phase = value;
             float newScale = 1.0f / Mathf.Pow(2, phase);
             transform.localScale = new Vector2(newScale, newScale);
-
         }
     }
 
-
-
-    private GameManager gameManager;
+    // Static variable for keeping count of how many
+    // asteroids we've instantiated
     public static int countAsteroids = 0;
+
+
 
     void Awake()
     {
+        // Cache needed Components
         sr = (SpriteRenderer)GetComponent(typeof(SpriteRenderer));
-        sr.sprite = sprite[Random.Range(0, 3)];
         rb = GetComponent<Rigidbody2D>();
         col = GetComponent<CircleCollider2D>();
-        transform.position = new Vector2(20, 20);
         gameManager = FindObjectOfType<GameManager>();
         audioSource = GetComponent<AudioSource>();
+
+        // Set a random sprite variation
+        sr.sprite = sprite[Random.Range(0, 3)];
+
+        // Increase static asteroid count with each instantiation
         countAsteroids += 1;
     }
 
@@ -85,7 +90,7 @@ public class AsteroidController : MonoBehaviour
         //Debug.Log("After break before IF " + countAsteroids);
         if (countAsteroids == 0)
         {
-            gameManager.LevelDone();
+            gameManager.NextLevel();
         }
         Destroy(gameObject, 4.0f);
     }

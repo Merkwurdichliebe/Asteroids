@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 
 public class MenuManager : MonoBehaviour {
 
+    // References
     public Text textHighscore;
 
     void Start()
@@ -22,6 +23,8 @@ public class MenuManager : MonoBehaviour {
         textHighscore.text = string.Format("High Score : {0}", highscore);
     }
 	
+
+
 	void Update ()
     {
         if (Input.GetKeyDown(KeyCode.Space))
