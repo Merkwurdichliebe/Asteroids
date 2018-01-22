@@ -19,39 +19,60 @@ public class UIManager : MonoBehaviour {
     // Reference to UI Announce Text Field
     public Text textAnnounce;
 
-    // Entities
+    // Reference to UI DebugText Field
+    public Text textDebug;
 
     // Player and its Rigidbody
-    private GameObject player;
     private Rigidbody2D player_rb;
-    private Vector3 playerVP;
+    private PlayerController playerController;
+    private GameObject player;
+    private GameManager gameManager;
+
+
 
     void Start()
     {
         // Initialize Player references
-        player = GameObject.FindWithTag("Player");
-        player_rb = player.GetComponent<Rigidbody2D>();
+        playerController = FindObjectOfType<PlayerController>();
+        player_rb = playerController.gameObject.GetComponent<Rigidbody2D>();
+        gameManager = FindObjectOfType<GameManager>();
         textAnnounce.text = "";
     }
+
+
 
     void Update()
     {
         // Update UI text to show player speed to one decimal place
-        textSpeed.text = string.Format("SPEED: {0:0.0}", player_rb.velocity.magnitude);
+        if (player_rb != null)
+        {
+            textSpeed.text = string.Format("SPEED: {0:0.0}", player_rb.velocity.magnitude);
+        }
+
+        textDebug.text = string.Format("Asteroids : {0} -- Center Free : {1}", AsteroidController.countAsteroids, gameManager.centerIsFree);
     }
+
+
 
     public void UpdateScore(int score)
     {
         textScore.text = string.Format("{0}", score);
     }
 
+
+
     public void UpdateLives(int lives)
     {
-        textLives.text = string.Format("{0}", lives);
+        if (playerController != null)
+        {
+            textLives.text = string.Format("{0}", playerController.lives);
+        }
     }
 
-    public void DisplayGameOver()
+
+
+    public void Announce(string text)
     {
-        textAnnounce.text = "GAME OVER";
+        textAnnounce.text = text;
     }
 }

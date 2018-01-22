@@ -7,23 +7,22 @@ public class GameManager : MonoBehaviour
 
     // Entities Prefabs
     public GameObject pfAsteroid;
-    // public GameObject pfPlayer;
 
     // Reference to other scripts
     public PlayerController player;
     private UIManager UIManager;
 
+    // Center trigger
+    private Collider2D centerCollider;
+    public bool centerIsFree = true;
+
     // Score, level, lives etc
     private int playerScore = 0;
-    private int playerLives = 3;
-    private bool gameover = false;
-    private float playerDiedTime;
     private int startingAsteroids = 4;
-    private int level = 1;
+    public int level = 1;
 
     // Audio
     private AudioSource audioSource;
-    public AudioClip soundPlayerDestroyed;
 
 
     void Awake()
@@ -32,10 +31,7 @@ public class GameManager : MonoBehaviour
         UIManager = gameObject.GetComponent<UIManager>();
 
         // Spawn player
-        // Needs to be done in Awake so that the UI Manager Script
-        // can get the reference to the player in Start
         player = Instantiate(player, Vector2.zero, Quaternion.identity);
-        player.isAlive = false;
 
         audioSource = GetComponent<AudioSource>();
     }
@@ -44,36 +40,68 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        // Spawn starting asteroids
-        for (int i = 0; i < startingAsteroids; i++)
-        {
-            Instantiate(pfAsteroid, Vector2.zero, Quaternion.identity);
-        }
-
-        player.isAlive = true;
-
-        UIManager.UpdateScore(playerScore);
-        UIManager.UpdateLives(playerLives);
+        AsteroidController.countAsteroids = 0;
+        UIManager.UpdateLives(player.lives);
+        StartLevel();
     }
 
 
 
-    void Update()
+    private void OnTriggerExit2D(Collider2D collision)
     {
-        if (!player.isAlive && (Time.time - playerDiedTime > 3) && !gameover)
+        centerIsFree = true;
+    }
+
+
+
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        centerIsFree = false;
+    }
+
+
+
+    void StartLevel()
+    {
+        UIManager.Announce(string.Format("LEVEL {0}", level));
+        player.gameObject.SetActive(false);
+        Invoke("SpawnAsteroids", 3.0f);
+    }
+
+
+
+    public void LevelDone()
+    {
+        level += 1;
+        StartLevel();
+    }
+
+
+
+    void SpawnAsteroids()
+    {
+        UIManager.Announce("");
+        // Spawn starting asteroids
+        for (int i = 0; i < startingAsteroids + level - 1; i++)
         {
-            player.Respawn();
+            Instantiate(pfAsteroid, Vector2.zero, Quaternion.identity);
         }
 
-        if (gameover)
-        {
-            UIManager.DisplayGameOver();
-            Invoke("DisplayMenu", 4.0f);
-        }
+        player.gameObject.transform.position = Vector2.zero;
+        player.gameObject.SetActive(true);
+    }
 
-        if (AsteroidController.countAsteroids == 0) {
-            Debug.Log("Level Done");
+
+
+    public void GameOver()
+    {
+        UIManager.Announce("GAME OVER");
+        int highscore = PlayerPrefs.GetInt("highscore");
+        if (playerScore > highscore)
+        {
+            PlayerPrefs.SetInt("highscore", playerScore);
         }
+        Invoke("DisplayMenu", 6.0f);
     }
 
 
@@ -81,7 +109,7 @@ public class GameManager : MonoBehaviour
     void DisplayMenu()
     {
         SceneManager.LoadScene("Menu");
-    }
+    } 
 
 
 
@@ -93,23 +121,13 @@ public class GameManager : MonoBehaviour
 
 
 
-    public void PlayerDied(GameObject go)
+    public void PlayerDied()
     {
-        audioSource.PlayOneShot(soundPlayerDestroyed);
-        playerLives -= 1;
-        UIManager.UpdateLives(playerLives);
-        playerDiedTime = Time.time;
-        if (playerLives == 0)
-        {
-            gameover = true;
-        }
+        UIManager.UpdateLives(player.lives);
     }
 
 }
 
 
-// TODO: don't spawn on asteroid
-// TODO: levels
-// TODO: death animation
 // TODO: ufo
 // TODO: powerups

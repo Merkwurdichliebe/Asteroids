@@ -44,6 +44,7 @@ public class AsteroidController : MonoBehaviour
         transform.position = new Vector2(20, 20);
         gameManager = FindObjectOfType<GameManager>();
         audioSource = GetComponent<AudioSource>();
+        countAsteroids += 1;
     }
 
 
@@ -56,12 +57,11 @@ public class AsteroidController : MonoBehaviour
         }
 
         rb.mass = 1 / (phase + 1);
-        countAsteroids += 1;
 
         // Gets its Rigidbody2D and give a random force and torque
         float dirX = Random.Range(-1f, 1f);
         float dirY = Random.Range(-1f, 1f);
-        rb.AddRelativeForce(new Vector2(dirX, dirY) * 2 * rb.mass, ForceMode2D.Impulse);
+        rb.AddRelativeForce(new Vector2(dirX, dirY) * (2 + gameManager.level * 0.5f) * rb.mass, ForceMode2D.Impulse);
         rb.AddTorque(Random.Range(-1 * rb.mass, 1 * rb.mass), ForceMode2D.Impulse);
     }
 
@@ -69,17 +69,24 @@ public class AsteroidController : MonoBehaviour
 
     public void Break()
     {
+        //Debug.Log("At break " + countAsteroids);
         if (phase < 2)
         {
             SpawnAsteroid(phase + 1);
             SpawnAsteroid(phase + 1);
         }
+        //Debug.Log("After spawn " + countAsteroids);
         gameManager.ScorePoints((phase + 1) * 2);
         countAsteroids -= 1;
         audioSource.pitch = Random.Range(0.8f, 1.2f);
         audioSource.Play();
         sr.enabled = false;
         col.enabled = false;
+        //Debug.Log("After break before IF " + countAsteroids);
+        if (countAsteroids == 0)
+        {
+            gameManager.LevelDone();
+        }
         Destroy(gameObject, 4.0f);
     }
 
@@ -87,6 +94,7 @@ public class AsteroidController : MonoBehaviour
     {
         // Instantiate the asteroid and set its phase
         GameObject ast = Instantiate(gameObject, Vector2.zero, Quaternion.identity);
+        //Debug.Log("After Instantiate " + countAsteroids);
         AsteroidController astController = ast.GetComponent(typeof(AsteroidController)) as AsteroidController;
         astController.Phase = phase;
 

@@ -6,11 +6,11 @@ public class SpriteSwitcher : MonoBehaviour {
 
     public Sprite[] playerSprite;
 
-    private SpriteRenderer sr;
+    private SpriteRenderer rend;
 
     void Awake()
     {
-        sr = GetComponent<SpriteRenderer>();
+        rend = GetComponent<SpriteRenderer>();
     }
 
 	void Start ()
@@ -20,11 +20,11 @@ public class SpriteSwitcher : MonoBehaviour {
 
     public void SpriteIdle()
     {
-        sr.sprite = playerSprite[0];
+        rend.sprite = playerSprite[0];
     }
 
     public void SpriteThrust()
     {
-        sr.sprite = playerSprite[1];
+        rend.sprite = playerSprite[1];
     }
 }
