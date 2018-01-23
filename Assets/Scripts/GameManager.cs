@@ -7,6 +7,7 @@ public class GameManager : MonoBehaviour
 
     // References to Asteroid, Player and UI script
     public GameObject pfAsteroid;
+    public GameObject pfUFO;
     public PlayerController player;
     private UIManager UIManager;
 
@@ -17,7 +18,7 @@ public class GameManager : MonoBehaviour
     // Score, level, lives etc
     private int playerScore = 0;
     private int startingAsteroids = 4;
-    public int level = 0;
+    public static int level;
 
     // Audio
     private AudioSource audioSource;
@@ -33,8 +34,22 @@ public class GameManager : MonoBehaviour
 
         // Get reference to the AudioSource
         audioSource = GetComponent<AudioSource>();
+
+        level = 0;
+
+        // Time.timeScale = 0.5f;
     }
 
+
+
+    void SpawnUFO()
+    {
+        if (Random.value < 0.5)
+        {
+            Instantiate(pfUFO); 
+        }
+
+    }
 
 
     void Start()
@@ -59,6 +74,7 @@ public class GameManager : MonoBehaviour
         UIManager.Announce(string.Format("LEVEL {0}", level));
         player.gameObject.SetActive(false);
         Invoke("SpawnAsteroids", 3.0f);
+        InvokeRepeating("SpawnUFO", 3.0f, 7.0f);
     }
 
 

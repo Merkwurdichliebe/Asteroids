@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerController : MonoBehaviour
+public class PlayerController : Entity
 {
 
     public int rotScaler;
@@ -17,7 +17,7 @@ public class PlayerController : MonoBehaviour
     private SpriteRenderer rend;
     private Vector2 velocity;
 
-    public GameObject prefabWeaponBullet;
+    public GameObject pfBullet;
     private Transform anchorMainGun;
 
     public Sprite[] fragmentSprites;
@@ -81,53 +81,59 @@ public class PlayerController : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        // Collision with asteroid
-        if (collision.gameObject.tag == "Asteroid")
+        // Collision with asteroid or UFO
+        if (collision.gameObject.tag == "Asteroid" || collision.gameObject.tag == "Enemy")
         {
-            // Play explosion sound
-            audioSource.Stop();
-            audioSource.PlayOneShot(destroyed);
-
-            // Hide the player, disable its collider & keyboard input
-            rend.enabled = false;
-            col.enabled = false;
-            isAccelerating = false;
-
-            // Reduce 1 life
-            isAlive = false;
-            lives -= 1;
-
-            // Get the relative velocity of the collision
-            float vel = collision.relativeVelocity.sqrMagnitude * 15;
-
-            // Instantiate the fragments, pull them apart randomly
-            foreach (Sprite sprite in fragmentSprites)
-            {
-                GameObject _go = Instantiate(fragmentPrefab, transform.position, transform.rotation);
-                _go.GetComponent<SpriteRenderer>().sprite = sprite;
-                Rigidbody2D _rb = _go.GetComponent<Rigidbody2D>();
-                Vector2 randomVector = new Vector2(Random.Range(-1, 1), Random.Range(-1, 1));
-
-                // We add the velocity at impact to the random vector
-                // This looks more natural
-                _rb.AddForce((randomVector + velocity) * 1.5f, ForceMode2D.Impulse);
-                _rb.AddTorque(vel);  
-            }
-
-            gameManager.PlayerDied();
-
-            if (lives == 0)
-            {
-                gameManager.GameOver();
-                Destroy(gameObject, 3.0f);
-            }
-            else
-            {
-                Invoke("Respawn", 3.0f);    
-            }
+            Die(collision.relativeVelocity.sqrMagnitude * 15);
         }
     }
 
+
+
+    public void Die(float impactMagnitude)
+    {
+        // Play explosion sound
+        audioSource.Stop();
+        audioSource.PlayOneShot(destroyed);
+
+        // Hide the player, disable its collider & keyboard input
+        rend.enabled = false;
+        col.enabled = false;
+        isAccelerating = false;
+
+        // Reduce 1 life
+        isAlive = false;
+        lives -= 1;
+
+        // Get the relative velocity of the collision
+        float vel = impactMagnitude;
+
+        // Instantiate the fragments, pull them apart randomly
+        foreach (Sprite sprite in fragmentSprites)
+        {
+            GameObject _go = Instantiate(fragmentPrefab, transform.position, transform.rotation);
+            _go.GetComponent<SpriteRenderer>().sprite = sprite;
+            Rigidbody2D _rb = _go.GetComponent<Rigidbody2D>();
+            Vector2 randomVector = new Vector2(Random.Range(-1, 1), Random.Range(-1, 1));
+
+            // We add the velocity at impact to the random vector
+            // This looks more natural
+            _rb.AddForce((randomVector + velocity) * 1.5f, ForceMode2D.Impulse);
+            _rb.AddTorque(vel);
+        }
+
+        gameManager.PlayerDied();
+
+        if (lives == 0)
+        {
+            gameManager.GameOver();
+            Destroy(gameObject, 3.0f);
+        }
+        else
+        {
+            Invoke("Respawn", 3.0f);
+        }
+    }
 
 
     public void Respawn()
@@ -153,6 +159,14 @@ public class PlayerController : MonoBehaviour
         rb.velocity = Vector2.zero;
         isAlive = true;
     }
+
+
+    override public void HitByEnemy()
+    {
+        base.HitByEnemy();;
+        Debug.Log("Player was hit by enemy");
+    }
+
      
 
 
@@ -175,7 +189,7 @@ public class PlayerController : MonoBehaviour
         // Fire
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            Instantiate(prefabWeaponBullet, anchorMainGun.position, transform.rotation);
+            Instantiate(pfBullet, anchorMainGun.position, transform.rotation);
         }
 
         // Rotation

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AsteroidController : MonoBehaviour
+public class AsteroidController : Entity
 {
     // Reference for asteroid sprites variations
     public Sprite[] sprite;
@@ -30,7 +30,7 @@ public class AsteroidController : MonoBehaviour
         }
     }
 
-    // Static variable for keeping count of how many
+    // Static variable for counting how many
     // asteroids we've instantiated
     public static int countAsteroids = 0;
 
@@ -66,7 +66,7 @@ public class AsteroidController : MonoBehaviour
         // Gets its Rigidbody2D and give a random force and torque
         float dirX = Random.Range(-1f, 1f);
         float dirY = Random.Range(-1f, 1f);
-        rb.AddRelativeForce(new Vector2(dirX, dirY) * (2 + gameManager.level * 0.5f) * rb.mass, ForceMode2D.Impulse);
+        rb.AddRelativeForce(new Vector2(dirX, dirY) * (2 + GameManager.level * 0.5f) * rb.mass, ForceMode2D.Impulse);
         rb.AddTorque(Random.Range(-1 * rb.mass, 1 * rb.mass), ForceMode2D.Impulse);
     }
 
@@ -74,25 +74,29 @@ public class AsteroidController : MonoBehaviour
 
     public void Break()
     {
-        //Debug.Log("At break " + countAsteroids);
         if (phase < 2)
         {
             SpawnAsteroid(phase + 1);
             SpawnAsteroid(phase + 1);
         }
-        //Debug.Log("After spawn " + countAsteroids);
         gameManager.ScorePoints((phase + 1) * 2);
         countAsteroids -= 1;
         audioSource.pitch = Random.Range(0.8f, 1.2f);
         audioSource.Play();
         sr.enabled = false;
         col.enabled = false;
-        //Debug.Log("After break before IF " + countAsteroids);
         if (countAsteroids == 0)
         {
             gameManager.NextLevel();
         }
         Destroy(gameObject, 4.0f);
+    }
+
+    override public void HitByPlayer()
+    {
+        base.HitByPlayer();
+        Debug.Log("Entity Asteroid was hit by player.");
+        Break();
     }
 
     public void SpawnAsteroid(int phase)

@@ -1,14 +1,18 @@
 ﻿<Properties StartupConfiguration="{644F8B3B-773E-06CE-D89F-7ADA47CB3411}|">
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/WeaponBullet.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/ProjectileBulletUFO.cs">
     <Files>
-      <File FileName="Assets/Scripts/AsteroidController.cs" Line="88" Column="29" />
-      <File FileName="Assets/Scripts/PlayerController.cs" Line="144" Column="35" />
-      <File FileName="Assets/Scripts/GameManager.cs" Line="70" Column="20" />
+      <File FileName="Assets/Scripts/AsteroidController.cs" Line="95" Column="8" />
+      <File FileName="Assets/Scripts/PlayerController.cs" Line="160" Column="26" />
+      <File FileName="Assets/Scripts/GameManager.cs" Line="75" Column="44" />
       <File FileName="Assets/Scripts/UIManager.cs" Line="52" Column="139" />
       <File FileName="Assets/Scripts/SpriteSwitcher.cs" Line="18" Column="22" />
-      <File FileName="Assets/FragmentController.cs" Line="9" Column="30" />
-      <File FileName="Assets/Scripts/MenuManager.cs" Line="16" Column="57" />
-      <File FileName="Assets/Scripts/WeaponBullet.cs" Line="27" Column="6" />
+      <File FileName="Assets/Scripts/MenuManager.cs" Line="9" Column="18" />
+      <File FileName="Assets/Scripts/UFOController.cs" Line="59" Column="1" />
+      <File FileName="Assets/Scripts/WrapAround.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Entity.cs" Line="7" Column="19" />
+      <File FileName="Assets/Scripts/Projectile.cs" Line="7" Column="5" />
+      <File FileName="Assets/Scripts/ProjectileBulletPlayer.cs" Line="6" Column="5" />
+      <File FileName="Assets/Scripts/ProjectileBulletUFO.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />

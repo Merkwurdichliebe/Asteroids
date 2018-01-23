@@ -1067,9 +1067,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pfAsteroid: {fileID: 1715864568824846, guid: 165fce1b024b44eb7a9ac1c1ea667665, type: 2}
+  pfUFO: {fileID: 1839108818726510, guid: d34b63115465242f48024485b4dba654, type: 2}
   player: {fileID: 114579725366848430, guid: 1cd0fc377425e480f912e5efcaa6121b, type: 2}
   centerIsFree: 1
-  level: 0
 --- !u!82 &2104122571
 AudioSource:
   m_ObjectHideFlags: 0

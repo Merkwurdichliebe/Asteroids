@@ -315,15 +315,19 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\FragmentController.cs" />
     <Compile Include="Assets\Scripts\AsteroidController.cs" />
     <Compile Include="Assets\Scripts\AudioManager.cs" />
+    <Compile Include="Assets\Scripts\Entity.cs" />
+    <Compile Include="Assets\Scripts\FragmentController.cs" />
     <Compile Include="Assets\Scripts\GameManager.cs" />
     <Compile Include="Assets\Scripts\MenuManager.cs" />
     <Compile Include="Assets\Scripts\PlayerController.cs" />
+    <Compile Include="Assets\Scripts\Projectile.cs" />
+    <Compile Include="Assets\Scripts\ProjectileBulletPlayer.cs" />
+    <Compile Include="Assets\Scripts\ProjectileBulletUFO.cs" />
     <Compile Include="Assets\Scripts\SpriteSwitcher.cs" />
+    <Compile Include="Assets\Scripts\UFOController.cs" />
     <Compile Include="Assets\Scripts\UIManager.cs" />
-    <Compile Include="Assets\Scripts\WeaponBullet.cs" />
     <Compile Include="Assets\Scripts\WrapAround.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
