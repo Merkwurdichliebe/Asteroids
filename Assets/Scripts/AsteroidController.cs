@@ -74,16 +74,14 @@ public class AsteroidController : Entity
             SpawnAsteroid(phase + 1);
             SpawnAsteroid(phase + 1);
         }
-        gameManager.ScorePoints((phase + 1) * 2);
         countAsteroids -= 1;
         audioSource.pitch = Random.Range(0.8f, 1.2f);
         audioSource.Play();
         rend.enabled = false;
         col.enabled = false;
-        if (countAsteroids == 0)
-        {
-            gameManager.NextLevel();
-        }
+        EventManager.MessageAsteroidDestroyed();
+        EventManager.MessageScorePoints((phase + 1) * 2);
+        if (countAsteroids == 0) EventManager.MessageLastAsteroidDestroyed();
         Destroy(gameObject, 4.0f);
     }
 

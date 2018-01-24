@@ -13,7 +13,6 @@ public class GameManager : MonoBehaviour
 
     // Center trigger collider, for avoiding player spawning on asteroids
     private Collider2D centerCollider;
-    public bool centerIsFree = true;
 
     // Score, level, lives etc
     private int playerScore = 0;
@@ -23,6 +22,7 @@ public class GameManager : MonoBehaviour
     // Audio
     private AudioSource audioSource;
 
+    public static bool CenterIsFree { get; private set; }
 
     void Awake()
     {
@@ -38,18 +38,33 @@ public class GameManager : MonoBehaviour
         level = 0;
 
         // Time.timeScale = 0.5f;
+
+        // Subscribe to event delegates
+        EventManager.OnScorePoints += ScorePoints;
+        EventManager.OnPlayerDestroyed += PlayerDied;
+        EventManager.OnLivesEqualsZero += GameOver;
+        EventManager.OnLastAsteroidDestroyed += NextLevel;
+        EventManager.OnUFODestroyed += StartUFOSpawner;
+    }
+
+
+
+    void StartUFOSpawner()
+    {
+        InvokeRepeating("SpawnUFO", 3.0f, 9.0f);
     }
 
 
 
     void SpawnUFO()
     {
-        if (Random.value < 0.3)
+        if (Random.value < 0.5)
         {
-            Instantiate(pfUFO); 
+            Instantiate(pfUFO);
+            CancelInvoke("SpawnUFO");
         }
-
     }
+
 
 
     void Start()
@@ -70,11 +85,12 @@ public class GameManager : MonoBehaviour
     {
         // Increase level number, display it for three seconds,
         // disable (hide) the player while doing do
+        CenterIsFree = true;
         level += 1;
         UIManager.Announce(string.Format("LEVEL {0}", level));
         player.gameObject.SetActive(false);
         Invoke("SpawnAsteroids", 3.0f);
-        InvokeRepeating("SpawnUFO", 3.0f, 9.0f);
+        StartUFOSpawner();
     }
 
 
@@ -125,14 +141,14 @@ public class GameManager : MonoBehaviour
     public void ScorePoints(int points)
     {
         playerScore += points;
-        UIManager.UpdateScore(playerScore);
+        EventManager.UIUpdateScore(playerScore);
     }
 
 
 
     public void PlayerDied()
     {
-        UIManager.UpdateLives(player.lives);
+        EventManager.UIUpdateLives(player.lives);
     }
 
 
@@ -142,14 +158,14 @@ public class GameManager : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        centerIsFree = true;
+        CenterIsFree = true;
     }
 
 
 
     private void OnTriggerStay2D(Collider2D collision)
     {
-        centerIsFree = false;
+        CenterIsFree = false;
     }
 
 }

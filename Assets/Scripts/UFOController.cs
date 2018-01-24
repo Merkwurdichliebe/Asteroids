@@ -74,7 +74,7 @@ public class UFOController : Entity {
     private void OnBecameInvisible()
     {
         // TODO: Don't do both Destroys here and in HitByPlayer
-        Destroy(gameObject, 4.0f);
+        Destroy(gameObject, 3.0f);
     }
 
 
@@ -84,9 +84,15 @@ public class UFOController : Entity {
         base.HitByPlayer();
         audiosource.Play();
         isAlive = false;
-        CancelInvoke();
+        CancelInvoke("Fire");
         rb.gameObject.GetComponent<SpriteRenderer>().enabled = false;
         rb.gameObject.GetComponent<Collider2D>().enabled = false;
+        EventManager.MessageScorePoints(GameManager.level * 20);
         Destroy(gameObject, 3.0f);
+    }
+
+    private void OnDestroy()
+    {
+        EventManager.MessageUFODestroyed();
     }
 }

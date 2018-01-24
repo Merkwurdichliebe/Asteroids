@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class PlayerController : Entity
 {
-
     public int rotScaler;
     public float thrustScaler;
     private bool isAccelerating = false;
@@ -114,11 +113,11 @@ public class PlayerController : Entity
             _rb.AddTorque(vel);
         }
 
-        gameManager.PlayerDied();
+        EventManager.MessagePlayerDestroyed();
 
         if (lives == 0)
         {
-            gameManager.GameOver();
+            EventManager.MessageLivesEqualsZero();
             Destroy(gameObject, 3.0f);
         }
         else
@@ -140,7 +139,7 @@ public class PlayerController : Entity
     IEnumerator RespawnWhenCenterIsFree()
     {
         // Don't do anything while the center is not clear of asteroids
-        while (gameManager.centerIsFree == false)
+        while (GameManager.CenterIsFree == false)
         {
             yield return null;
         }
@@ -155,7 +154,7 @@ public class PlayerController : Entity
 
     override public void HitByEnemy()
     {
-        base.HitByEnemy();;
+        base.HitByEnemy();
         Die(10);
     }
 

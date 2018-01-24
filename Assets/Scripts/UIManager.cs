@@ -26,7 +26,6 @@ public class UIManager : MonoBehaviour {
     private Rigidbody2D player_rb;
     private PlayerController playerController;
     private GameObject player;
-    private GameManager gameManager;
 
 
 
@@ -35,8 +34,10 @@ public class UIManager : MonoBehaviour {
         // Initialize Player references
         playerController = FindObjectOfType<PlayerController>();
         player_rb = playerController.gameObject.GetComponent<Rigidbody2D>();
-        gameManager = FindObjectOfType<GameManager>();
         textAnnounce.text = "";
+
+        EventManager.OnUIUpdateLives += UpdateLives;
+        EventManager.OnUIUpdateScore += UpdateScore;
     }
 
 
@@ -49,7 +50,7 @@ public class UIManager : MonoBehaviour {
             textSpeed.text = string.Format("SPEED: {0:0.0}", player_rb.velocity.magnitude);
         }
 
-        textDebug.text = string.Format("Asteroids : {0} -- Center Free : {1}", AsteroidController.countAsteroids, gameManager.centerIsFree);
+        textDebug.text = string.Format("Asteroids : {0} -- Center Free : {1}", AsteroidController.countAsteroids, GameManager.CenterIsFree);
     }
 
 
@@ -63,10 +64,7 @@ public class UIManager : MonoBehaviour {
 
     public void UpdateLives(int lives)
     {
-        if (playerController != null)
-        {
-            textLives.text = string.Format("{0}", playerController.lives);
-        }
+        textLives.text = string.Format("{0}", playerController.lives);
     }
 
 
