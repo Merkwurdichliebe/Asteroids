@@ -11,10 +11,8 @@ public class PlayerController : Entity
 
     public int lives = 3;
 
-    private Rigidbody2D rb;
     private Collider2D col;
     private SpriteSwitcher spriteSwitcher;
-    private SpriteRenderer rend;
     private Vector2 velocity;
 
     public GameObject pfBullet;
@@ -23,26 +21,20 @@ public class PlayerController : Entity
     public Sprite[] fragmentSprites;
     public GameObject fragmentPrefab;
 
-    private GameManager gameManager;
-
     private AudioSource audioSource;
     public AudioClip laser;
     public AudioClip destroyed;
     public AudioClip engine;
 
-    public bool isAlive;
 
 
-
-    void Awake()
+    public override void Awake()
     {
+        base.Awake();
         // Get references to components
-        rb = GetComponent<Rigidbody2D>();
         col = GetComponent<Collider2D>();
-        rend = GetComponentInChildren<SpriteRenderer>();
         spriteSwitcher = GetComponentInChildren<SpriteSwitcher>();
         anchorMainGun = transform.Find("AnchorMainGun");
-        gameManager = FindObjectOfType<GameManager>();
         audioSource = GetComponent<AudioSource>();
         audioSource.clip = engine;
 
@@ -164,7 +156,7 @@ public class PlayerController : Entity
     override public void HitByEnemy()
     {
         base.HitByEnemy();;
-        Debug.Log("Player was hit by enemy");
+        Die(10);
     }
 
      

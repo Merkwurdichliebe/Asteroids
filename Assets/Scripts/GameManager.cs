@@ -44,7 +44,7 @@ public class GameManager : MonoBehaviour
 
     void SpawnUFO()
     {
-        if (Random.value < 0.5)
+        if (Random.value < 0.3)
         {
             Instantiate(pfUFO); 
         }
@@ -74,7 +74,7 @@ public class GameManager : MonoBehaviour
         UIManager.Announce(string.Format("LEVEL {0}", level));
         player.gameObject.SetActive(false);
         Invoke("SpawnAsteroids", 3.0f);
-        InvokeRepeating("SpawnUFO", 3.0f, 7.0f);
+        InvokeRepeating("SpawnUFO", 3.0f, 9.0f);
     }
 
 

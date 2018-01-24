@@ -8,11 +8,8 @@ public class AsteroidController : Entity
     public Sprite[] sprite;
 
     // Reference caching
-    private SpriteRenderer sr;
-    private Rigidbody2D rb;
     private CircleCollider2D col;
     private AudioSource audioSource;
-    private GameManager gameManager;
 
     // Phase Property
     // Asteroids start at Phase 0
@@ -36,17 +33,15 @@ public class AsteroidController : Entity
 
 
 
-    void Awake()
+    public override void Awake()
     {
+        base.Awake();
         // Cache needed Components
-        sr = (SpriteRenderer)GetComponent(typeof(SpriteRenderer));
-        rb = GetComponent<Rigidbody2D>();
         col = GetComponent<CircleCollider2D>();
-        gameManager = FindObjectOfType<GameManager>();
         audioSource = GetComponent<AudioSource>();
 
         // Set a random sprite variation
-        sr.sprite = sprite[Random.Range(0, 3)];
+        rend.sprite = sprite[Random.Range(0, 3)];
 
         // Increase static asteroid count with each instantiation
         countAsteroids += 1;
@@ -83,7 +78,7 @@ public class AsteroidController : Entity
         countAsteroids -= 1;
         audioSource.pitch = Random.Range(0.8f, 1.2f);
         audioSource.Play();
-        sr.enabled = false;
+        rend.enabled = false;
         col.enabled = false;
         if (countAsteroids == 0)
         {
@@ -95,7 +90,6 @@ public class AsteroidController : Entity
     override public void HitByPlayer()
     {
         base.HitByPlayer();
-        Debug.Log("Entity Asteroid was hit by player.");
         Break();
     }
 

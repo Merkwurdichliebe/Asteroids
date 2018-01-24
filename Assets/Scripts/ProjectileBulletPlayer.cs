@@ -6,9 +6,11 @@ public class ProjectileBulletPlayer : Projectile {
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.Log("Player bullet collision with " + collision.gameObject.name);
         Entity entity = collision.gameObject.GetComponent<Entity>();
-        entity.HitByPlayer();   
+        if (entity != null)
+        {
+            entity.HitByPlayer();      
+        }
         Destroy(gameObject);
     }
 }

@@ -4,15 +4,30 @@ using UnityEngine;
 
 public class Entity : MonoBehaviour {
 
+    protected bool isAlive;
+    protected Rigidbody2D rb;
+    protected SpriteRenderer rend;
+    protected GameManager gameManager;
+
+    public virtual void Awake()
+    {
+        gameManager = FindObjectOfType<GameManager>();
+        rb = GetComponent<Rigidbody2D>();
+        rend = GetComponentInChildren<SpriteRenderer>();
+        isAlive = true;
+    }
+
+
+
     public virtual void HitByPlayer()
     {
-        Debug.Log("Entity base class was hit by player.");
+
     }
 
 
 
     public virtual void HitByEnemy()
     {
-        Debug.Log("Entity base class was hit by enemy.");
+
     }
 }

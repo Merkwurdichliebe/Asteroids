@@ -3,17 +3,22 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class UFOController : Entity {
-
+    
     public GameObject pfBullet;
 
     private GameObject player;
-    private Rigidbody2D rb;
+    private AudioSource audiosource;
+    private Vector3 firingPrecision;
 
-    void Awake()
+
+
+    public override void Awake()
     {
-        // Get reference to the player and the RigidBody2D
+        base.Awake();
+
+        // Get reference to the player
         player = GameObject.FindWithTag("Player");
-        rb = GetComponent<Rigidbody2D>();
+        audiosource = GetComponent<AudioSource>();
 
         // Randomly choose left or right of screen
         float x = (Random.value < 0.5f) ? -10 : 10;
@@ -26,6 +31,8 @@ public class UFOController : Entity {
         transform.rotation = Quaternion.identity;
     }
 
+
+
     void Start()
     {
         // Calculate vector to player
@@ -34,31 +41,52 @@ public class UFOController : Entity {
         // Move towards the player
         rb.AddForce(vector * 10);
 
-        // Fire at the player
-        InvokeRepeating("Fire", 2.0f, 1.0f);
+
+        // UFO gets more precise as level increases
+
+        firingPrecision.x = Random.Range(0, Mathf.Clamp(1 - GameManager.level / 10, 0, 1.0f));
+        firingPrecision.y = Random.Range(0, Mathf.Clamp(1 - GameManager.level / 10, 0, 1.0f));
+
+        // Fire at the player, more frequently with level
+        InvokeRepeating("Fire", 2.0f, Mathf.Clamp(3 - GameManager.level / 5, 1.0f, 3.0f));
     }
+
+
 
     private void Fire()
     {
-        // Calculate vector to player
-        Vector2 direction = player.transform.position - transform.position;
+        if (player != null)
+        {
+            // Calculate vector to player
+            Vector2 direction = (player.transform.position - transform.position) + firingPrecision;
 
-        // Calculate angle to player
-        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg - 90;
-        Quaternion rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+            // Calculate angle to player
+            float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg - 90;
+            Quaternion rotation = Quaternion.AngleAxis(angle, Vector3.forward);
 
-        // Fire missile
-        GameObject missile = Instantiate(pfBullet, transform.position, rotation);
+            // Fire missile
+            Instantiate(pfBullet, transform.position, rotation);
+        }
     }
+
+
 
     private void OnBecameInvisible()
     {
-        Destroy(gameObject);
+        // TODO: Don't do both Destroys here and in HitByPlayer
+        Destroy(gameObject, 4.0f);
     }
+
+
 
     override public void HitByPlayer()
     {
         base.HitByPlayer();
-        Debug.Log("UFO was hit by player");
+        audiosource.Play();
+        isAlive = false;
+        CancelInvoke();
+        rb.gameObject.GetComponent<SpriteRenderer>().enabled = false;
+        rb.gameObject.GetComponent<Collider2D>().enabled = false;
+        Destroy(gameObject, 3.0f);
     }
 }
