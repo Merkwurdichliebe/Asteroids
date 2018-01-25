@@ -37,7 +37,7 @@ public class AsteroidController : Entity
     {
         base.Awake();
         // Cache needed Components
-        col = GetComponent<CircleCollider2D>();
+        // col = GetComponent<CircleCollider2D>();
         audioSource = GetComponent<AudioSource>();
 
         // Set a random sprite variation

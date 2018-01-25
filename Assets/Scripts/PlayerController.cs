@@ -30,11 +30,12 @@ public class PlayerController : Entity
     {
         base.Awake();
         // Get references to components
-        col = GetComponent<Collider2D>();
+        // col = GetComponent<Collider2D>();
         spriteSwitcher = GetComponentInChildren<SpriteSwitcher>();
         anchorMainGun = transform.Find("AnchorMainGun");
         audioSource = GetComponent<AudioSource>();
         audioSource.clip = engine;
+        audioSource.volume = 1.0f;
 
         // We only read the player input when it's alive,
         // i.e. not going through the death animation
@@ -45,14 +46,7 @@ public class PlayerController : Entity
 
     void Update()
     {
-        if (isAlive)
-        {
-            GetUserInput();   
-            if (isAccelerating)
-            {
-                audioSource.PlayOneShot(engine);
-            }
-        }
+            GetUserInput();
     }
 
 
@@ -84,11 +78,14 @@ public class PlayerController : Entity
     {
         // Play explosion sound
         audioSource.Stop();
+        audioSource.volume = 0.7f;
+        audioSource.loop = false;
         audioSource.PlayOneShot(destroyed);
 
         // Hide the player, disable its collider & keyboard input
         rend.enabled = false;
         col.enabled = false;
+        rb.isKinematic = true;
         isAccelerating = false;
 
         // Reduce 1 life
@@ -145,6 +142,7 @@ public class PlayerController : Entity
         // Reenable the player when it's clear
         rend.enabled = true;
         col.enabled = true;
+        rb.isKinematic = false;
         transform.position = Vector2.zero;
         rb.velocity = Vector2.zero;
         isAlive = true;
@@ -167,6 +165,7 @@ public class PlayerController : Entity
         {
             spriteSwitcher.SpriteThrust();
             isAccelerating = true;
+            audioSource.Play();
         }
 
         if (Input.GetKeyUp(KeyCode.UpArrow))

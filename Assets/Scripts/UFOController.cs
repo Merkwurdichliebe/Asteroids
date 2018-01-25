@@ -21,6 +21,8 @@ public class UFOController : Entity {
         // Get reference to the player
         player = GameObject.FindWithTag("Player");
         audiosource = GetComponent<AudioSource>();
+        rend = GetComponent<SpriteRenderer>();
+        col = GetComponent<Collider2D>();
 
         // Randomly choose left or right of screen
         float x = (Random.value < 0.5f) ? -10 : 10;
@@ -95,9 +97,9 @@ public class UFOController : Entity {
         audiosource.pitch = 0.2f;
         audiosource.Play();
         isAlive = false;
+        col.enabled = false;
+        rend.enabled = false;
         CancelInvoke("Fire");
-        rb.gameObject.GetComponent<SpriteRenderer>().enabled = false;
-        rb.gameObject.GetComponent<Collider2D>().enabled = false;
     }
     
 

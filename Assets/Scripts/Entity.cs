@@ -18,6 +18,7 @@ public class Entity : MonoBehaviour {
     {
         rb = GetComponent<Rigidbody2D>();
         rend = GetComponentInChildren<SpriteRenderer>();
+        col = GetComponent<Collider2D>();
         isAlive = true;
     }
 
