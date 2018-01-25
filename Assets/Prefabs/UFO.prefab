@@ -189,6 +189,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pfBullet: {fileID: 1153547247518906, guid: 4e7ed8f7a34c547e1bb874136671ebcc, type: 2}
+  soundUFOEngine: {fileID: 8300000, guid: f321aa3511c5e433da3ed42d13528a61, type: 3}
+  soundUFOExplosion: {fileID: 8300000, guid: 9cb92918df09f429e94f4da6c22ebc75, type: 3}
 --- !u!212 &212228801216567472
 SpriteRenderer:
   m_ObjectHideFlags: 1

@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class PlayerController : Entity
 {
-    public int rotScaler;
-    public float thrustScaler;
+    private float rotScaler = 5.0f;
+    private float thrustScaler = 0.5f;
     private bool isAccelerating = false;
 
     public int lives = 3;

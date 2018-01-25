@@ -5,6 +5,8 @@ using UnityEngine;
 public class UFOController : Entity {
     
     public GameObject pfBullet;
+    public AudioClip soundUFOEngine;
+    public AudioClip soundUFOExplosion;
 
     private GameObject player;
     private AudioSource audiosource;
@@ -41,6 +43,11 @@ public class UFOController : Entity {
         // Move towards the player
         rb.AddForce(vector * 10);
 
+        audiosource.clip = soundUFOEngine;
+        audiosource.loop = true;
+        audiosource.volume = 1.0f;
+        audiosource.pitch = 0.5f;
+        audiosource.Play();
 
         // UFO gets more precise as level increases
 
@@ -71,25 +78,44 @@ public class UFOController : Entity {
 
 
 
-    private void OnBecameInvisible()
+    override public void HitByPlayer()
     {
-        // TODO: Don't do both Destroys here and in HitByPlayer
-        Destroy(gameObject, 3.0f);
+        base.HitByPlayer();
+        Die();
+        EventManager.MessageScorePoints(GameManager.level * 20);
     }
 
 
 
-    override public void HitByPlayer()
+    private void Die()
     {
-        base.HitByPlayer();
+        audiosource.clip = soundUFOExplosion;
+        audiosource.loop = false;
+        audiosource.volume = 0.2f;
+        audiosource.pitch = 0.2f;
         audiosource.Play();
         isAlive = false;
         CancelInvoke("Fire");
         rb.gameObject.GetComponent<SpriteRenderer>().enabled = false;
         rb.gameObject.GetComponent<Collider2D>().enabled = false;
-        EventManager.MessageScorePoints(GameManager.level * 20);
-        Destroy(gameObject, 3.0f);
     }
+    
+
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        // Collision with asteroid
+        if (collision.gameObject.tag == "Asteroid") Die();
+    }
+
+
+
+    private void OnBecameInvisible()
+    {
+        Destroy(gameObject, 1.0f);
+    }
+
+
 
     private void OnDestroy()
     {

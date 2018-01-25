@@ -106,7 +106,7 @@ AudioSource:
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
-  Priority: 128
+  Priority: 0
   DopplerLevel: 1
   MinDistance: 1
   MaxDistance: 500
@@ -181,7 +181,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 0.5
-  lifespan: 1
+  lifespan: 1.5
 --- !u!212 &212027753715792234
 SpriteRenderer:
   m_ObjectHideFlags: 1
