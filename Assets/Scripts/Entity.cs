@@ -12,6 +12,14 @@ public class Entity : MonoBehaviour {
     protected SpriteRenderer rend;
     protected Collider2D col;
 
+    // Delegate types for all entities
+    public delegate void DelegateEvent();
+    public delegate void DelegateEventWithInt(int value);
+    public delegate void DelegateEventWithObject(Entity entity, Transform transform, int points);
+
+    // Point value of entity
+    public int pointValue;
+
 
 
     public virtual void Awake()

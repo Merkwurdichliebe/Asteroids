@@ -24,12 +24,17 @@ public class AsteroidController : Entity
             phase = value;
             float newScale = 1.0f / Mathf.Pow(2, phase);
             transform.localScale = new Vector2(newScale, newScale);
+            pointValue = (phase + 1) * 2;
+            gameObject.name = "Asteroid (Phase " + phase + ")";
         }
     }
 
     // Static variable for counting how many
     // asteroids we've instantiated
     public static int countAsteroids = 0;
+
+    public static event DelegateEventWithObject OnDestroyed;
+    public static event DelegateEvent OnLastAsteroidDestroyed;
 
 
 
@@ -45,6 +50,8 @@ public class AsteroidController : Entity
 
         // Increase static asteroid count with each instantiation
         countAsteroids += 1;
+
+        Phase = 0;
     }
 
 
@@ -89,10 +96,8 @@ public class AsteroidController : Entity
         rend.enabled = false;
         col.enabled = false;
 
-        // Notify the Event Manager
-        EventManager.MessageAsteroidDestroyed();
-        EventManager.MessageScorePoints((phase + 1) * 2);
-        if (countAsteroids == 0) EventManager.MessageLastAsteroidDestroyed();
+        if (OnDestroyed != null) OnDestroyed(this, gameObject.transform, pointValue);
+        if (countAsteroids == 0 && OnLastAsteroidDestroyed != null) OnLastAsteroidDestroyed();
         Destroy(gameObject, 3.0f);
     }
 

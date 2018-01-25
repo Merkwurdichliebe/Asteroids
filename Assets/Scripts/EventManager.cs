@@ -37,11 +37,8 @@ public class EventManager : MonoBehaviour
     public delegate void EventScorePoints(int points);
     public static event EventScorePoints OnScorePoints;
 
-    // Same as above, but only for UI-related messages
-    // For clear organisation only
-    public delegate void EventUI(int value);
-    public static event EventUI OnUIUpdateScore;
-    public static event EventUI OnUIUpdateLives;
+    public delegate void EventUIMessageRoaming(string text, Vector3 pos);
+    public static event EventUIMessageRoaming OnUIMessageRoaming;
 
 
 
@@ -92,18 +89,10 @@ public class EventManager : MonoBehaviour
         if (OnScorePoints != null) OnScorePoints(points);
     }
 
-
-
-    // Events for delegate type EventUI
-
-    public static void UIUpdateScore(int value)
+    public static void UIShowMessageAtWorldPosition(string text, Vector3 pos)
     {
-        if (OnUIUpdateScore != null) OnUIUpdateScore(value);
+        if (OnUIMessageRoaming != null) OnUIMessageRoaming(text, pos);
     }
 
-    public static void UIUpdateLives(int value)
-    {
-        if (OnUIUpdateLives != null) OnUIUpdateLives(value);
-    }
 }
 

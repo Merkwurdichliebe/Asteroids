@@ -24,6 +24,9 @@ public class PlayerController : Entity
     public AudioClip destroyed;
     public AudioClip engine;
 
+    public static event DelegateEvent OnPlayerDied;
+    public static event DelegateEvent OnPlayerLivesZero;
+
 
 
     public override void Awake()
@@ -40,6 +43,8 @@ public class PlayerController : Entity
         // We only read the player input when it's alive,
         // i.e. not going through the death animation
         isAlive = true;
+
+        gameObject.name = "Player";
     }
 
 
@@ -109,11 +114,11 @@ public class PlayerController : Entity
             _rb.AddTorque(vel);
         }
 
-        EventManager.MessagePlayerDestroyed();
+        OnPlayerDied();
 
         if (lives == 0)
         {
-            EventManager.MessageLivesEqualsZero();
+            OnPlayerLivesZero();
             Destroy(gameObject, 3.0f);
         }
         else

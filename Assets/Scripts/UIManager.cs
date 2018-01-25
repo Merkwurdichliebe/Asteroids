@@ -22,10 +22,13 @@ public class UIManager : MonoBehaviour {
     // Reference to UI DebugText Field
     public Text textDebug;
 
+    public Text textRoaming;
+    public GameObject canvas;
+
     // Player and its Rigidbody
     private Rigidbody2D player_rb;
     private PlayerController playerController;
-    private GameObject player;
+
 
 
 
@@ -36,10 +39,17 @@ public class UIManager : MonoBehaviour {
         player_rb = playerController.gameObject.GetComponent<Rigidbody2D>();
         textAnnounce.text = "";
 
-        EventManager.OnUIUpdateLives += UpdateLives;
-        EventManager.OnUIUpdateScore += UpdateScore;
+        GameManager.OnScoreChanged += UpdateScore;
+        GameManager.OnLivesChanged += UpdateLives;
+        GameManager.OnAnnounceMessage += UpdateAnnounceMessage;
+        UFOController.OnDestroyed += ShowPointsAtWorldPosition;
     }
 
+
+    void MessageSample()
+    {
+        Debug.Log("Sample");
+    }
 
 
     void Update()
@@ -67,10 +77,23 @@ public class UIManager : MonoBehaviour {
         textLives.text = string.Format("{0}", playerController.lives);
     }
 
-
-
-    public void Announce(string text)
+    public void UpdateAnnounceMessage(string text, float duration)
     {
         textAnnounce.text = text;
+        Invoke("ClearAnnounceMessage", duration);
+    }
+
+    public void ClearAnnounceMessage()
+    {
+        textAnnounce.text = "";
+    }
+
+    public void ShowPointsAtWorldPosition(Entity entity, Transform transform, int points)
+    {
+        Text t = Instantiate(textRoaming);
+        t.transform.SetParent(canvas.transform, false);
+        t.transform.position = Camera.main.WorldToScreenPoint(transform.position);
+        t.text = points.ToString();
+        Destroy(t, 1.0f);
     }
 }

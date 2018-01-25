@@ -4,15 +4,17 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
+    public delegate void UIDelegateMessageWithInt(int value);
+    public static event UIDelegateMessageWithInt OnScoreChanged;
+    public static event UIDelegateMessageWithInt OnLivesChanged;
+
+    public delegate void UIDelegateMessageWithDuration(string text, float duration);
+    public static event UIDelegateMessageWithDuration OnAnnounceMessage;
 
     // References to Asteroid, Player and UI script
     public GameObject pfAsteroid;
     public GameObject pfUFO;
     public PlayerController player;
-    private UIManager UIManager;
-
-    // Center trigger collider, for avoiding player spawning on asteroids
-    private Collider2D centerCollider;
 
     // Score, level, lives etc
     private int playerScore = 0;
@@ -26,9 +28,6 @@ public class GameManager : MonoBehaviour
 
     void Awake()
     {
-        // Get reference to the UI Manager script
-        UIManager = gameObject.GetComponent<UIManager>();
-
         // Spawn player
         player = Instantiate(player, Vector2.zero, Quaternion.identity);
 
@@ -37,14 +36,12 @@ public class GameManager : MonoBehaviour
 
         level = 0;
 
-        // Time.timeScale = 0.5f;
+        AsteroidController.OnDestroyed += AsteroidDestroyedHandler;
+        AsteroidController.OnLastAsteroidDestroyed += NextLevel;
+        UFOController.OnDestroyed += UFODestroyedHandler;
+        PlayerController.OnPlayerDied += PlayerDied;
+        PlayerController.OnPlayerLivesZero += GameOver;
 
-        // Subscribe to event delegates
-        EventManager.OnScorePoints += ScorePoints;
-        EventManager.OnPlayerDestroyed += PlayerDied;
-        EventManager.OnLivesEqualsZero += GameOver;
-        EventManager.OnLastAsteroidDestroyed += NextLevel;
-        EventManager.OnUFODestroyed += StartUFOSpawner;
     }
 
 
@@ -75,7 +72,7 @@ public class GameManager : MonoBehaviour
         // Play background music
         audioSource.Play();
 
-        UIManager.UpdateLives(player.lives);
+        OnLivesChanged(player.lives);
         NextLevel();
     }
 
@@ -87,7 +84,7 @@ public class GameManager : MonoBehaviour
         // disable (hide) the player while doing do
         CenterIsFree = true;
         level += 1;
-        UIManager.Announce(string.Format("LEVEL {0}", level));
+        OnAnnounceMessage(string.Format("LEVEL {0}", level), 3.0f);
         player.gameObject.SetActive(false);
         Invoke("SpawnAsteroids", 3.0f);
         StartUFOSpawner();
@@ -97,9 +94,6 @@ public class GameManager : MonoBehaviour
 
     void SpawnAsteroids()
     {
-        // Clear the level message
-        UIManager.Announce("");
-
         // Spawn asteroids based on level number
         for (int i = 0; i < startingAsteroids + level - 1; i++)
         {
@@ -116,7 +110,7 @@ public class GameManager : MonoBehaviour
     public void GameOver()
     {
         // Display Game Over message
-        UIManager.Announce("GAME OVER");
+        if (OnAnnounceMessage != null) OnAnnounceMessage("GAME OVER", 6.0f);
 
         // Handle high score if necessary
         int highscore = PlayerPrefs.GetInt("highscore");
@@ -136,19 +130,24 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene("Menu");
     } 
 
-
-
-    public void ScorePoints(int points)
+    void AsteroidDestroyedHandler(Entity obj, Transform transform, int points)
     {
         playerScore += points;
-        EventManager.UIUpdateScore(playerScore);
+        if (OnScoreChanged != null) OnScoreChanged(playerScore);
+    }
+
+    void UFODestroyedHandler(Entity obj, Transform transform, int points)
+    {
+        playerScore += points;
+        if (OnScoreChanged != null) OnScoreChanged(playerScore);
+        StartUFOSpawner();
     }
 
 
 
     public void PlayerDied()
     {
-        EventManager.UIUpdateLives(player.lives);
+        OnLivesChanged(player.lives);
     }
 
 

@@ -12,6 +12,8 @@ public class UFOController : Entity {
     private AudioSource audiosource;
     private Vector3 firingPrecision;
 
+    public static event DelegateEventWithObject OnDestroyed;
+
 
 
     public override void Awake()
@@ -39,6 +41,8 @@ public class UFOController : Entity {
 
     void Start()
     {
+        pointValue = GameManager.level * 20;
+
         // Calculate vector to center to screen
         Vector2 vector = Vector3.zero - transform.position;
 
@@ -84,7 +88,7 @@ public class UFOController : Entity {
     {
         base.HitByPlayer();
         Die();
-        EventManager.MessageScorePoints(GameManager.level * 20);
+        if (OnDestroyed != null) OnDestroyed(this, transform, pointValue);
     }
 
 
@@ -100,6 +104,7 @@ public class UFOController : Entity {
         col.enabled = false;
         rend.enabled = false;
         CancelInvoke("Fire");
+        Destroy(gameObject, 2.0f);
     }
     
 
@@ -115,12 +120,5 @@ public class UFOController : Entity {
     private void OnBecameInvisible()
     {
         Destroy(gameObject, 2.0f);
-    }
-
-
-
-    private void OnDestroy()
-    {
-        EventManager.MessageUFODestroyed();
     }
 }

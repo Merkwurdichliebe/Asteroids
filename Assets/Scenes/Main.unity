@@ -1042,6 +1042,9 @@ MonoBehaviour:
   textLives: {fileID: 90670974}
   textAnnounce: {fileID: 845520242}
   textDebug: {fileID: 1444751502}
+  textRoaming: {fileID: 114392067046668686, guid: 9f2f7e7f808f44e1bac0a71fac206207,
+    type: 2}
+  canvas: {fileID: 1955210627}
 --- !u!4 &2104122569
 Transform:
   m_ObjectHideFlags: 0
