@@ -39,8 +39,8 @@ public class UFOController : Entity {
 
     void Start()
     {
-        // Calculate vector to player
-        Vector2 vector = player.transform.position - transform.position;
+        // Calculate vector to center to screen
+        Vector2 vector = Vector3.zero - transform.position;
 
         // Move towards the player
         rb.AddForce(vector * 10);
@@ -94,7 +94,7 @@ public class UFOController : Entity {
         audiosource.clip = soundUFOExplosion;
         audiosource.loop = false;
         audiosource.volume = 0.2f;
-        audiosource.pitch = 0.2f;
+        audiosource.pitch = 0.5f;
         audiosource.Play();
         isAlive = false;
         col.enabled = false;
@@ -114,7 +114,7 @@ public class UFOController : Entity {
 
     private void OnBecameInvisible()
     {
-        Destroy(gameObject, 1.0f);
+        Destroy(gameObject, 2.0f);
     }
 
 

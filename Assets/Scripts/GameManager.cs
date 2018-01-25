@@ -171,5 +171,4 @@ public class GameManager : MonoBehaviour
 }
 
 
-// TODO: ufo
 // TODO: powerups

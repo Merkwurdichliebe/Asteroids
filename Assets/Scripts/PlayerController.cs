@@ -46,7 +46,7 @@ public class PlayerController : Entity
 
     void Update()
     {
-            GetUserInput();
+        if (isAlive) GetUserInput();
     }
 
 
