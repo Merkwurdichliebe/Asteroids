@@ -12,7 +12,8 @@ public class UFOController : Entity {
     private AudioSource audiosource;
     private Vector3 firingPrecision;
 
-    public static event DelegateEventWithObject OnDestroyed;
+    public static event DelegateEventWithObject OnHitByPlayerProjectile;
+    public static event DelegateEvent OnDestroyed;
 
 
 
@@ -84,11 +85,11 @@ public class UFOController : Entity {
 
 
 
-    override public void HitByPlayer()
+    public override void HitByPlayer()
     {
         base.HitByPlayer();
         Die();
-        if (OnDestroyed != null) OnDestroyed(this, transform, pointValue);
+        if (OnHitByPlayerProjectile != null) OnHitByPlayerProjectile(this, transform, pointValue);
     }
 
 
@@ -120,5 +121,12 @@ public class UFOController : Entity {
     private void OnBecameInvisible()
     {
         Destroy(gameObject, 2.0f);
+    }
+
+
+
+    private void OnDestroy()
+    {
+        if (OnDestroyed != null) OnDestroyed();
     }
 }

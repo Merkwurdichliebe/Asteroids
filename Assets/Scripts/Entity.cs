@@ -30,7 +30,11 @@ public class Entity : MonoBehaviour {
         isAlive = true;
     }
 
-
+    public virtual void Hit<T>(T t) where T: Projectile
+    {
+        if (t.GetType() == typeof(ProjectileBulletPlayer)) HitByPlayer();
+        if (t.GetType() == typeof(ProjectileBulletUFO)) HitByEnemy();
+    }
 
     public virtual void HitByPlayer()
     {

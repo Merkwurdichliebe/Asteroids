@@ -154,7 +154,7 @@ public class PlayerController : Entity
     }
 
 
-    override public void HitByEnemy()
+    public override void HitByEnemy()
     {
         base.HitByEnemy();
         Die(10);

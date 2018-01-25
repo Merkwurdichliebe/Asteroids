@@ -24,7 +24,7 @@ GameObject:
   - component: {fileID: 50577531644139712}
   - component: {fileID: 114832978129634352}
   - component: {fileID: 82829268955247918}
-  m_Layer: 8
+  m_Layer: 12
   m_Name: ProjectileBulletUFO
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -19,8 +19,8 @@ TagManager:
   - Player
   - CenterTrigger
   - Asteroids
-  - 
-  - 
+  - EnemyProjectiles
+  - PlayerProjectiles
   - 
   - 
   - 

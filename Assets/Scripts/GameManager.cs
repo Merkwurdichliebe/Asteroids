@@ -24,6 +24,10 @@ public class GameManager : MonoBehaviour
     // Audio
     private AudioSource audioSource;
 
+    // For tuning
+    public float UFOSpawnFrequency;
+    public float UFOSpawnProbability;
+
     public static bool CenterIsFree { get; private set; }
 
     void Awake()
@@ -38,6 +42,7 @@ public class GameManager : MonoBehaviour
 
         AsteroidController.OnDestroyed += AsteroidDestroyedHandler;
         AsteroidController.OnLastAsteroidDestroyed += NextLevel;
+        UFOController.OnHitByPlayerProjectile += UFOHitByPlayerHandler;
         UFOController.OnDestroyed += UFODestroyedHandler;
         PlayerController.OnPlayerDied += PlayerDied;
         PlayerController.OnPlayerLivesZero += GameOver;
@@ -48,14 +53,14 @@ public class GameManager : MonoBehaviour
 
     void StartUFOSpawner()
     {
-        InvokeRepeating("SpawnUFO", 3.0f, 9.0f);
+        InvokeRepeating("SpawnUFO", 3.0f, UFOSpawnFrequency);
     }
 
 
 
     void SpawnUFO()
     {
-        if (Random.value < 0.5)
+        if (Random.value < UFOSpawnProbability)
         {
             Instantiate(pfUFO);
             CancelInvoke("SpawnUFO");
@@ -130,16 +135,27 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene("Menu");
     } 
 
+
+
     void AsteroidDestroyedHandler(Entity obj, Transform transform, int points)
     {
         playerScore += points;
         if (OnScoreChanged != null) OnScoreChanged(playerScore);
     }
 
-    void UFODestroyedHandler(Entity obj, Transform transform, int points)
+
+
+    void UFOHitByPlayerHandler(Entity obj, Transform transform, int points)
     {
         playerScore += points;
         if (OnScoreChanged != null) OnScoreChanged(playerScore);
+        StartUFOSpawner();
+    }
+
+
+
+    void UFODestroyedHandler()
+    {
         StartUFOSpawner();
     }
 

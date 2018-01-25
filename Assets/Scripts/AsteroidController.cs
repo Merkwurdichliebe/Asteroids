@@ -103,12 +103,10 @@ public class AsteroidController : Entity
 
 
 
-    override public void HitByPlayer()
+    public override void HitByPlayer()
     {
-        base.HitByPlayer();
         Break();
     }
-
 
 
     public void SpawnAsteroid(int phase)

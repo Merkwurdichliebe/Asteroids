@@ -42,7 +42,7 @@ public class UIManager : MonoBehaviour {
         GameManager.OnScoreChanged += UpdateScore;
         GameManager.OnLivesChanged += UpdateLives;
         GameManager.OnAnnounceMessage += UpdateAnnounceMessage;
-        UFOController.OnDestroyed += ShowPointsAtWorldPosition;
+        UFOController.OnHitByPlayerProjectile += ShowPointsAtWorldPosition;
     }
 
 

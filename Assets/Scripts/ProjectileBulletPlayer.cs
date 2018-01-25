@@ -7,7 +7,7 @@ public class ProjectileBulletPlayer : Projectile {
     private void OnTriggerEnter2D(Collider2D collision)
     {
         Entity entity = collision.gameObject.GetComponent<Entity>();
-        if (entity != null) entity.HitByPlayer();
+        if (entity != null) entity.Hit<ProjectileBulletPlayer>(this);
         Destroy(gameObject);
     }
 }
