@@ -10,7 +10,6 @@ public class PlayerController : Entity
 
     public int lives = 3;
 
-    private Collider2D col;
     private SpriteSwitcher spriteSwitcher;
     private Vector2 velocity;
 

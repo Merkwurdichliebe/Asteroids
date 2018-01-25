@@ -8,7 +8,7 @@ public class AsteroidController : Entity
     public Sprite[] sprite;
 
     // Reference caching
-    private CircleCollider2D col;
+    // private CircleCollider2D col;
     private AudioSource audioSource;
 
     // Phase Property
@@ -51,14 +51,18 @@ public class AsteroidController : Entity
 
     void Start()
     {
+        // Spawn new asteroids in a random range above the player
+        // Smaller asteroids ignore this and spawn where the bigger ones break
         if (phase == 0) 
         {
             transform.position = new Vector2(Random.Range(-15, 15), Random.Range(3, 6)); 
         }
 
+        // Set the mass to be proportionate to the asteroid size
+        // This makes inter-asteroid collisions more realistic
         rb.mass = 1 / (phase + 1);
 
-        // Gets its Rigidbody2D and give a random force and torque
+        // Give the asteroid a random force and torque
         float dirX = Random.Range(-1f, 1f);
         float dirY = Random.Range(-1f, 1f);
         rb.AddRelativeForce(new Vector2(dirX, dirY) * (2 + GameManager.level * 0.5f) * rb.mass, ForceMode2D.Impulse);
@@ -69,21 +73,30 @@ public class AsteroidController : Entity
 
     public void Break()
     {
+        // Spawn new asteroids, unless they are too small
         if (phase < 2)
         {
             SpawnAsteroid(phase + 1);
             SpawnAsteroid(phase + 1);
         }
         countAsteroids -= 1;
+
+        // Play explosion sound
         audioSource.pitch = Random.Range(0.8f, 1.2f);
         audioSource.Play();
+
+        // Don't destroy immediately so that the sound plays to the end
         rend.enabled = false;
         col.enabled = false;
+
+        // Notify the Event Manager
         EventManager.MessageAsteroidDestroyed();
         EventManager.MessageScorePoints((phase + 1) * 2);
         if (countAsteroids == 0) EventManager.MessageLastAsteroidDestroyed();
-        Destroy(gameObject, 4.0f);
+        Destroy(gameObject, 3.0f);
     }
+
+
 
     override public void HitByPlayer()
     {
@@ -91,11 +104,12 @@ public class AsteroidController : Entity
         Break();
     }
 
+
+
     public void SpawnAsteroid(int phase)
     {
-        // Instantiate the asteroid and set its phase
+        // Instantiate the asteroid and set its phase from the method argument
         GameObject ast = Instantiate(gameObject, Vector2.zero, Quaternion.identity);
-        //Debug.Log("After Instantiate " + countAsteroids);
         AsteroidController astController = ast.GetComponent(typeof(AsteroidController)) as AsteroidController;
         astController.Phase = phase;
 

@@ -4,9 +4,15 @@ using UnityEngine;
 
 public class Entity : MonoBehaviour {
 
+    // Base class for all entities (player, asteroids, UFO, powerups)
+    // Member variables are declared as "protected", which makes them
+    // private variables accessible by child classes.
     protected bool isAlive;
     protected Rigidbody2D rb;
     protected SpriteRenderer rend;
+    protected Collider2D col;
+
+
 
     public virtual void Awake()
     {
@@ -29,20 +35,3 @@ public class Entity : MonoBehaviour {
 
     }
 }
-
-/*
-// Delegate type for scoring events which include a points value
-public delegate void EntityDelegateScore(int points);
-
-// We define the EventScorePoints here because
-// all entities should score something
-public static EntityDelegateScore EventScorePoints;
-
-// We need to encapsulate the event call in a protected method
-// so that child classes can use it
-// (cf. Microsoft: How to Raise Base Class Events in Derived Classes)
-protected static void OnEventScorePoints(int points)
-{
-    EventScorePoints(points);
-}
-*/
