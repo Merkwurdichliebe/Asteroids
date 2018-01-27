@@ -1,8 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
-public class Entity : MonoBehaviour {
+public abstract class Entity : MonoBehaviour {
 
     // Base class for all entities (player, asteroids, UFO, powerups)
     // Member variables are declared as "protected", which makes them
@@ -12,13 +14,11 @@ public class Entity : MonoBehaviour {
     protected SpriteRenderer rend;
     protected Collider2D col;
 
-    // Delegate types for all entities
-    public delegate void DelegateEvent();
-    public delegate void DelegateEventWithInt(int value);
-    public delegate void DelegateEventWithObject(Entity entity, Transform transform, int points);
 
     // Point value of entity
     public int pointValue;
+
+    public bool isObstacle;
 
 
 
@@ -30,21 +30,7 @@ public class Entity : MonoBehaviour {
         isAlive = true;
     }
 
-    public virtual void Hit<T>(T t) where T: Projectile
-    {
-        if (t.GetType() == typeof(ProjectileBulletPlayer)) HitByPlayer();
-        if (t.GetType() == typeof(ProjectileBulletUFO)) HitByEnemy();
-    }
-
-    public virtual void HitByPlayer()
-    {
-
-    }
 
 
 
-    public virtual void HitByEnemy()
-    {
-
-    }
 }

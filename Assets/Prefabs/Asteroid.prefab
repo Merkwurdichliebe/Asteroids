@@ -171,6 +171,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25ba544fc9019436180256ff551e1ab9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  pointValue: 0
+  isObstacle: 1
   sprite:
   - {fileID: 21300000, guid: ea37029b2268d417dafb206641f5c858, type: 3}
   - {fileID: 21300000, guid: cb9b02ab918b44b35bcb09b774b746ec, type: 3}

@@ -262,8 +262,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b8f927041f9b4058bba3dd622bd42f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lives: 3
-  pfBullet: {fileID: 1708459439725374, guid: 831000a8a9e9b4d39b5a27a5e801bcd3, type: 2}
+  pointValue: 0
+  isObstacle: 0
+  livesLeft: 3
+  PrefabProjectile: {fileID: 114811221838725434, guid: 831000a8a9e9b4d39b5a27a5e801bcd3,
+    type: 2}
   fragmentSprites:
   - {fileID: 21300000, guid: 75d8098e8f9814f53a510973673d8aaa, type: 3}
   - {fileID: 21300000, guid: 41ff65812447a489791a547e3a57d928, type: 3}

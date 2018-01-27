@@ -188,9 +188,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6cc99729255f4bcdbcc474313d9acea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pfBullet: {fileID: 1153547247518906, guid: 4e7ed8f7a34c547e1bb874136671ebcc, type: 2}
+  pointValue: 0
+  isObstacle: 1
+  PrefabProjectile: {fileID: 1153547247518906, guid: 4e7ed8f7a34c547e1bb874136671ebcc,
+    type: 2}
   soundUFOEngine: {fileID: 8300000, guid: f321aa3511c5e433da3ed42d13528a61, type: 3}
   soundUFOExplosion: {fileID: 8300000, guid: 9cb92918df09f429e94f4da6c22ebc75, type: 3}
+  firingFrequency: 3
 --- !u!212 &212228801216567472
 SpriteRenderer:
   m_ObjectHideFlags: 1

@@ -1,8 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
+using Random = UnityEngine.Random;
 
-public class AsteroidController : Entity
+
+public class AsteroidController : Entity, IKillable
 {
     // Reference for asteroid sprites variations
     public Sprite[] sprite;
@@ -33,8 +36,13 @@ public class AsteroidController : Entity
     // asteroids we've instantiated
     public static int countAsteroids = 0;
 
-    public static event DelegateEventWithObject OnDestroyed;
-    public static event DelegateEvent OnLastAsteroidDestroyed;
+
+    public static event Action<Entity, Transform, int> OnDestroyed;
+
+    public delegate void MessageEvent();
+    public static event MessageEvent OnLastAsteroidDestroyed;
+
+    public static event Action<Entity> OnScorePoints;
 
 
 
@@ -78,7 +86,7 @@ public class AsteroidController : Entity
 
 
 
-    public void Break()
+    public void Kill()
     {
         // Spawn new asteroids, unless they are too small
         if (phase < 2)
@@ -103,12 +111,6 @@ public class AsteroidController : Entity
 
 
 
-    public override void HitByPlayer()
-    {
-        Break();
-    }
-
-
     public void SpawnAsteroid(int phase)
     {
         // Instantiate the asteroid and set its phase from the method argument
@@ -122,6 +124,26 @@ public class AsteroidController : Entity
         float rot = Random.Range(0f, 1f);
 
         ast.transform.position = new Vector2(x, y);
-        ast.transform.Rotate(new Vector3(0, 0, rot));
+        ast.transform.Rotate(new Vector3(0, 0, rot)); 
+    }
+
+
+
+    private void ScorePoints()
+    {
+        OnScorePoints(this);
+    }
+
+
+
+    void OnCollisionEnter2D(Collision2D collision)
+    {
+        string goTag = collision.gameObject.tag;
+
+        if (goTag == "PlayerProjectile")
+        {
+            ScorePoints();
+            Kill();
+        }
     }
 }

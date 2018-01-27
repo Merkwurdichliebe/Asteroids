@@ -19,14 +19,14 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4715481228567906}
+  - component: {fileID: 114811221838725434}
   - component: {fileID: 212268255247762226}
   - component: {fileID: 61463624820075682}
   - component: {fileID: 50345581458342714}
-  - component: {fileID: 114728211259395590}
   - component: {fileID: 82853901379171970}
   m_Layer: 13
   m_Name: ProjectileBulletPlayer
-  m_TagString: Untagged
+  m_TagString: PlayerProjectile
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -73,7 +73,7 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
@@ -169,7 +169,7 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 0
---- !u!114 &114728211259395590
+--- !u!114 &114811221838725434
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -177,7 +177,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1708459439725374}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 962662c1a487e4897a3284a6a41d7111, type: 3}
+  m_Script: {fileID: 11500000, guid: 1e749ca270cea4405ac7e60da491c868, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 2

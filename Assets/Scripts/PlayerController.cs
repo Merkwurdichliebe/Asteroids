@@ -1,19 +1,21 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System;
+using Random = UnityEngine.Random;
 using UnityEngine;
 
-public class PlayerController : Entity
+public class PlayerController : Entity, IKillable
 {
     private float rotScaler = 5.0f;
     private float thrustScaler = 0.5f;
     private bool isAccelerating = false;
 
-    public int lives = 3;
+    public int livesLeft = 3;
 
     private SpriteSwitcher spriteSwitcher;
     private Vector2 velocity;
 
-    public GameObject pfBullet;
+    public Projectile PrefabProjectile;
     private Transform anchorMainGun;
 
     public Sprite[] fragmentSprites;
@@ -24,8 +26,10 @@ public class PlayerController : Entity
     public AudioClip destroyed;
     public AudioClip engine;
 
-    public static event DelegateEvent OnPlayerDied;
-    public static event DelegateEvent OnPlayerLivesZero;
+    private bool centerIsOccupied;
+
+    public static event Action<int> OnPlayerDestroyed;
+    public static event Action<float> OnPlayerSpeedChanged;
 
 
 
@@ -47,7 +51,14 @@ public class PlayerController : Entity
         gameObject.name = "Player";
     }
 
+    private void OnEnable()
+    {
+        GameManager.OnCenterClear += CenterIsClear;
+        GameManager.OnCenterOccupied += CenterIsOccupied;
+    }
 
+    private void CenterIsClear() { centerIsOccupied = false; }
+    private void CenterIsOccupied() { centerIsOccupied = true; }
 
     void Update()
     {
@@ -63,23 +74,17 @@ public class PlayerController : Entity
             rb.AddRelativeForce(Vector2.up * thrustScaler, ForceMode2D.Force);
             rb.velocity = Vector2.ClampMagnitude(rb.velocity, 9.9f);
             velocity = rb.velocity; // Cached for velocity at impact
+            OnPlayerSpeedChanged(velocity.magnitude);
         }
     }
 
 
 
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        // Collision with asteroid or UFO
-        if (collision.gameObject.tag == "Asteroid" || collision.gameObject.tag == "Enemy")
-        {
-            Die(collision.relativeVelocity.sqrMagnitude * 15);
-        }
-    }
 
 
 
-    public void Die(float impactMagnitude)
+
+    public void Kill()
     {
         // Play explosion sound
         audioSource.Stop();
@@ -95,10 +100,10 @@ public class PlayerController : Entity
 
         // Reduce 1 life
         isAlive = false;
-        lives -= 1;
+        livesLeft -= 1;
 
         // Get the relative velocity of the collision
-        float vel = impactMagnitude;
+        float vel = 20f;
 
         // Instantiate the fragments, pull them apart randomly
         foreach (Sprite sprite in fragmentSprites)
@@ -114,11 +119,10 @@ public class PlayerController : Entity
             _rb.AddTorque(vel);
         }
 
-        OnPlayerDied();
+        OnPlayerDestroyed(livesLeft);
 
-        if (lives == 0)
+        if (livesLeft == 0)
         {
-            OnPlayerLivesZero();
             Destroy(gameObject, 3.0f);
         }
         else
@@ -139,11 +143,9 @@ public class PlayerController : Entity
 
     IEnumerator RespawnWhenCenterIsFree()
     {
-        // Don't do anything while the center is not clear of asteroids
-        while (GameManager.CenterIsFree == false)
-        {
-            yield return null;
-        }
+        // Don't do anything while the center is not clear
+        while (centerIsOccupied) { yield return null; }
+
         // Reenable the player when it's clear
         rend.enabled = true;
         col.enabled = true;
@@ -154,14 +156,16 @@ public class PlayerController : Entity
     }
 
 
-    public override void HitByEnemy()
+
+    void OnCollisionEnter2D(Collision2D collision)
     {
-        base.HitByEnemy();
-        Die(10);
+        string goTag = collision.gameObject.tag;
+
+        if (goTag == "Asteroid" || goTag == "Enemy" || goTag == "EnemyProjectile")
+        {
+            Kill();
+        }
     }
-
-     
-
 
     private void GetUserInput()
     {
@@ -183,7 +187,7 @@ public class PlayerController : Entity
         // Fire
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            Instantiate(pfBullet, anchorMainGun.position, transform.rotation);
+            Instantiate(PrefabProjectile, anchorMainGun.position, transform.rotation);
         }
 
         // Rotation

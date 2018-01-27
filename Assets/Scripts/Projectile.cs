@@ -1,15 +1,11 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Projectile : MonoBehaviour {
-
+    
     public float speed;
     public float lifespan;
 
     private Rigidbody2D rb;
-
-
 
     void Awake()
     {
@@ -26,5 +22,12 @@ public class Projectile : MonoBehaviour {
 
         // Limit the bullet's range
         Destroy(gameObject, lifespan);
+    }
+
+
+
+    void OnCollisionEnter2D(Collision2D collision)
+    {
+        Destroy(gameObject);
     }
 }

@@ -1,20 +1,24 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
-public class UFOController : Entity {
+public class UFOController : Entity, IKillable
+{
     
-    public GameObject pfBullet;
+    public GameObject PrefabProjectile;
     public AudioClip soundUFOEngine;
     public AudioClip soundUFOExplosion;
+    public float firingFrequency;
 
     private GameObject player;
     private AudioSource audiosource;
     private Vector3 firingPrecision;
 
-    public static event DelegateEventWithObject OnHitByPlayerProjectile;
-    public static event DelegateEvent OnDestroyed;
 
+    public delegate void MessageEvent();
+    public static event MessageEvent OnUFODestroyed;
+
+    public static event Action<Entity> OnScorePoints;
 
 
     public override void Awake()
@@ -36,6 +40,8 @@ public class UFOController : Entity {
         // Set the transform
         transform.position = new Vector2(x, y);
         transform.rotation = Quaternion.identity;
+
+        pointValue = 20;
     }
 
 
@@ -62,7 +68,7 @@ public class UFOController : Entity {
         firingPrecision.y = Random.Range(0, Mathf.Clamp(1 - GameManager.level / 10, 0, 1.0f));
 
         // Fire at the player, more frequently with level
-        InvokeRepeating("Fire", 2.0f, Mathf.Clamp(3 - GameManager.level / 5, 1.0f, 3.0f));
+        InvokeRepeating("Fire", 2.0f, Mathf.Clamp(3 - GameManager.level / 5 * firingFrequency, 1.0f, 3.0f));
     }
 
 
@@ -79,22 +85,20 @@ public class UFOController : Entity {
             Quaternion rotation = Quaternion.AngleAxis(angle, Vector3.forward);
 
             // Fire missile
-            Instantiate(pfBullet, transform.position, rotation);
+            Instantiate(PrefabProjectile, transform.position, rotation);
         }
     }
 
 
 
-    public override void HitByPlayer()
+    private void ScorePoints()
     {
-        base.HitByPlayer();
-        Die();
-        if (OnHitByPlayerProjectile != null) OnHitByPlayerProjectile(this, transform, pointValue);
+        OnScorePoints(this);
     }
 
 
 
-    private void Die()
+    public void Kill()
     {
         audiosource.clip = soundUFOExplosion;
         audiosource.loop = false;
@@ -107,15 +111,24 @@ public class UFOController : Entity {
         CancelInvoke("Fire");
         Destroy(gameObject, 2.0f);
     }
-    
 
 
-    private void OnCollisionEnter2D(Collision2D collision)
+
+    void OnCollisionEnter2D(Collision2D collision)
     {
-        // Collision with asteroid
-        if (collision.gameObject.tag == "Asteroid") Die();
-    }
+        string goTag = collision.gameObject.tag;
 
+        if (goTag == "Asteroid" || goTag == "Player")
+        {
+            Kill();   
+        }
+
+        if (goTag == "PlayerProjectile")
+        {
+            ScorePoints();
+            Kill();
+        }
+    }
 
 
     private void OnBecameInvisible()
@@ -127,6 +140,6 @@ public class UFOController : Entity {
 
     private void OnDestroy()
     {
-        if (OnDestroyed != null) OnDestroyed();
+        if (OnUFODestroyed != null) OnUFODestroyed();
     }
 }

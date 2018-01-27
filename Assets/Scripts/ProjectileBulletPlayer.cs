@@ -2,12 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ProjectileBulletPlayer : Projectile {
+public class ProjectileBulletPlayer : Projectile, IPlayerWeapon {
 
     private void OnTriggerEnter2D(Collider2D collision)
-    {
+    {/*
         Entity entity = collision.gameObject.GetComponent<Entity>();
         if (entity != null) entity.Hit<ProjectileBulletPlayer>(this);
         Destroy(gameObject);
+*/
     }
+
+
 }

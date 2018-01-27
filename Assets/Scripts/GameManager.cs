@@ -1,23 +1,28 @@
 ﻿using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.Assertions;
+using System;
+using Random = UnityEngine.Random;
 
 public class GameManager : MonoBehaviour
 {
-    public delegate void UIDelegateMessageWithInt(int value);
-    public static event UIDelegateMessageWithInt OnScoreChanged;
-    public static event UIDelegateMessageWithInt OnLivesChanged;
+    // Event Messaging
+    public static event Action<int> OnScoreChanged;
+    public static event Action<int> OnLivesChanged;
+    public static event Action<string, float> OnAnnounceMessage;
 
-    public delegate void UIDelegateMessageWithDuration(string text, float duration);
-    public static event UIDelegateMessageWithDuration OnAnnounceMessage;
+    public delegate void MessageEvent();
+    public static event MessageEvent OnCenterClear;
+    public static event MessageEvent OnCenterOccupied;
 
     // References to Asteroid, Player and UI script
-    public GameObject pfAsteroid;
-    public GameObject pfUFO;
+    public GameObject PrefabAsteroid;
+    public GameObject PrefabUFO;
     public PlayerController player;
 
     // Score, level, lives etc
-    private int playerScore = 0;
+    private int playerScore;
     private int startingAsteroids = 4;
     public static int level;
 
@@ -28,25 +33,91 @@ public class GameManager : MonoBehaviour
     public float UFOSpawnFrequency;
     public float UFOSpawnProbability;
 
-    public static bool CenterIsFree { get; private set; }
+
+
+
 
     void Awake()
     {
+        Assert.IsNotNull(PrefabAsteroid);
+        Assert.IsNotNull(PrefabUFO);
+        Assert.IsNotNull(player);
+
+        // Get reference to the GameManager AudioSource
+        audioSource = GetComponent<AudioSource>();
+
+        // Reset the (static) count variable
+        AsteroidController.countAsteroids = 0;
+
+        level = 0;
+    }
+
+
+
+    void OnEnable()
+    {
+        AsteroidController.OnLastAsteroidDestroyed += NextLevel;
+        UFOController.OnUFODestroyed += HandleUFODestroyed;
+        PlayerController.OnPlayerDestroyed += HandlePlayerDestroyed;
+        UFOController.OnScorePoints += HandleScorePoints;
+        AsteroidController.OnScorePoints += HandleScorePoints;
+    }
+
+
+
+    void OnDisable()
+    {
+        AsteroidController.OnLastAsteroidDestroyed -= NextLevel;
+        UFOController.OnUFODestroyed -= HandleUFODestroyed;
+        PlayerController.OnPlayerDestroyed -= HandlePlayerDestroyed;
+        UFOController.OnScorePoints -= HandleScorePoints;
+        AsteroidController.OnScorePoints -= HandleScorePoints;
+    }
+
+
+
+    void Start()
+    {
+        // Play background music
+        audioSource.Play();
+
         // Spawn player
         player = Instantiate(player, Vector2.zero, Quaternion.identity);
 
-        // Get reference to the AudioSource
-        audioSource = GetComponent<AudioSource>();
+        OnLivesChanged(player.livesLeft);
 
-        level = 0;
+        // Start the first level
+        NextLevel();
+    }
 
-        AsteroidController.OnDestroyed += AsteroidDestroyedHandler;
-        AsteroidController.OnLastAsteroidDestroyed += NextLevel;
-        UFOController.OnHitByPlayerProjectile += UFOHitByPlayerHandler;
-        UFOController.OnDestroyed += UFODestroyedHandler;
-        PlayerController.OnPlayerDied += PlayerDied;
-        PlayerController.OnPlayerLivesZero += GameOver;
 
+
+    void NextLevel()
+    {
+        // Increase level number, display it for three seconds,
+        // disable (hide) the player while doing do
+        OnCenterClear();
+        level += 1;
+        OnAnnounceMessage(string.Format("LEVEL {0}", level), 3.0f);
+        player.gameObject.SetActive(false);
+        Invoke("SpawnAsteroids", 3.0f);
+        StartUFOSpawner();
+    }
+
+
+
+    void SpawnAsteroids()
+    {
+        // Spawn asteroids based on level number
+        Assert.IsNotNull(PrefabAsteroid);
+        for (int i = 0; i < startingAsteroids + level - 1; i++)
+        {
+            Instantiate(PrefabAsteroid, Vector2.zero, Quaternion.identity);
+        }
+
+        // Reset player to center and enable (unhide) it
+        player.gameObject.transform.position = Vector2.zero;
+        player.gameObject.SetActive(true);
     }
 
 
@@ -62,57 +133,14 @@ public class GameManager : MonoBehaviour
     {
         if (Random.value < UFOSpawnProbability)
         {
-            Instantiate(pfUFO);
+            Instantiate(PrefabUFO);
             CancelInvoke("SpawnUFO");
         }
     }
 
 
 
-    void Start()
-    {
-        // Reset the (static) count variable
-        AsteroidController.countAsteroids = 0;
-
-        // Play background music
-        audioSource.Play();
-
-        OnLivesChanged(player.lives);
-        NextLevel();
-    }
-
-
-
-    public void NextLevel()
-    {
-        // Increase level number, display it for three seconds,
-        // disable (hide) the player while doing do
-        CenterIsFree = true;
-        level += 1;
-        OnAnnounceMessage(string.Format("LEVEL {0}", level), 3.0f);
-        player.gameObject.SetActive(false);
-        Invoke("SpawnAsteroids", 3.0f);
-        StartUFOSpawner();
-    }
-
-
-
-    void SpawnAsteroids()
-    {
-        // Spawn asteroids based on level number
-        for (int i = 0; i < startingAsteroids + level - 1; i++)
-        {
-            Instantiate(pfAsteroid, Vector2.zero, Quaternion.identity);
-        }
-
-        // Reset player to center and enable (unhide) it
-        player.gameObject.transform.position = Vector2.zero;
-        player.gameObject.SetActive(true);
-    }
-
-
-
-    public void GameOver()
+    void GameOver()
     {
         // Display Game Over message
         if (OnAnnounceMessage != null) OnAnnounceMessage("GAME OVER", 6.0f);
@@ -137,53 +165,44 @@ public class GameManager : MonoBehaviour
 
 
 
-    void AsteroidDestroyedHandler(Entity obj, Transform transform, int points)
+    void HandleScorePoints(Entity e)
     {
-        playerScore += points;
+        playerScore += e.pointValue;
         if (OnScoreChanged != null) OnScoreChanged(playerScore);
     }
 
 
 
-    void UFOHitByPlayerHandler(Entity obj, Transform transform, int points)
-    {
-        playerScore += points;
-        if (OnScoreChanged != null) OnScoreChanged(playerScore);
-        StartUFOSpawner();
-    }
-
-
-
-    void UFODestroyedHandler()
+    void HandleUFODestroyed()
     {
         StartUFOSpawner();
     }
 
 
 
-    public void PlayerDied()
+    void HandlePlayerDestroyed(int livesLeft)
     {
-        OnLivesChanged(player.lives);
+        OnLivesChanged(livesLeft);
+        if (livesLeft == 0) GameOver();
     }
 
 
 
     // Methods for checking if the center of the screen
-    // is free from asteroids, before respawning the player
+    // is free from danger, before respawning the player
 
-    private void OnTriggerExit2D(Collider2D collision)
+    void OnTriggerExit2D(Collider2D collision)
     {
-        CenterIsFree = true;
+        OnCenterClear();
     }
 
-
-
-    private void OnTriggerStay2D(Collider2D collision)
+    void OnTriggerStay2D(Collider2D collision)
     {
-        CenterIsFree = false;
+        OnCenterOccupied();
     }
 
 }
 
-
 // TODO: powerups
+// TODO: end level only when UFO not here
+// TODO: UFO death animation
