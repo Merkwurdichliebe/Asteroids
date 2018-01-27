@@ -34,10 +34,11 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4295787746578802}
+  - component: {fileID: 114579725366848430}
+  - component: {fileID: 114975582913275540}
+  - component: {fileID: 114860798685419980}
   - component: {fileID: 50910934991842274}
   - component: {fileID: 60901639627459678}
-  - component: {fileID: 114579725366848430}
-  - component: {fileID: 114860798685419980}
   - component: {fileID: 82220649422523526}
   m_Layer: 9
   m_Name: Player
@@ -263,15 +264,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pointValue: 0
-  isObstacle: 0
   livesLeft: 3
-  PrefabProjectile: {fileID: 114811221838725434, guid: 831000a8a9e9b4d39b5a27a5e801bcd3,
-    type: 2}
-  fragmentSprites:
-  - {fileID: 21300000, guid: 75d8098e8f9814f53a510973673d8aaa, type: 3}
-  - {fileID: 21300000, guid: 41ff65812447a489791a547e3a57d928, type: 3}
-  - {fileID: 21300000, guid: 88d44c91dfb134b9dabba822c602eda3, type: 3}
-  fragmentPrefab: {fileID: 1368028903164024, guid: 7a759a6485db44e5ba2ffd383754148f,
+  prefabProjectile: {fileID: 114811221838725434, guid: 831000a8a9e9b4d39b5a27a5e801bcd3,
     type: 2}
   laser: {fileID: 8300000, guid: aabd179eb5a524fd5a8102de477a9204, type: 3}
   destroyed: {fileID: 8300000, guid: f96550c7e73a74f4db42faa9d351b6c2, type: 3}
@@ -303,6 +297,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   xRange: 9
   yRange: 5
+--- !u!114 &114975582913275540
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1729157800514620}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 03ce3f6790eb54f118f9f552e61b311e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fragmentPrefab: {fileID: 1368028903164024, guid: 7a759a6485db44e5ba2ffd383754148f,
+    type: 2}
+  fragmentSprites:
+  - {fileID: 21300000, guid: 75d8098e8f9814f53a510973673d8aaa, type: 3}
+  - {fileID: 21300000, guid: 41ff65812447a489791a547e3a57d928, type: 3}
+  - {fileID: 21300000, guid: 88d44c91dfb134b9dabba822c602eda3, type: 3}
 --- !u!212 &212811308740791870
 SpriteRenderer:
   m_ObjectHideFlags: 1

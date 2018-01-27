@@ -1,11 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour {
-
-    // UI
 
     // Reference to UI Speed Text Field
     public Text textSpeed;
@@ -25,12 +21,8 @@ public class UIManager : MonoBehaviour {
     public Text textRoaming;
     public GameObject canvas;
 
-
-
-    void Start()
+    private void OnEnable()
     {
-        textAnnounce.text = "";
-
         GameManager.OnScoreChanged += UpdateScore;
         GameManager.OnLivesChanged += UpdateLives;
         GameManager.OnAnnounceMessage += UpdateAnnounceMessage;
@@ -38,6 +30,22 @@ public class UIManager : MonoBehaviour {
         GameManager.OnCenterOccupied += CenterOccupiedHandler;
         UFOController.OnScorePoints += ShowPointsAtWorldPosition;
         PlayerController.OnPlayerSpeedChanged += UpdateSpeed;
+    }
+
+    private void OnDisable()
+    {
+        GameManager.OnScoreChanged -= UpdateScore;
+        GameManager.OnLivesChanged -= UpdateLives;
+        GameManager.OnAnnounceMessage -= UpdateAnnounceMessage;
+        GameManager.OnCenterClear -= CenterClearHandler;
+        GameManager.OnCenterOccupied -= CenterOccupiedHandler;
+        UFOController.OnScorePoints -= ShowPointsAtWorldPosition;
+        PlayerController.OnPlayerSpeedChanged -= UpdateSpeed;
+    }
+
+    void Start()
+    {
+        textAnnounce.text = "";
     }
 
     void DoSomething<T>(T value)
@@ -50,35 +58,25 @@ public class UIManager : MonoBehaviour {
         UpdateDebug("Center is clear");
     }
 
-
-
     void CenterOccupiedHandler()
     {
         UpdateDebug("Center is occupied");
     }
-
-
 
     void UpdateDebug(string text)
     {
         textDebug.text = text;
     }
 
-
-
     void UpdateSpeed(float velocity)
     {
         textSpeed.text = string.Format("SPEED: {0:0.0}", velocity);
     }
 
-
-
     public void UpdateScore(int score)
     {
         textScore.text = string.Format("{0}", score);
     }
-
-
 
     public void UpdateLives(int lives)
     {

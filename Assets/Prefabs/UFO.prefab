@@ -19,11 +19,11 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4789366289164972}
+  - component: {fileID: 114521301193238800}
   - component: {fileID: 212228801216567472}
-  - component: {fileID: 95269012221205156}
   - component: {fileID: 50124563754769454}
   - component: {fileID: 70580452906963220}
-  - component: {fileID: 114521301193238800}
+  - component: {fileID: 95269012221205156}
   - component: {fileID: 82683094394365488}
   m_Layer: 8
   m_Name: UFO
@@ -189,8 +189,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pointValue: 0
-  isObstacle: 1
-  PrefabProjectile: {fileID: 1153547247518906, guid: 4e7ed8f7a34c547e1bb874136671ebcc,
+  prefabProjectile: {fileID: 114163358712586484, guid: 4e7ed8f7a34c547e1bb874136671ebcc,
     type: 2}
   soundUFOEngine: {fileID: 8300000, guid: f321aa3511c5e433da3ed42d13528a61, type: 3}
   soundUFOExplosion: {fileID: 8300000, guid: 9cb92918df09f429e94f4da6c22ebc75, type: 3}

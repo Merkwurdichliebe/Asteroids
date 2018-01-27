@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using System;
 using Random = UnityEngine.Random;
 
@@ -77,6 +75,8 @@ public class AsteroidController : Entity, IKillable
         // This makes inter-asteroid collisions more realistic
         rb.mass = 1 / (phase + 1);
 
+        SetActive(true);
+
         // Give the asteroid a random force and torque
         float dirX = Random.Range(-1f, 1f);
         float dirY = Random.Range(-1f, 1f);
@@ -100,9 +100,7 @@ public class AsteroidController : Entity, IKillable
         audioSource.pitch = Random.Range(0.8f, 1.2f);
         audioSource.Play();
 
-        // Don't destroy immediately so that the sound plays to the end
-        rend.enabled = false;
-        col.enabled = false;
+        SetActive(false);
 
         if (OnDestroyed != null) OnDestroyed(this, gameObject.transform, pointValue);
         if (countAsteroids == 0 && OnLastAsteroidDestroyed != null) OnLastAsteroidDestroyed();

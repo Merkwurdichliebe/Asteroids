@@ -20,10 +20,10 @@ GameObject:
   m_Component:
   - component: {fileID: 4089736329995632}
   - component: {fileID: 114192473243225022}
+  - component: {fileID: 114672154022092562}
   - component: {fileID: 212597935406994658}
   - component: {fileID: 50210558508462758}
   - component: {fileID: 58996761690771206}
-  - component: {fileID: 114672154022092562}
   - component: {fileID: 82845057807446204}
   m_Layer: 11
   m_Name: Asteroid
@@ -172,7 +172,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pointValue: 0
-  isObstacle: 1
   sprite:
   - {fileID: 21300000, guid: ea37029b2268d417dafb206641f5c858, type: 3}
   - {fileID: 21300000, guid: cb9b02ab918b44b35bcb09b774b746ec, type: 3}

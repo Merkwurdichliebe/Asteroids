@@ -5,7 +5,7 @@ using Random = UnityEngine.Random;
 public class UFOController : Entity, IKillable
 {
     
-    public GameObject PrefabProjectile;
+    public Projectile prefabProjectile;
     public AudioClip soundUFOEngine;
     public AudioClip soundUFOExplosion;
     public float firingFrequency;
@@ -61,6 +61,7 @@ public class UFOController : Entity, IKillable
         audiosource.volume = 1.0f;
         audiosource.pitch = 0.5f;
         audiosource.Play();
+        SetActive(true);
 
         // UFO gets more precise as level increases
 
@@ -85,7 +86,7 @@ public class UFOController : Entity, IKillable
             Quaternion rotation = Quaternion.AngleAxis(angle, Vector3.forward);
 
             // Fire missile
-            Instantiate(PrefabProjectile, transform.position, rotation);
+            Instantiate(prefabProjectile, transform.position, rotation);
         }
     }
 
@@ -105,9 +106,7 @@ public class UFOController : Entity, IKillable
         audiosource.volume = 0.2f;
         audiosource.pitch = 0.5f;
         audiosource.Play();
-        isAlive = false;
-        col.enabled = false;
-        rend.enabled = false;
+        SetActive(false);
         CancelInvoke("Fire");
         Destroy(gameObject, 2.0f);
     }

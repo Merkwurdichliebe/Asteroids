@@ -1,11 +1,10 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System;
-using UnityEngine;
-using Random = UnityEngine.Random;
+﻿using UnityEngine;
+
+[RequireComponent(typeof(Rigidbody2D))]
+[RequireComponent(typeof(SpriteRenderer))]
 
 public abstract class Entity : MonoBehaviour {
-
+    
     // Base class for all entities (player, asteroids, UFO, powerups)
     // Member variables are declared as "protected", which makes them
     // private variables accessible by child classes.
@@ -14,11 +13,8 @@ public abstract class Entity : MonoBehaviour {
     protected SpriteRenderer rend;
     protected Collider2D col;
 
-
-    // Point value of entity
+    // Point value of entity for scoring
     public int pointValue;
-
-    public bool isObstacle;
 
 
 
@@ -32,5 +28,11 @@ public abstract class Entity : MonoBehaviour {
 
 
 
-
+    public virtual void SetActive(bool b)
+    {
+        isAlive = b;
+        rend.enabled = b;
+        col.enabled = b;
+        rb.isKinematic = !b;
+    }
 }

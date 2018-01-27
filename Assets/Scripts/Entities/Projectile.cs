@@ -18,7 +18,7 @@ public class Projectile : MonoBehaviour {
     void Start()
     {
         // Add forward impulse
-        rb.AddRelativeForce(Vector2.up * speed * 10, ForceMode2D.Impulse);
+        rb.AddRelativeForce(Vector2.up * speed / 10, ForceMode2D.Impulse);
 
         // Limit the bullet's range
         Destroy(gameObject, lifespan);

@@ -1,37 +1,27 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System;
-using Random = UnityEngine.Random;
+﻿using System;
+using System.Collections;
 using UnityEngine;
+using UnityEngine.Assertions;
 
 public class PlayerController : Entity, IKillable
 {
-    private float rotScaler = 5.0f;
-    private float thrustScaler = 0.5f;
-    private bool isAccelerating = false;
+    public static event Action<int> OnPlayerDestroyed;
+    public static event Action<float> OnPlayerSpeedChanged;
 
     public int livesLeft = 3;
-
-    private SpriteSwitcher spriteSwitcher;
-    private Vector2 velocity;
-
-    public Projectile PrefabProjectile;
-    private Transform anchorMainGun;
-
-    public Sprite[] fragmentSprites;
-    public GameObject fragmentPrefab;
-
-    private AudioSource audioSource;
+    public Projectile prefabProjectile;
     public AudioClip laser;
     public AudioClip destroyed;
     public AudioClip engine;
 
+    private float rotScaler = 5.0f;
+    private float thrustScaler = 0.5f;
+    private bool isAccelerating = false;
+    private SpriteSwitcher spriteSwitcher;
+    private Vector2 velocity;
+    private Transform anchorMainGun;
+    private AudioSource audioSource;
     private bool centerIsOccupied;
-
-    public static event Action<int> OnPlayerDestroyed;
-    public static event Action<float> OnPlayerSpeedChanged;
-
-
 
     public override void Awake()
     {
@@ -43,6 +33,7 @@ public class PlayerController : Entity, IKillable
         audioSource = GetComponent<AudioSource>();
         audioSource.clip = engine;
         audioSource.volume = 1.0f;
+        Assert.IsNotNull(prefabProjectile);
 
         // We only read the player input when it's alive,
         // i.e. not going through the death animation
@@ -51,14 +42,24 @@ public class PlayerController : Entity, IKillable
         gameObject.name = "Player";
     }
 
-    private void OnEnable()
+
+
+    void OnEnable()
     {
         GameManager.OnCenterClear += CenterIsClear;
         GameManager.OnCenterOccupied += CenterIsOccupied;
     }
 
+    void OnDisable()
+    {
+        GameManager.OnCenterClear -= CenterIsClear;
+        GameManager.OnCenterOccupied -= CenterIsOccupied;
+    }
+
     private void CenterIsClear() { centerIsOccupied = false; }
     private void CenterIsOccupied() { centerIsOccupied = true; }
+
+
 
     void Update()
     {
@@ -80,10 +81,6 @@ public class PlayerController : Entity, IKillable
 
 
 
-
-
-
-
     public void Kill()
     {
         // Play explosion sound
@@ -93,66 +90,32 @@ public class PlayerController : Entity, IKillable
         audioSource.PlayOneShot(destroyed);
 
         // Hide the player, disable its collider & keyboard input
-        rend.enabled = false;
-        col.enabled = false;
-        rb.isKinematic = true;
+        SetActive(false);
         isAccelerating = false;
 
         // Reduce 1 life
-        isAlive = false;
         livesLeft -= 1;
 
-        // Get the relative velocity of the collision
-        float vel = 20f;
-
-        // Instantiate the fragments, pull them apart randomly
-        foreach (Sprite sprite in fragmentSprites)
-        {
-            GameObject _go = Instantiate(fragmentPrefab, transform.position, transform.rotation);
-            _go.GetComponent<SpriteRenderer>().sprite = sprite;
-            Rigidbody2D _rb = _go.GetComponent<Rigidbody2D>();
-            Vector2 randomVector = new Vector2(Random.Range(-1, 1), Random.Range(-1, 1));
-
-            // We add the velocity at impact to the random vector
-            // This looks more natural
-            _rb.AddForce((randomVector + velocity) * 1.5f, ForceMode2D.Impulse);
-            _rb.AddTorque(vel);
-        }
-
+        GetComponent<FragmentExploder>().Explode();
         OnPlayerDestroyed(livesLeft);
 
-        if (livesLeft == 0)
-        {
-            Destroy(gameObject, 3.0f);
-        }
-        else
-        {
-            Invoke("Respawn", 3.0f);
-        }
-    }
-
-
-    public void Respawn()
-    {
-        // We use this to avoid spawning the player
-        // when asteroids are too close
-        StartCoroutine("RespawnWhenCenterIsFree");
+        if (livesLeft > 0) StartCoroutine(Respawn());
     }
 
 
 
-    IEnumerator RespawnWhenCenterIsFree()
+    IEnumerator Respawn()
     {
+        // Wait 3 seconds befor respawn
+        yield return new WaitForSeconds(3.0f);
+
         // Don't do anything while the center is not clear
         while (centerIsOccupied) { yield return null; }
 
         // Reenable the player when it's clear
-        rend.enabled = true;
-        col.enabled = true;
-        rb.isKinematic = false;
+        SetActive(true);
         transform.position = Vector2.zero;
         rb.velocity = Vector2.zero;
-        isAlive = true;
     }
 
 
@@ -187,7 +150,7 @@ public class PlayerController : Entity, IKillable
         // Fire
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            Instantiate(PrefabProjectile, anchorMainGun.position, transform.rotation);
+            Instantiate(prefabProjectile, anchorMainGun.position, transform.rotation);
         }
 
         // Rotation

@@ -1,8 +1,8 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.Assertions;
-using System;
+using UnityEngine.SceneManagement;
 using Random = UnityEngine.Random;
 
 public class GameManager : MonoBehaviour
@@ -96,8 +96,8 @@ public class GameManager : MonoBehaviour
     {
         // Increase level number, display it for three seconds,
         // disable (hide) the player while doing do
-        OnCenterClear();
         level += 1;
+        OnCenterClear();
         OnAnnounceMessage(string.Format("LEVEL {0}", level), 3.0f);
         player.gameObject.SetActive(false);
         Invoke("SpawnAsteroids", 3.0f);
@@ -183,7 +183,10 @@ public class GameManager : MonoBehaviour
     void HandlePlayerDestroyed(int livesLeft)
     {
         OnLivesChanged(livesLeft);
-        if (livesLeft == 0) GameOver();
+        if (livesLeft == 0) {
+            Destroy(player.gameObject, 3.0f);
+            GameOver();
+        }
     }
 
 
@@ -206,3 +209,6 @@ public class GameManager : MonoBehaviour
 // TODO: powerups
 // TODO: end level only when UFO not here
 // TODO: UFO death animation
+// TODO: particle systems
+// TODO: reset player acceleration sprite when respawning
+// TODO: separate user input script

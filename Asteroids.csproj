@@ -315,23 +315,20 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Scripts\AsteroidController.cs" />
-    <Compile Include="Assets\Scripts\AudioManager.cs" />
-    <Compile Include="Assets\Scripts\Entity.cs" />
-    <Compile Include="Assets\Scripts\EventManager.cs" />
-    <Compile Include="Assets\Scripts\FragmentController.cs" />
+    <Compile Include="Assets\Scripts\Entities\AsteroidController.cs" />
+    <Compile Include="Assets\Scripts\Entities\Entity.cs" />
+    <Compile Include="Assets\Scripts\Entities\PlayerController.cs" />
+    <Compile Include="Assets\Scripts\Entities\Projectile.cs" />
+    <Compile Include="Assets\Scripts\Entities\UFOController.cs" />
     <Compile Include="Assets\Scripts\GameManager.cs" />
     <Compile Include="Assets\Scripts\Interfaces\IKillable.cs" />
-    <Compile Include="Assets\Scripts\MenuManager.cs" />
-    <Compile Include="Assets\Scripts\PlayerController.cs" />
-    <Compile Include="Assets\Scripts\Projectile.cs" />
-    <Compile Include="Assets\Scripts\ProjectileBulletPlayer.cs" />
-    <Compile Include="Assets\Scripts\ProjectileBulletUFO.cs" />
-    <Compile Include="Assets\Scripts\SpriteSwitcher.cs" />
-    <Compile Include="Assets\Scripts\UFOController.cs" />
-    <Compile Include="Assets\Scripts\UIManager.cs" />
-    <Compile Include="Assets\Scripts\WrapAround.cs" />
-    <Compile Include="Assets\Scripts\Interfaces\IPlayerWeapon.cs" />
+    <Compile Include="Assets\Scripts\Managers\AudioManager.cs" />
+    <Compile Include="Assets\Scripts\Managers\EventManager.cs" />
+    <Compile Include="Assets\Scripts\Managers\MenuManager.cs" />
+    <Compile Include="Assets\Scripts\Managers\UIManager.cs" />
+    <Compile Include="Assets\Scripts\Utilities\FragmentExploder.cs" />
+    <Compile Include="Assets\Scripts\Utilities\SpriteSwitcher.cs" />
+    <Compile Include="Assets\Scripts\Utilities\WrapAround.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateTargetFrameworkMonikerAttribute" />
