@@ -16,8 +16,6 @@ public abstract class Entity : MonoBehaviour {
     // Point value of entity for scoring
     public int pointValue;
 
-
-
     public virtual void Awake()
     {
         rb = GetComponent<Rigidbody2D>();

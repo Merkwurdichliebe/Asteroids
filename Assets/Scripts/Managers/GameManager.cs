@@ -44,8 +44,6 @@ public class GameManager : MonoBehaviour
         AsteroidController.countAsteroids = 0;
 
         level = 0;
-
-
     }
 
 
@@ -78,6 +76,7 @@ public class GameManager : MonoBehaviour
         // Spawn player
         player = Instantiate(player, Vector2.zero, Quaternion.identity);
 
+        // Spawn UFO
         Instantiate(PrefabUFO);
 
         OnLivesChanged(player.livesLeft);
@@ -96,13 +95,14 @@ public class GameManager : MonoBehaviour
         OnCenterClear();
         OnAnnounceMessage(string.Format("LEVEL {0}", level), 3.0f);
         player.gameObject.SetActive(false);
-        Invoke("SpawnAsteroids", 3.0f);
+        StartCoroutine(SpawnAsteroids());
     }
 
 
 
-    void SpawnAsteroids()
+    IEnumerator SpawnAsteroids()
     {
+        yield return new WaitForSeconds(3.0f);
         // Spawn asteroids based on level number
         Assert.IsNotNull(PrefabAsteroid);
         for (int i = 0; i < startingAsteroids + level - 1; i++)

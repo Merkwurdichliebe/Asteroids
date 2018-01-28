@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Assertions;
 using Random = UnityEngine.Random;
 
 public class UFOController : Entity, IKillable
@@ -19,6 +20,7 @@ public class UFOController : Entity, IKillable
     private GameObject player;
     private AudioSource audiosource;
     private Vector3 firingPrecision;
+    private float firingInterval;
 
 
     public delegate void MessageEvent();
@@ -26,17 +28,22 @@ public class UFOController : Entity, IKillable
 
     public static event Action<Entity> OnScorePoints;
 
+    Coroutine fireCoroutine;
+
 
     public override void Awake()
     {
         base.Awake();
 
-        // Get reference to the player
+        // Cache references
         player = GameObject.FindWithTag("Player");
         audiosource = GetComponent<AudioSource>();
         rend = GetComponent<SpriteRenderer>();
         col = GetComponent<Collider2D>();
-        pointValue = 20;
+
+        Assert.IsNotNull(player);
+
+        // Instantiate the projectile pool and start Despawnd
         projectilePool = Instantiate(prefabProjectilePool);
         SetActive(false);
     }
@@ -46,78 +53,95 @@ public class UFOController : Entity, IKillable
     private void OnEnable()
     {
         GameManager.OnLevelStarted += StartUFOSpawner;
+        GameManager.OnLevelStarted += UpdateStats;
     }
 
 
 
-    public override void SetActive(bool active)
+    void Spawn()
     {
-        base.SetActive(active);
-        if (active)
-        {
-            // Randomly choose left or right of screen
-            float x = (Random.value < 0.5f) ? -10 : 10;
+        SetActive(true);
 
-            // Randomly select a vertical position
-            float y = Random.Range(-6, 6);
+        // Randomly choose left or right of screen
+        float x = (Random.value < 0.5f) ? -10 : 10;
 
-            // Set the transform
-            transform.position = new Vector2(x, y);
-            transform.rotation = Quaternion.identity;
+        // Randomly select a vertical position
+        float y = Random.Range(-6, 6);
 
-            pointValue = GameManager.level * 20;
+        // Set the transform
+        transform.position = new Vector2(x, y);
+        transform.rotation = Quaternion.identity;
 
-            // Calculate vector to center to screen
-            Vector2 vector = Vector3.zero - transform.position;
+        pointValue = GameManager.level * 20;
 
-            // Move towards center of screen
-            rb.AddForce(vector * 10);
+        // Calculate vector to center to screen
+        Vector2 vector = Vector3.zero - transform.position;
 
-            audiosource.clip = soundUFOEngine;
-            audiosource.loop = true;
-            audiosource.volume = 1.0f;
-            audiosource.pitch = 0.5f;
-            audiosource.Play();
+        // Move towards center of screen
+        rb.AddForce(vector * 10);
 
-            // UFO gets more precise as level increases
+        // Play sound
+        audiosource.clip = soundUFOEngine;
+        audiosource.loop = true;
+        audiosource.volume = 1.0f;
+        audiosource.pitch = 0.5f;
+        audiosource.Play();
 
-            firingPrecision.x = Random.Range(0, Mathf.Clamp(1 - GameManager.level / 10, 0, 1.0f));
-            firingPrecision.y = Random.Range(0, Mathf.Clamp(1 - GameManager.level / 10, 0, 1.0f));
+        fireCoroutine = StartCoroutine(Fire());
 
-            // Fire at the player, more frequently with level
-            InvokeRepeating("Fire", 2.0f, Mathf.Clamp(3 - GameManager.level / 5 * firingFrequency, 1.0f, 3.0f));
-        }
-        else
-        {
-            audiosource.Stop();
-            transform.position = new Vector2(1000, 1000);
-            rb.velocity = Vector2.zero;
-            CancelInvoke("Fire");
-        }
+        Debug.Log("Spawned");
+    }
+
+
+    void Despawn()
+    {
+        audiosource.Stop();
+        transform.position = new Vector2(1000, 1000);
+        rb.velocity = Vector2.zero;
+        if (fireCoroutine != null) StopCoroutine(fireCoroutine);
+        Debug.Log("Despawned");
+        StartUFOSpawner();
     }
 
 
     void StartUFOSpawner()
     {
-        InvokeRepeating("SpawnUFO", 3.0f, spawnFrequency);
+        if (gameObject.activeInHierarchy) StartCoroutine(Spawner());
     }
 
 
 
-    void SpawnUFO()
+    IEnumerator Spawner()
     {
-        if (Random.value < spawnProbability)
+        // Allow at least 2 seconds between death and respawn
+        yield return new WaitForSeconds(2.0f);
+
+        // If the random value is higher than the probability,
+        // wait some more (spawnFrequency in seconds)
+        while (Random.value > spawnProbability)
         {
-            SetActive(true);
-            CancelInvoke("SpawnUFO");
+            yield return new WaitForSeconds(spawnFrequency);    
         }
+
+        // Only then, Spawn the UFO
+        Spawn();
     }
 
 
 
-    private void Fire()
+    private void UpdateStats()
     {
-        if (player != null)
+        // UFO gets more precise as level increases
+        firingPrecision.x = Random.Range(0, Mathf.Clamp(1 - GameManager.level / 10, 0, 1.0f));
+        firingPrecision.y = Random.Range(0, Mathf.Clamp(1 - GameManager.level / 10, 0, 1.0f));
+        firingInterval = Mathf.Clamp(3 - GameManager.level / 5 * firingFrequency, 1.0f, 3.0f);
+    }
+
+
+
+    IEnumerator Fire()
+    {
+        while(true)
         {
             // Calculate vector to player
             Vector2 direction = (player.transform.position - transform.position) + firingPrecision;
@@ -130,8 +154,10 @@ public class UFOController : Entity, IKillable
             GameObject projectile = projectilePool.GetObject();
             projectile.transform.position = transform.position;
             projectile.transform.rotation = rotation;
-            projectile.tag = "EnemyProjectile";
+            // projectile.tag = "EnemyProjectile";
             projectile.SetActive(true);
+
+            yield return new WaitForSeconds(firingInterval);
         }
     }
 
@@ -152,7 +178,6 @@ public class UFOController : Entity, IKillable
         audiosource.volume = 0.2f;
         audiosource.pitch = 0.5f;
         audiosource.Play();
-        StartUFOSpawner();
         if (OnUFODestroyed != null) OnUFODestroyed();
     }
 
@@ -183,6 +208,6 @@ public class UFOController : Entity, IKillable
 
     private void OnBecameInvisible()
     {
-        SetActive(false);
+        Despawn();
     }
 }

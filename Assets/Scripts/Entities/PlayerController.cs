@@ -169,7 +169,7 @@ public class PlayerController : Entity, IKillable
             {
                 projectile.transform.position = anchorMainGun.position;
                 projectile.transform.rotation = transform.rotation;
-                projectile.tag = "PlayerProjectile";
+                // projectile.tag = "PlayerProjectile";
                 projectile.SetActive(true);
             }
         }
