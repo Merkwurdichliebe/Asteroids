@@ -318,6 +318,7 @@
     <Compile Include="Assets\Scripts\Entities\AsteroidController.cs" />
     <Compile Include="Assets\Scripts\Entities\Entity.cs" />
     <Compile Include="Assets\Scripts\Entities\PlayerController.cs" />
+    <Compile Include="Assets\Scripts\Entities\PowerUpController.cs" />
     <Compile Include="Assets\Scripts\Entities\Projectile.cs" />
     <Compile Include="Assets\Scripts\Entities\UFOController.cs" />
     <Compile Include="Assets\Scripts\Interfaces\IKillable.cs" />
@@ -327,6 +328,7 @@
     <Compile Include="Assets\Scripts\Managers\MenuManager.cs" />
     <Compile Include="Assets\Scripts\Managers\ObjectPool.cs" />
     <Compile Include="Assets\Scripts\Managers\UIManager.cs" />
+    <Compile Include="Assets\Scripts\Utilities\CameraController.cs" />
     <Compile Include="Assets\Scripts\Utilities\FragmentExploder.cs" />
     <Compile Include="Assets\Scripts\Utilities\SpriteSwitcher.cs" />
     <Compile Include="Assets\Scripts\Utilities\WrapAround.cs" />

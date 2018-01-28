@@ -4,8 +4,8 @@ using UnityEngine;
 public class ObjectPool : MonoBehaviour {
 
     public GameObject prefab;
-    public int poolSize;
     public List<GameObject> pooledObjects;
+    public int poolSize;
 
     void Start()
     {
@@ -30,7 +30,6 @@ public class ObjectPool : MonoBehaviour {
                 return pooledObjects[i];
             }
         }
-
         return null;
     }
 }

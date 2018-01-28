@@ -141,7 +141,24 @@ public class PlayerController : Entity, IKillable
             collision.gameObject.SetActive(false);
             Kill();
         }
+
+        if (objTag == "PowerUp")
+        {
+            CollectPowerUp(collision.gameObject);
+        }
     }
+
+
+
+    private void CollectPowerUp(GameObject obj)
+    {
+        PowerUpController pu = obj.GetComponent<PowerUpController>();
+        if (pu.powerUpType == PowerUpType.FrontAndBack)
+        {
+            Debug.Log("Yes !");
+        }
+    }
+
 
 
     void OnCollisionEnter2D(Collision2D collision)

@@ -49,7 +49,6 @@ public class UFOController : Entity, IKillable
         projectilePool = Instantiate(prefabProjectilePool);
         SetActive(false);
         ps = GetComponentInChildren<ParticleSystem>();
-
     }
 
 
@@ -83,24 +82,7 @@ public class UFOController : Entity, IKillable
     void Spawn()
     {
         SetActive(true);
-
-        // Randomly choose left or right of screen
-        float x = (Random.value < 0.5f) ? -10 : 10;
-
-        // Randomly select a vertical position
-        float y = Random.Range(-6, 6);
-
-        // Set the transform
-        transform.position = new Vector2(x, y);
-        transform.rotation = Quaternion.identity;
-
-        pointValue = GameManager.level * 20;
-
-        // Calculate vector to center to screen
-        Vector2 vector = Vector3.zero - transform.position;
-
-        // Move towards center of screen
-        rb.AddForce(vector * 10);
+        MoveToCenter();
 
         // Play sound
         audiosource.clip = soundUFOEngine;
@@ -109,9 +91,9 @@ public class UFOController : Entity, IKillable
         audiosource.pitch = 0.5f;
         audiosource.Play();
 
-        fireCoroutine = StartCoroutine(Fire());
+        pointValue = GameManager.level * 20;
 
-        Debug.Log("Spawned");
+        fireCoroutine = StartCoroutine(Fire());
     }
 
 
@@ -122,7 +104,6 @@ public class UFOController : Entity, IKillable
         // transform.position = new Vector2(1000, 1000);
         rb.velocity = Vector2.zero;
         if (fireCoroutine != null) StopCoroutine(fireCoroutine);
-        Debug.Log("Despawned");
         StartUFOSpawner();
     }
 

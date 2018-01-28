@@ -22,6 +22,7 @@ public class GameManager : MonoBehaviour
     public int startingAsteroids;
     public GameObject PrefabAsteroid;
     public GameObject PrefabUFO;
+    public GameObject PrefabPowerup;
     public PlayerController player;
 
     // Score, level, lives etc
@@ -77,10 +78,14 @@ public class GameManager : MonoBehaviour
         AsteroidController.OnScorePoints -= HandleScorePoints;
     }
 
+
+
     private void HandlePlayerSpawned()
     {
         centerZoneTrigger.enabled = false;
     }
+
+
 
     void Start()
     {
