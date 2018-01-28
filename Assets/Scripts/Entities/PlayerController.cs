@@ -96,7 +96,8 @@ public class PlayerController : Entity, IKillable
         // Reduce 1 life
         livesLeft -= 1;
 
-        GetComponent<FragmentExploder>().Explode();
+        // Explode using velocity just before impact
+        GetComponent<FragmentExploder>().Explode(velocity);
         OnPlayerDestroyed(livesLeft);
 
         if (livesLeft > 0) StartCoroutine(Respawn());

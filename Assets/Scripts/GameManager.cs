@@ -212,3 +212,4 @@ public class GameManager : MonoBehaviour
 // TODO: particle systems
 // TODO: reset player acceleration sprite when respawning
 // TODO: separate user input script
+// TODO: fix center not clearing when ufo destroyed in it
