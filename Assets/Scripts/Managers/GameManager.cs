@@ -16,6 +16,7 @@ public class GameManager : MonoBehaviour
     public static event MessageEvent OnCenterClear;
     public static event MessageEvent OnCenterOccupied;
     public static event MessageEvent OnLevelStarted;
+    public static event MessageEvent OnGameOver;
 
     // References to Asteroid, Player and UI script
     public int startingAsteroids;
@@ -30,6 +31,8 @@ public class GameManager : MonoBehaviour
     // Audio
     private AudioSource audioSource;
 
+    private Collider2D centerZoneTrigger;
+
 
     void Awake()
     {
@@ -43,6 +46,12 @@ public class GameManager : MonoBehaviour
         // Reset the (static) count variable
         AsteroidController.countAsteroids = 0;
 
+        // Deactivate the center collider trigger
+        // We only need to check the center is clear
+        // before actually respawning
+        centerZoneTrigger = GetComponent<CircleCollider2D>();
+        centerZoneTrigger.enabled = false;
+
         level = 0;
     }
 
@@ -52,6 +61,7 @@ public class GameManager : MonoBehaviour
     {
         AsteroidController.OnLastAsteroidDestroyed += NextLevel;
         PlayerController.OnPlayerDestroyed += HandlePlayerDestroyed;
+        PlayerController.OnPlayerSpawned += HandlePlayerSpawned;
         UFOController.OnScorePoints += HandleScorePoints;
         AsteroidController.OnScorePoints += HandleScorePoints;
     }
@@ -62,11 +72,15 @@ public class GameManager : MonoBehaviour
     {
         AsteroidController.OnLastAsteroidDestroyed -= NextLevel;
         PlayerController.OnPlayerDestroyed -= HandlePlayerDestroyed;
+        PlayerController.OnPlayerSpawned -= HandlePlayerSpawned;
         UFOController.OnScorePoints -= HandleScorePoints;
         AsteroidController.OnScorePoints -= HandleScorePoints;
     }
 
-
+    private void HandlePlayerSpawned()
+    {
+        centerZoneTrigger.enabled = false;
+    }
 
     void Start()
     {
@@ -131,6 +145,8 @@ public class GameManager : MonoBehaviour
             PlayerPrefs.SetInt("highscore", playerScore);
         }
 
+        if (OnGameOver != null) OnGameOver();
+
         // Go back to the title screen
         Invoke("DisplayMenu", 6.0f);
     }
@@ -156,6 +172,7 @@ public class GameManager : MonoBehaviour
     void HandlePlayerDestroyed(int livesLeft)
     {
         OnLivesChanged(livesLeft);
+        centerZoneTrigger.enabled = true;
         if (livesLeft == 0) {
             Destroy(player.gameObject, 3.0f);
             GameOver();
@@ -181,11 +198,6 @@ public class GameManager : MonoBehaviour
 
 // TODO: powerups
 // TODO: end level only when UFO not here
-// TODO: UFO death animation
-// TODO: particle systems
 // TODO: reset player acceleration sprite when respawning
 // TODO: separate user input script
-// TODO: fix center not clearing when ufo destroyed in it
 // TODO: more asteroids sprite variations
-// TODO: don't let UFO fire off screen
-// TODO: enable center zone only before player respawns

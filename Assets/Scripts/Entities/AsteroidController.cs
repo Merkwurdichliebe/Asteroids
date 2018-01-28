@@ -53,7 +53,7 @@ public class AsteroidController : Entity, IKillable
         // col = GetComponent<CircleCollider2D>();
         audioSource = GetComponent<AudioSource>();
 
-        // ps = GetComponent<ParticleSystem>();
+        ps = GetComponentInChildren<ParticleSystem>();
 
         // Set a random sprite variation
         rend.sprite = sprite[Random.Range(0, 3)];
@@ -105,6 +105,7 @@ public class AsteroidController : Entity, IKillable
         // Play explosion sound
         audioSource.pitch = Random.Range(0.8f, 1.2f);
         audioSource.Play();
+        ps.Play();
 
         SetActive(false);
 

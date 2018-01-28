@@ -30,6 +30,8 @@ public class UFOController : Entity, IKillable
 
     Coroutine fireCoroutine;
 
+    private ParticleSystem ps;
+
 
     public override void Awake()
     {
@@ -43,9 +45,11 @@ public class UFOController : Entity, IKillable
 
         Assert.IsNotNull(player);
 
-        // Instantiate the projectile pool and start Despawnd
+        // Instantiate the projectile pool and start deactivated
         projectilePool = Instantiate(prefabProjectilePool);
         SetActive(false);
+        ps = GetComponentInChildren<ParticleSystem>();
+
     }
 
 
@@ -54,6 +58,24 @@ public class UFOController : Entity, IKillable
     {
         GameManager.OnLevelStarted += StartUFOSpawner;
         GameManager.OnLevelStarted += UpdateStats;
+        GameManager.OnGameOver += CleanUp;
+    }
+
+
+
+    private void OnDisable()
+    {
+        GameManager.OnLevelStarted -= StartUFOSpawner;
+        GameManager.OnLevelStarted -= UpdateStats;
+        GameManager.OnGameOver -= CleanUp;
+    }
+
+
+
+    void CleanUp()
+    {
+        StopAllCoroutines();
+        Destroy(gameObject);
     }
 
 
@@ -93,10 +115,11 @@ public class UFOController : Entity, IKillable
     }
 
 
+
     void Despawn()
     {
         audiosource.Stop();
-        transform.position = new Vector2(1000, 1000);
+        // transform.position = new Vector2(1000, 1000);
         rb.velocity = Vector2.zero;
         if (fireCoroutine != null) StopCoroutine(fireCoroutine);
         Debug.Log("Despawned");
@@ -104,8 +127,10 @@ public class UFOController : Entity, IKillable
     }
 
 
+
     void StartUFOSpawner()
     {
+        StopAllCoroutines();
         if (gameObject.activeInHierarchy) StartCoroutine(Spawner());
     }
 
@@ -114,7 +139,7 @@ public class UFOController : Entity, IKillable
     IEnumerator Spawner()
     {
         // Allow at least 2 seconds between death and respawn
-        yield return new WaitForSeconds(2.0f);
+        yield return new WaitForSeconds(3.0f);
 
         // If the random value is higher than the probability,
         // wait some more (spawnFrequency in seconds)
@@ -129,7 +154,7 @@ public class UFOController : Entity, IKillable
 
 
 
-    private void UpdateStats()
+    void UpdateStats()
     {
         // UFO gets more precise as level increases
         firingPrecision.x = Random.Range(0, Mathf.Clamp(1 - GameManager.level / 10, 0, 1.0f));
@@ -172,6 +197,7 @@ public class UFOController : Entity, IKillable
 
     public void Kill()
     {
+        ps.Play();
         SetActive(false);
         audiosource.clip = soundUFOExplosion;
         audiosource.loop = false;
@@ -206,6 +232,8 @@ public class UFOController : Entity, IKillable
     }
 
 
+
+    // We need this in order to handle when the UFO leaves the screen
     private void OnBecameInvisible()
     {
         Despawn();

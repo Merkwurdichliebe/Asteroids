@@ -8,6 +8,9 @@ public class PlayerController : Entity, IKillable
     public static event Action<int> OnPlayerDestroyed;
     public static event Action<float> OnPlayerSpeedChanged;
 
+    public delegate void MessageEvent();
+    public static event MessageEvent OnPlayerSpawned;
+
     public int livesLeft = 3;
     public ObjectPool prefabProjectilePool;
     private ObjectPool projectilePool;
@@ -23,6 +26,9 @@ public class PlayerController : Entity, IKillable
     private Transform anchorMainGun;
     private AudioSource audioSource;
     private bool centerIsOccupied;
+
+    private ParticleSystem ps;
+
 
     public override void Awake()
     {
@@ -42,6 +48,7 @@ public class PlayerController : Entity, IKillable
         gameObject.name = "Player";
 
         projectilePool = Instantiate(prefabProjectilePool);
+        ps = GetComponentInChildren<ParticleSystem>();
     }
 
 
@@ -91,6 +98,8 @@ public class PlayerController : Entity, IKillable
         audioSource.loop = false;
         audioSource.PlayOneShot(destroyed);
 
+        ps.Play();
+
         // Hide the player, disable its collider & keyboard input
         SetActive(false);
         isAccelerating = false;
@@ -109,7 +118,7 @@ public class PlayerController : Entity, IKillable
 
     IEnumerator Respawn()
     {
-        // Wait 3 seconds befor respawn
+        // Wait 3 seconds before respawn
         yield return new WaitForSeconds(3.0f);
 
         // Don't do anything while the center is not clear
@@ -119,6 +128,7 @@ public class PlayerController : Entity, IKillable
         SetActive(true);
         transform.position = Vector2.zero;
         rb.velocity = Vector2.zero;
+        OnPlayerSpawned();
     }
 
 
