@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System.Collections;
 
 public class Projectile : MonoBehaviour {
     
@@ -13,21 +14,20 @@ public class Projectile : MonoBehaviour {
         rb = (Rigidbody2D)GetComponent(typeof(Rigidbody2D));
     }
 
-
-
-    void Start()
+    void OnEnable()
     {
-        // Add forward impulse
-        rb.AddRelativeForce(Vector2.up * speed / 10, ForceMode2D.Impulse);
-
-        // Limit the bullet's range
-        Destroy(gameObject, lifespan);
+        StartCoroutine(Launch());
     }
 
-
+    IEnumerator Launch()
+    {
+        rb.AddRelativeForce(Vector2.up * speed / 10, ForceMode2D.Impulse);
+        yield return new WaitForSeconds(lifespan);
+        gameObject.SetActive(false);
+    }
 
     void OnCollisionEnter2D(Collision2D collision)
     {
-        Destroy(gameObject);
+        gameObject.SetActive(false);
     }
 }

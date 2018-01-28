@@ -265,7 +265,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pointValue: 0
   livesLeft: 3
-  prefabProjectile: {fileID: 114811221838725434, guid: 831000a8a9e9b4d39b5a27a5e801bcd3,
+  prefabProjectilePool: {fileID: 114428521555128586, guid: a98e5680ecd7e47df800c9847c805897,
     type: 2}
   laser: {fileID: 8300000, guid: aabd179eb5a524fd5a8102de477a9204, type: 3}
   destroyed: {fileID: 8300000, guid: f96550c7e73a74f4db42faa9d351b6c2, type: 3}

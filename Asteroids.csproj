@@ -320,11 +320,12 @@
     <Compile Include="Assets\Scripts\Entities\PlayerController.cs" />
     <Compile Include="Assets\Scripts\Entities\Projectile.cs" />
     <Compile Include="Assets\Scripts\Entities\UFOController.cs" />
-    <Compile Include="Assets\Scripts\GameManager.cs" />
     <Compile Include="Assets\Scripts\Interfaces\IKillable.cs" />
     <Compile Include="Assets\Scripts\Managers\AudioManager.cs" />
     <Compile Include="Assets\Scripts\Managers\EventManager.cs" />
+    <Compile Include="Assets\Scripts\Managers\GameManager.cs" />
     <Compile Include="Assets\Scripts\Managers\MenuManager.cs" />
+    <Compile Include="Assets\Scripts\Managers\ObjectPool.cs" />
     <Compile Include="Assets\Scripts\Managers\UIManager.cs" />
     <Compile Include="Assets\Scripts\Utilities\FragmentExploder.cs" />
     <Compile Include="Assets\Scripts\Utilities\SpriteSwitcher.cs" />

@@ -28,11 +28,11 @@ public abstract class Entity : MonoBehaviour {
 
 
 
-    public virtual void SetActive(bool b)
+    public virtual void SetActive(bool active)
     {
-        isAlive = b;
-        rend.enabled = b;
-        col.enabled = b;
-        rb.isKinematic = !b;
+        isAlive = active;
+        rend.enabled = active;
+        col.enabled = active;
+        rb.isKinematic = !active;
     }
 }

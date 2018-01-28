@@ -1,14 +1,20 @@
 ﻿using System;
+using System.Collections;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
 public class UFOController : Entity, IKillable
 {
-    
-    public Projectile prefabProjectile;
     public AudioClip soundUFOEngine;
     public AudioClip soundUFOExplosion;
     public float firingFrequency;
+    public ObjectPool prefabProjectilePool;
+
+    // For tuning
+    public float spawnFrequency;
+    public float spawnProbability;
+
+    private ObjectPool projectilePool;
 
     private GameObject player;
     private AudioSource audiosource;
@@ -30,46 +36,81 @@ public class UFOController : Entity, IKillable
         audiosource = GetComponent<AudioSource>();
         rend = GetComponent<SpriteRenderer>();
         col = GetComponent<Collider2D>();
-
-        // Randomly choose left or right of screen
-        float x = (Random.value < 0.5f) ? -10 : 10;
-
-        // Randomly select a vertical position
-        float y = Random.Range(-6, 6);
-
-        // Set the transform
-        transform.position = new Vector2(x, y);
-        transform.rotation = Quaternion.identity;
-
         pointValue = 20;
+        projectilePool = Instantiate(prefabProjectilePool);
+        SetActive(false);
     }
 
 
 
-    void Start()
+    private void OnEnable()
     {
-        pointValue = GameManager.level * 20;
+        GameManager.OnLevelStarted += StartUFOSpawner;
+    }
 
-        // Calculate vector to center to screen
-        Vector2 vector = Vector3.zero - transform.position;
 
-        // Move towards the player
-        rb.AddForce(vector * 10);
 
-        audiosource.clip = soundUFOEngine;
-        audiosource.loop = true;
-        audiosource.volume = 1.0f;
-        audiosource.pitch = 0.5f;
-        audiosource.Play();
-        SetActive(true);
+    public override void SetActive(bool active)
+    {
+        base.SetActive(active);
+        if (active)
+        {
+            // Randomly choose left or right of screen
+            float x = (Random.value < 0.5f) ? -10 : 10;
 
-        // UFO gets more precise as level increases
+            // Randomly select a vertical position
+            float y = Random.Range(-6, 6);
 
-        firingPrecision.x = Random.Range(0, Mathf.Clamp(1 - GameManager.level / 10, 0, 1.0f));
-        firingPrecision.y = Random.Range(0, Mathf.Clamp(1 - GameManager.level / 10, 0, 1.0f));
+            // Set the transform
+            transform.position = new Vector2(x, y);
+            transform.rotation = Quaternion.identity;
 
-        // Fire at the player, more frequently with level
-        InvokeRepeating("Fire", 2.0f, Mathf.Clamp(3 - GameManager.level / 5 * firingFrequency, 1.0f, 3.0f));
+            pointValue = GameManager.level * 20;
+
+            // Calculate vector to center to screen
+            Vector2 vector = Vector3.zero - transform.position;
+
+            // Move towards center of screen
+            rb.AddForce(vector * 10);
+
+            audiosource.clip = soundUFOEngine;
+            audiosource.loop = true;
+            audiosource.volume = 1.0f;
+            audiosource.pitch = 0.5f;
+            audiosource.Play();
+
+            // UFO gets more precise as level increases
+
+            firingPrecision.x = Random.Range(0, Mathf.Clamp(1 - GameManager.level / 10, 0, 1.0f));
+            firingPrecision.y = Random.Range(0, Mathf.Clamp(1 - GameManager.level / 10, 0, 1.0f));
+
+            // Fire at the player, more frequently with level
+            InvokeRepeating("Fire", 2.0f, Mathf.Clamp(3 - GameManager.level / 5 * firingFrequency, 1.0f, 3.0f));
+        }
+        else
+        {
+            audiosource.Stop();
+            transform.position = new Vector2(1000, 1000);
+            rb.velocity = Vector2.zero;
+            CancelInvoke("Fire");
+        }
+    }
+
+
+    void StartUFOSpawner()
+    {
+        InvokeRepeating("SpawnUFO", 3.0f, spawnFrequency);
+    }
+
+
+
+    void SpawnUFO()
+    {
+        if (Random.value < spawnProbability)
+        {
+            SetActive(true);
+            CancelInvoke("SpawnUFO");
+        }
     }
 
 
@@ -86,7 +127,11 @@ public class UFOController : Entity, IKillable
             Quaternion rotation = Quaternion.AngleAxis(angle, Vector3.forward);
 
             // Fire missile
-            Instantiate(prefabProjectile, transform.position, rotation);
+            GameObject projectile = projectilePool.GetObject();
+            projectile.transform.position = transform.position;
+            projectile.transform.rotation = rotation;
+            projectile.tag = "EnemyProjectile";
+            projectile.SetActive(true);
         }
     }
 
@@ -101,44 +146,43 @@ public class UFOController : Entity, IKillable
 
     public void Kill()
     {
+        SetActive(false);
         audiosource.clip = soundUFOExplosion;
         audiosource.loop = false;
         audiosource.volume = 0.2f;
         audiosource.pitch = 0.5f;
         audiosource.Play();
-        SetActive(false);
-        CancelInvoke("Fire");
-        Destroy(gameObject, 2.0f);
+        StartUFOSpawner();
+        if (OnUFODestroyed != null) OnUFODestroyed();
     }
 
 
-
-    void OnCollisionEnter2D(Collision2D collision)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        string goTag = collision.gameObject.tag;
+        string objTag = collision.gameObject.tag;
 
-        if (goTag == "Asteroid" || goTag == "Player")
+        if (objTag == "PlayerProjectile")
         {
-            Kill();   
-        }
-
-        if (goTag == "PlayerProjectile")
-        {
+            collision.gameObject.SetActive(false);
             ScorePoints();
             Kill();
         }
     }
 
 
-    private void OnBecameInvisible()
+    void OnCollisionEnter2D(Collision2D collision)
     {
-        Destroy(gameObject, 2.0f);
+        string objTag = collision.gameObject.tag;
+
+        if (objTag == "Asteroid" || objTag == "Player")
+        {
+            Kill();   
+        }
     }
 
 
-
-    private void OnDestroy()
+    private void OnBecameInvisible()
     {
-        if (OnUFODestroyed != null) OnUFODestroyed();
+        SetActive(false);
     }
 }

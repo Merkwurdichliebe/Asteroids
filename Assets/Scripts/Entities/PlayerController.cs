@@ -9,7 +9,8 @@ public class PlayerController : Entity, IKillable
     public static event Action<float> OnPlayerSpeedChanged;
 
     public int livesLeft = 3;
-    public Projectile prefabProjectile;
+    public ObjectPool prefabProjectilePool;
+    private ObjectPool projectilePool;
     public AudioClip laser;
     public AudioClip destroyed;
     public AudioClip engine;
@@ -33,13 +34,14 @@ public class PlayerController : Entity, IKillable
         audioSource = GetComponent<AudioSource>();
         audioSource.clip = engine;
         audioSource.volume = 1.0f;
-        Assert.IsNotNull(prefabProjectile);
 
         // We only read the player input when it's alive,
         // i.e. not going through the death animation
         isAlive = true;
 
         gameObject.name = "Player";
+
+        projectilePool = Instantiate(prefabProjectilePool);
     }
 
 
@@ -56,8 +58,8 @@ public class PlayerController : Entity, IKillable
         GameManager.OnCenterOccupied -= CenterIsOccupied;
     }
 
-    private void CenterIsClear() { centerIsOccupied = false; }
-    private void CenterIsOccupied() { centerIsOccupied = true; }
+    void CenterIsClear() { centerIsOccupied = false; }
+    void CenterIsOccupied() { centerIsOccupied = true; }
 
 
 
@@ -120,12 +122,23 @@ public class PlayerController : Entity, IKillable
     }
 
 
+    void OnTriggerEnter2D(Collider2D collision)
+    {
+        string objTag = collision.gameObject.tag;
+
+        if (objTag == "EnemyProjectile")
+        {
+            collision.gameObject.SetActive(false);
+            Kill();
+        }
+    }
+
 
     void OnCollisionEnter2D(Collision2D collision)
     {
         string goTag = collision.gameObject.tag;
 
-        if (goTag == "Asteroid" || goTag == "Enemy" || goTag == "EnemyProjectile")
+        if (goTag == "Asteroid" || goTag == "Enemy")
         {
             Kill();
         }
@@ -151,7 +164,14 @@ public class PlayerController : Entity, IKillable
         // Fire
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            Instantiate(prefabProjectile, anchorMainGun.position, transform.rotation);
+            GameObject projectile = projectilePool.GetObject();
+            if (projectile != null)
+            {
+                projectile.transform.position = anchorMainGun.position;
+                projectile.transform.rotation = transform.rotation;
+                projectile.tag = "PlayerProjectile";
+                projectile.SetActive(true);
+            }
         }
 
         // Rotation

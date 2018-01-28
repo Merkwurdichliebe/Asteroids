@@ -12,6 +12,8 @@ public class AsteroidController : Entity, IKillable
     // private CircleCollider2D col;
     private AudioSource audioSource;
 
+    private ParticleSystem ps;
+
     // Phase Property
     // Asteroids start at Phase 0
     // and go through 1 & 2 until completely destroyed
@@ -51,6 +53,8 @@ public class AsteroidController : Entity, IKillable
         // col = GetComponent<CircleCollider2D>();
         audioSource = GetComponent<AudioSource>();
 
+        // ps = GetComponent<ParticleSystem>();
+
         // Set a random sprite variation
         rend.sprite = sprite[Random.Range(0, 3)];
 
@@ -75,7 +79,7 @@ public class AsteroidController : Entity, IKillable
         // This makes inter-asteroid collisions more realistic
         rb.mass = 1 / (phase + 1);
 
-        SetActive(true);
+        // SetActive(true);
 
         // Give the asteroid a random force and torque
         float dirX = Random.Range(-1f, 1f);
@@ -94,6 +98,8 @@ public class AsteroidController : Entity, IKillable
             SpawnAsteroid(phase + 1);
             SpawnAsteroid(phase + 1);
         }
+
+
         countAsteroids -= 1;
 
         // Play explosion sound
@@ -134,12 +140,13 @@ public class AsteroidController : Entity, IKillable
 
 
 
-    void OnCollisionEnter2D(Collision2D collision)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        string goTag = collision.gameObject.tag;
+        string objTag = collision.gameObject.tag;
 
-        if (goTag == "PlayerProjectile")
+        if (objTag == "PlayerProjectile")
         {
+            collision.gameObject.SetActive(false);
             ScorePoints();
             Kill();
         }

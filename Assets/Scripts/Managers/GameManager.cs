@@ -15,26 +15,20 @@ public class GameManager : MonoBehaviour
     public delegate void MessageEvent();
     public static event MessageEvent OnCenterClear;
     public static event MessageEvent OnCenterOccupied;
+    public static event MessageEvent OnLevelStarted;
 
     // References to Asteroid, Player and UI script
+    public int startingAsteroids;
     public GameObject PrefabAsteroid;
     public GameObject PrefabUFO;
     public PlayerController player;
 
     // Score, level, lives etc
     private int playerScore;
-    private int startingAsteroids = 4;
     public static int level;
 
     // Audio
     private AudioSource audioSource;
-
-    // For tuning
-    public float UFOSpawnFrequency;
-    public float UFOSpawnProbability;
-
-
-
 
 
     void Awake()
@@ -50,6 +44,8 @@ public class GameManager : MonoBehaviour
         AsteroidController.countAsteroids = 0;
 
         level = 0;
+
+
     }
 
 
@@ -57,7 +53,6 @@ public class GameManager : MonoBehaviour
     void OnEnable()
     {
         AsteroidController.OnLastAsteroidDestroyed += NextLevel;
-        UFOController.OnUFODestroyed += HandleUFODestroyed;
         PlayerController.OnPlayerDestroyed += HandlePlayerDestroyed;
         UFOController.OnScorePoints += HandleScorePoints;
         AsteroidController.OnScorePoints += HandleScorePoints;
@@ -68,7 +63,6 @@ public class GameManager : MonoBehaviour
     void OnDisable()
     {
         AsteroidController.OnLastAsteroidDestroyed -= NextLevel;
-        UFOController.OnUFODestroyed -= HandleUFODestroyed;
         PlayerController.OnPlayerDestroyed -= HandlePlayerDestroyed;
         UFOController.OnScorePoints -= HandleScorePoints;
         AsteroidController.OnScorePoints -= HandleScorePoints;
@@ -83,6 +77,8 @@ public class GameManager : MonoBehaviour
 
         // Spawn player
         player = Instantiate(player, Vector2.zero, Quaternion.identity);
+
+        Instantiate(PrefabUFO);
 
         OnLivesChanged(player.livesLeft);
 
@@ -101,7 +97,6 @@ public class GameManager : MonoBehaviour
         OnAnnounceMessage(string.Format("LEVEL {0}", level), 3.0f);
         player.gameObject.SetActive(false);
         Invoke("SpawnAsteroids", 3.0f);
-        StartUFOSpawner();
     }
 
 
@@ -118,25 +113,9 @@ public class GameManager : MonoBehaviour
         // Reset player to center and enable (unhide) it
         player.gameObject.transform.position = Vector2.zero;
         player.gameObject.SetActive(true);
+        if (OnLevelStarted != null) OnLevelStarted();
     }
 
-
-
-    void StartUFOSpawner()
-    {
-        InvokeRepeating("SpawnUFO", 3.0f, UFOSpawnFrequency);
-    }
-
-
-
-    void SpawnUFO()
-    {
-        if (Random.value < UFOSpawnProbability)
-        {
-            Instantiate(PrefabUFO);
-            CancelInvoke("SpawnUFO");
-        }
-    }
 
 
 
@@ -173,12 +152,6 @@ public class GameManager : MonoBehaviour
 
 
 
-    void HandleUFODestroyed()
-    {
-        StartUFOSpawner();
-    }
-
-
 
     void HandlePlayerDestroyed(int livesLeft)
     {
@@ -213,3 +186,6 @@ public class GameManager : MonoBehaviour
 // TODO: reset player acceleration sprite when respawning
 // TODO: separate user input script
 // TODO: fix center not clearing when ufo destroyed in it
+// TODO: more asteroids sprite variations
+// TODO: don't let UFO fire off screen
+// TODO: enable center zone only before player respawns
