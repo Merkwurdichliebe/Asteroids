@@ -24,10 +24,11 @@ public class UIManager : MonoBehaviour {
     private void OnEnable()
     {
         GameManager.OnScoreChanged += UpdateScore;
-        GameManager.OnLivesChanged += UpdateLives;
+        PlayerController.OnPlayerLivesChanged += UpdateLives;
         GameManager.OnAnnounceMessage += UpdateAnnounceMessage;
-        GameManager.OnCenterClear += CenterClearHandler;
-        GameManager.OnCenterOccupied += CenterOccupiedHandler;
+        SpawnSafeZoneManager.OnSpawnSafeZoneClear += CenterClearHandler;
+        SpawnSafeZoneManager.OnSpawnSafeZoneOccupied += CenterOccupiedHandler;
+        GameManager.OnGameOver += HandleGameOver;
         UFOController.OnScorePoints += ShowPointsAtWorldPosition;
         PlayerController.OnPlayerSpeedChanged += UpdateSpeed;
     }
@@ -35,10 +36,11 @@ public class UIManager : MonoBehaviour {
     private void OnDisable()
     {
         GameManager.OnScoreChanged -= UpdateScore;
-        GameManager.OnLivesChanged -= UpdateLives;
+        PlayerController.OnPlayerLivesChanged -= UpdateLives;
         GameManager.OnAnnounceMessage -= UpdateAnnounceMessage;
-        GameManager.OnCenterClear -= CenterClearHandler;
-        GameManager.OnCenterOccupied -= CenterOccupiedHandler;
+        SpawnSafeZoneManager.OnSpawnSafeZoneClear -= CenterClearHandler;
+        SpawnSafeZoneManager.OnSpawnSafeZoneOccupied -= CenterOccupiedHandler;
+        GameManager.OnGameOver -= HandleGameOver;
         UFOController.OnScorePoints -= ShowPointsAtWorldPosition;
         PlayerController.OnPlayerSpeedChanged -= UpdateSpeed;
     }
@@ -81,6 +83,11 @@ public class UIManager : MonoBehaviour {
     public void UpdateLives(int lives)
     {
         textLives.text = string.Format("{0}", lives);
+    }
+
+    public void HandleGameOver()
+    {
+        UpdateAnnounceMessage("GAME OVER", 6.0f);
     }
 
     public void UpdateAnnounceMessage(string text, float duration)

@@ -8,17 +8,13 @@ public class AsteroidController : Entity, IKillable
     // Reference for asteroid sprites variations
     public Sprite[] sprite;
 
-    // Reference caching
-    // private CircleCollider2D col;
     private AudioSource audioSource;
-
     private ParticleSystem ps;
 
     // Phase Property
     // Asteroids start at Phase 0
     // and go through 1 & 2 until completely destroyed
     // When set, adjust the scale of the asteroid
-    private int phase = 0;
     public int Phase
     {
         get { return phase; }
@@ -31,6 +27,8 @@ public class AsteroidController : Entity, IKillable
             gameObject.name = "Asteroid (Phase " + phase + ")";
         }
     }
+
+    private int phase = 0;
 
     // Static variable for counting how many
     // asteroids we've instantiated
@@ -49,10 +47,9 @@ public class AsteroidController : Entity, IKillable
     public override void Awake()
     {
         base.Awake();
-        // Cache needed Components
-        // col = GetComponent<CircleCollider2D>();
-        audioSource = GetComponent<AudioSource>();
 
+        // Cache needed Components
+        audioSource = GetComponent<AudioSource>();
         ps = GetComponentInChildren<ParticleSystem>();
 
         // Set a random sprite variation
@@ -79,12 +76,11 @@ public class AsteroidController : Entity, IKillable
         // This makes inter-asteroid collisions more realistic
         rb.mass = 1 / (phase + 1);
 
-        // SetActive(true);
-
         // Give the asteroid a random force and torque
         float dirX = Random.Range(-1f, 1f);
         float dirY = Random.Range(-1f, 1f);
-        rb.AddRelativeForce(new Vector2(dirX, dirY) * (2 + GameManager.level * 0.5f) * rb.mass, ForceMode2D.Impulse);
+        Vector2 randomVector = new Vector2(dirX, dirY) * (2 + GameManager.level * 0.5f) * rb.mass;
+        rb.AddRelativeForce(randomVector, ForceMode2D.Impulse);
         rb.AddTorque(Random.Range(-1 * rb.mass, 1 * rb.mass), ForceMode2D.Impulse);
     }
 
@@ -98,7 +94,6 @@ public class AsteroidController : Entity, IKillable
             SpawnAsteroid(phase + 1);
             SpawnAsteroid(phase + 1);
         }
-
 
         countAsteroids -= 1;
 

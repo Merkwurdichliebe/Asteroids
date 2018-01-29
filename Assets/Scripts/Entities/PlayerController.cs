@@ -5,13 +5,16 @@ using UnityEngine.Assertions;
 
 public class PlayerController : Entity, IKillable
 {
-    public static event Action<int> OnPlayerDestroyed;
+    
     public static event Action<float> OnPlayerSpeedChanged;
 
-    public delegate void MessageEvent();
-    public static event MessageEvent OnPlayerSpawned;
+    public static Action OnPlayerSpawned;
+    public static Action OnPlayerDestroyed;
+    public static Action<int> OnPlayerLivesChanged;
+    public static Action OnPlayerLivesZero;
 
-    public int livesLeft = 3;
+    private int livesLeft;
+
     public ObjectPool prefabProjectilePool;
     private ObjectPool projectilePool;
     public AudioClip laser;
@@ -29,6 +32,18 @@ public class PlayerController : Entity, IKillable
 
     private ParticleSystem ps;
 
+    public int Lives
+    {
+        get
+        {
+            return livesLeft;
+        }
+        set
+        {
+            livesLeft = value;
+            OnPlayerLivesChanged(livesLeft);
+        }
+    }
 
     public override void Awake()
     {
@@ -55,14 +70,14 @@ public class PlayerController : Entity, IKillable
 
     void OnEnable()
     {
-        GameManager.OnCenterClear += CenterIsClear;
-        GameManager.OnCenterOccupied += CenterIsOccupied;
+        SpawnSafeZoneManager.OnSpawnSafeZoneClear += CenterIsClear;
+        SpawnSafeZoneManager.OnSpawnSafeZoneOccupied += CenterIsOccupied;
     }
 
     void OnDisable()
     {
-        GameManager.OnCenterClear -= CenterIsClear;
-        GameManager.OnCenterOccupied -= CenterIsOccupied;
+        SpawnSafeZoneManager.OnSpawnSafeZoneClear -= CenterIsClear;
+        SpawnSafeZoneManager.OnSpawnSafeZoneOccupied -= CenterIsOccupied;
     }
 
     void CenterIsClear() { centerIsOccupied = false; }
@@ -109,9 +124,18 @@ public class PlayerController : Entity, IKillable
 
         // Explode using velocity just before impact
         GetComponent<FragmentExploder>().Explode(velocity);
-        OnPlayerDestroyed(livesLeft);
+        OnPlayerDestroyed();
+        OnPlayerLivesChanged(livesLeft);
 
-        if (livesLeft > 0) StartCoroutine(Respawn());
+        if (livesLeft > 0)
+        {
+            StartCoroutine(Respawn());   
+        }
+        else
+        {
+            OnPlayerLivesZero();
+            Destroy(gameObject, 3);
+        }
     }
 
 

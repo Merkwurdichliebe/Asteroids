@@ -35,7 +35,9 @@ public abstract class Entity : MonoBehaviour {
     }
 
 
-
+    /// <summary>
+    /// Moves the attached rigidbody to the center of the screen.
+    /// </summary>
     public virtual void MoveToCenter()
     {
         // Randomly choose left or right of screen

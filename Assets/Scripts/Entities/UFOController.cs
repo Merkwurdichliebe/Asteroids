@@ -57,7 +57,7 @@ public class UFOController : Entity, IKillable
     {
         GameManager.OnLevelStarted += StartUFOSpawner;
         GameManager.OnLevelStarted += UpdateStats;
-        GameManager.OnGameOver += CleanUp;
+        PlayerController.OnPlayerLivesZero += CleanUp;
     }
 
 
@@ -66,7 +66,7 @@ public class UFOController : Entity, IKillable
     {
         GameManager.OnLevelStarted -= StartUFOSpawner;
         GameManager.OnLevelStarted -= UpdateStats;
-        GameManager.OnGameOver -= CleanUp;
+        PlayerController.OnPlayerLivesZero -= CleanUp;
     }
 
 
