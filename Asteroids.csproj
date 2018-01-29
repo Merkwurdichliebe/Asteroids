@@ -322,8 +322,8 @@
     <Compile Include="Assets\Scripts\Entities\PowerUpController.cs" />
     <Compile Include="Assets\Scripts\Entities\Projectile.cs" />
     <Compile Include="Assets\Scripts\Entities\UFOController.cs" />
+    <Compile Include="Assets\Scripts\For testing\SingletonTest.cs" />
     <Compile Include="Assets\Scripts\Interfaces\IKillable.cs" />
-    <Compile Include="Assets\Scripts\Managers\EventManager.cs" />
     <Compile Include="Assets\Scripts\Managers\GameManager.cs" />
     <Compile Include="Assets\Scripts\Managers\GameOverManager.cs" />
     <Compile Include="Assets\Scripts\Managers\InputManager.cs" />

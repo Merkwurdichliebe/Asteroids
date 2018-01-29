@@ -3,10 +3,9 @@
 public class SpriteSwitcher : MonoBehaviour {
 
     public Sprite[] playerSprite;
-
     private SpriteRenderer rend;
 
-    void Awake()
+    private void Awake()
     {
         rend = GetComponent<SpriteRenderer>();
     }
@@ -23,7 +22,7 @@ public class SpriteSwitcher : MonoBehaviour {
         PlayerMoveManager.OnPlayerStop -= SpriteIdle;
     }
 
-    void Start ()
+    private void Start ()
     {
         SpriteIdle();
 	}

@@ -5,30 +5,35 @@ using UnityEngine.Assertions;
 
 public class GameManager : MonoBehaviour
 {
-    // Event Messaging
+    // -------------------------------------------------------------------------
+    // Messaging delegates
+    // -------------------------------------------------------------------------
+
     public static Action<int> OnScoreChanged;
     public static Action<string, float> OnAnnounceMessage;
     public static Action OnLevelStarted;
 
-    // References to Asteroid, Player and UI script
+    // -------------------------------------------------------------------------
+    // Inspector variables
+    // -------------------------------------------------------------------------
+
     public int startingAsteroids;
+    public static int level;
     public GameObject PrefabAsteroid;
     public GameObject PrefabUFO;
     public GameObject PrefabPowerup;
     public PlayerController player;
 
-    // Score, level, lives etc
+    // -------------------------------------------------------------------------
+    // Private variables and properties
+    // -------------------------------------------------------------------------
+
     private int playerScore;
+    public int PlayerScore { get { return playerScore; } }
 
-    public int PlayerScore
-    {
-        get
-        {
-            return playerScore;
-        }
-    }
-
-    public static int level;
+    // -------------------------------------------------------------------------
+    // Setup methods
+    // -------------------------------------------------------------------------
 
     void Awake()
     {
@@ -42,8 +47,6 @@ public class GameManager : MonoBehaviour
         level = 0;
     }
 
-
-
     void OnEnable()
     {
         AsteroidController.OnLastAsteroidDestroyed += NextLevel;
@@ -51,16 +54,12 @@ public class GameManager : MonoBehaviour
         AsteroidController.OnScorePoints += HandleScorePoints;
     }
 
-
-
     void OnDisable()
     {
         AsteroidController.OnLastAsteroidDestroyed -= NextLevel;
         UFOController.OnScorePoints -= HandleScorePoints;
         AsteroidController.OnScorePoints -= HandleScorePoints;
     }
-
-
 
     void Start()
     {
@@ -82,6 +81,7 @@ public class GameManager : MonoBehaviour
         // Increase level number, display it for three seconds,
         // disable (hide) the player while doing do
         level += 1;
+        Debug.Log("Level " + level + " starting");
         OnAnnounceMessage(string.Format("LEVEL {0}", level), 3.0f);
         player.gameObject.SetActive(false);
         StartCoroutine(SpawnAsteroids());
@@ -98,6 +98,7 @@ public class GameManager : MonoBehaviour
         {
             Instantiate(PrefabAsteroid, Vector2.zero, Quaternion.identity);
         }
+        Debug.Log("Asteroids spawned");
         player.gameObject.SetActive(true); // FIXME find a clean solution for spawning
         if (OnLevelStarted != null) OnLevelStarted();
     }
@@ -112,7 +113,8 @@ public class GameManager : MonoBehaviour
 }
 
 // TODO: powerups
+// TODO: clean player spawning routine
+// TODO: fix screen aspect and wrap around issues
 // TODO: end level only when UFO not here
 // TODO: reset player acceleration sprite when respawning
-// TODO: separate user input script
 // TODO: more asteroids sprite variations

@@ -7,8 +7,8 @@ public class PlayerController : Entity, IKillable
 {
     public static Action OnPlayerSpawned;
     public static Action OnPlayerDestroyed;
-    public static Action<int> OnPlayerLivesChanged;
     public static Action OnPlayerLivesZero;
+    public static Action<int> OnPlayerLivesChanged;
 
     private int livesLeft;
     private Transform anchorMainGun;
@@ -34,6 +34,9 @@ public class PlayerController : Entity, IKillable
         base.Awake();
         gameObject.name = "Player";
         ps = GetComponent<ParticleSystem>();
+        // gameObject.SetActive(false);
+        // FIXME in order to do that we first have to make the UFO
+        // know where the player is, and it can't find it when it's inactive
     }
 
 
@@ -106,5 +109,17 @@ public class PlayerController : Entity, IKillable
         transform.rotation= Quaternion.identity;
         rb.velocity = Vector2.zero;
         OnPlayerSpawned();
+    }
+
+    public void Spawn()
+    {
+        
+    }
+
+
+
+    public void DeSpawn()
+    {
+
     }
 }
