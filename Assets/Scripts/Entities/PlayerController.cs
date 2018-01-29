@@ -50,7 +50,7 @@ public class PlayerController : Entity, IKillable
         base.Awake();
         // Get references to components
         // col = GetComponent<Collider2D>();
-        spriteSwitcher = GetComponentInChildren<SpriteSwitcher>();
+        spriteSwitcher = GetComponent<SpriteSwitcher>();
         anchorMainGun = transform.Find("AnchorMainGun");
         audioSource = GetComponent<AudioSource>();
         audioSource.clip = engine;
