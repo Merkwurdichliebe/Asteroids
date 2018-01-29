@@ -1,19 +1,11 @@
 ﻿<Properties StartupConfiguration="{644F8B3B-773E-06CE-D89F-7ADA47CB3411}|">
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Entities/AsteroidController.cs">
     <Files>
-      <File FileName="Assets/Scripts/Managers/GameManager.cs" Line="72" Column="68" />
-      <File FileName="Assets/Scripts/Managers/SpawnSafeZoneManager.cs" Line="22" Column="26" />
-      <File FileName="Assets/Scripts/Managers/GameOverManager.cs" Line="9" Column="56" />
-      <File FileName="Assets/Scripts/Entities/PlayerController.cs" Line="127" Column="29" />
-      <File FileName="Assets/Scripts/Managers/EventManager.cs" Line="68" Column="40" />
-      <File FileName="Assets/Scripts/Entities/UFOController.cs" Line="60" Column="55" />
-      <File FileName="Assets/Scripts/Entities/AsteroidController.cs" Line="97" Column="1" />
-      <File FileName="Assets/Scripts/Interfaces/IKillable.cs" Line="5" Column="2" NotebookId="1" />
-      <File FileName="Assets/Scripts/Managers/MenuManager.cs" Line="1" Column="1" NotebookId="1" />
-      <File FileName="Assets/Scripts/Managers/UIManager.cs" Line="23" Column="1" NotebookId="1" />
-      <File FileName="Assets/Scripts/Utilities/FragmentExploder.cs" Line="24" Column="68" NotebookId="1" />
-      <File FileName="Assets/Scripts/Utilities/SpriteSwitcher.cs" Line="1" Column="1" NotebookId="1" />
-      <File FileName="Assets/Scripts/Utilities/WrapAround.cs" Line="1" Column="1" NotebookId="1" />
+      <File FileName="Assets/Scripts/Entities/PlayerController.cs" Line="54" Column="48" />
+      <File FileName="Assets/Scripts/Entities/AsteroidController.cs" Line="33" Column="36" />
+      <File FileName="Assets/Scripts/Utilities/SpriteSwitcher.cs" Line="17" Column="28" NotebookId="1" />
+      <File FileName="Assets/Scripts/Managers/UIManager.cs" Line="41" Column="27" NotebookId="1" />
+      <File FileName="Assets/Scripts/Managers/SpawnSafeZoneManager.cs" Line="14" Column="31" NotebookId="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />

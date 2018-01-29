@@ -6,12 +6,9 @@ using UnityEngine.Assertions;
 public class GameManager : MonoBehaviour
 {
     // Event Messaging
-    public static event Action<int> OnScoreChanged;
-    public static event Action<string, float> OnAnnounceMessage;
-
-    public delegate void MessageEvent();
-    public static event MessageEvent OnLevelStarted;
-    public static event MessageEvent OnGameOver;
+    public static Action<int> OnScoreChanged;
+    public static Action<string, float> OnAnnounceMessage;
+    public static Action OnLevelStarted;
 
     // References to Asteroid, Player and UI script
     public int startingAsteroids;
@@ -101,10 +98,7 @@ public class GameManager : MonoBehaviour
         {
             Instantiate(PrefabAsteroid, Vector2.zero, Quaternion.identity);
         }
-
-        // Reset player to center and enable (unhide) it
-        player.gameObject.transform.position = Vector2.zero;
-        player.gameObject.SetActive(true);
+        player.gameObject.SetActive(true); // FIXME find a clean solution for spawning
         if (OnLevelStarted != null) OnLevelStarted();
     }
 

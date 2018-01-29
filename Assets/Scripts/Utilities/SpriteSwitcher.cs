@@ -11,7 +11,19 @@ public class SpriteSwitcher : MonoBehaviour {
         rend = GetComponent<SpriteRenderer>();
     }
 
-	void Start ()
+    private void OnEnable()
+    {
+        PlayerMoveManager.OnPlayerAccelerate += SpriteThrust;
+        PlayerMoveManager.OnPlayerStop += SpriteIdle;
+    }
+
+    private void OnDisable()
+    {
+        PlayerMoveManager.OnPlayerAccelerate -= SpriteThrust;
+        PlayerMoveManager.OnPlayerStop -= SpriteIdle;
+    }
+
+    void Start ()
     {
         SpriteIdle();
 	}

@@ -36,9 +36,14 @@ GameObject:
   - component: {fileID: 4295787746578802}
   - component: {fileID: 212654405380309986}
   - component: {fileID: 114579725366848430}
+  - component: {fileID: 114450025990637772}
+  - component: {fileID: 114101328005216204}
+  - component: {fileID: 114747288095868216}
+  - component: {fileID: 114604052629850964}
   - component: {fileID: 114975582913275540}
   - component: {fileID: 114815654117538412}
   - component: {fileID: 114860798685419980}
+  - component: {fileID: 114128046529340278}
   - component: {fileID: 50910934991842274}
   - component: {fileID: 60901639627459678}
   - component: {fileID: 82220649422523526}
@@ -207,6 +212,41 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 0
+--- !u!114 &114101328005216204
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1729157800514620}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 69e3e6c90241a4cbe8e235d98737b7e5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &114128046529340278
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1729157800514620}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a6cfa894d0fa4bf79c246b1ce5493e0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  destroyed: {fileID: 8300000, guid: f96550c7e73a74f4db42faa9d351b6c2, type: 3}
+  engine: {fileID: 8300000, guid: 1480f96f6d60a448b8d19eecf51a32e4, type: 3}
+--- !u!114 &114450025990637772
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1729157800514620}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1760113ec202a4283bab411b3beeff79, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114579725366848430
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -219,11 +259,31 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pointValue: 0
+--- !u!114 &114604052629850964
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1729157800514620}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b23098f852d446e5b51f26121b865af, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &114747288095868216
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1729157800514620}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 41adc19dce85245bfb011edfb768efbe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   prefabProjectilePool: {fileID: 114428521555128586, guid: a98e5680ecd7e47df800c9847c805897,
     type: 2}
-  laser: {fileID: 8300000, guid: aabd179eb5a524fd5a8102de477a9204, type: 3}
-  destroyed: {fileID: 8300000, guid: f96550c7e73a74f4db42faa9d351b6c2, type: 3}
-  engine: {fileID: 8300000, guid: 1480f96f6d60a448b8d19eecf51a32e4, type: 3}
+  anchorMainGun: {fileID: 4031679361654200}
 --- !u!114 &114815654117538412
 MonoBehaviour:
   m_ObjectHideFlags: 1

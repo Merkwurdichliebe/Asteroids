@@ -28,9 +28,9 @@ public class UIManager : MonoBehaviour {
         GameManager.OnAnnounceMessage += UpdateAnnounceMessage;
         SpawnSafeZoneManager.OnSpawnSafeZoneClear += CenterClearHandler;
         SpawnSafeZoneManager.OnSpawnSafeZoneOccupied += CenterOccupiedHandler;
-        GameManager.OnGameOver += HandleGameOver;
+        PlayerController.OnPlayerLivesZero += HandleGameOver;
         UFOController.OnScorePoints += ShowPointsAtWorldPosition;
-        PlayerController.OnPlayerSpeedChanged += UpdateSpeed;
+        PlayerMoveManager.OnPlayerSpeedChanged += UpdateSpeed;
     }
 
     private void OnDisable()
@@ -40,9 +40,9 @@ public class UIManager : MonoBehaviour {
         GameManager.OnAnnounceMessage -= UpdateAnnounceMessage;
         SpawnSafeZoneManager.OnSpawnSafeZoneClear -= CenterClearHandler;
         SpawnSafeZoneManager.OnSpawnSafeZoneOccupied -= CenterOccupiedHandler;
-        GameManager.OnGameOver -= HandleGameOver;
+        PlayerController.OnPlayerLivesZero -= HandleGameOver;
         UFOController.OnScorePoints -= ShowPointsAtWorldPosition;
-        PlayerController.OnPlayerSpeedChanged -= UpdateSpeed;
+        PlayerMoveManager.OnPlayerSpeedChanged -= UpdateSpeed;
     }
 
     void Start()
