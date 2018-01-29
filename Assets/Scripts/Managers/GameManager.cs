@@ -33,8 +33,6 @@ public class GameManager : MonoBehaviour
 
     public static int level;
 
-
-
     void Awake()
     {
         Assert.IsNotNull(PrefabAsteroid);

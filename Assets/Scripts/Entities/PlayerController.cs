@@ -63,7 +63,7 @@ public class PlayerController : Entity, IKillable
         gameObject.name = "Player";
 
         projectilePool = Instantiate(prefabProjectilePool);
-        ps = GetComponentInChildren<ParticleSystem>();
+        ps = GetComponent<ParticleSystem>();
     }
 
 

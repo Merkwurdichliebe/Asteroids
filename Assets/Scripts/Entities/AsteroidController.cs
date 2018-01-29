@@ -22,7 +22,7 @@ public class AsteroidController : Entity, IKillable
         {
             phase = value;
             float newScale = 1.0f / Mathf.Pow(2, phase);
-            transform.localScale = new Vector2(newScale, newScale);
+            transform.localScale = new Vector3(newScale, newScale, 1);
             pointValue = (phase + 1) * 2;
             gameObject.name = "Asteroid (Phase " + phase + ")";
         }
@@ -50,7 +50,7 @@ public class AsteroidController : Entity, IKillable
 
         // Cache needed Components
         audioSource = GetComponent<AudioSource>();
-        ps = GetComponentInChildren<ParticleSystem>();
+        ps = GetComponent<ParticleSystem>();
 
         // Set a random sprite variation
         rend.sprite = sprite[Random.Range(0, 3)];

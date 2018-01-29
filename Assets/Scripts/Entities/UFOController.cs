@@ -48,7 +48,7 @@ public class UFOController : Entity, IKillable
         // Instantiate the projectile pool and start deactivated
         projectilePool = Instantiate(prefabProjectilePool);
         SetActive(false);
-        ps = GetComponentInChildren<ParticleSystem>();
+        ps = GetComponent<ParticleSystem>();
     }
 
 
