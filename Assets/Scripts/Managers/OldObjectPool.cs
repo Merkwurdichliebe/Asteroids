@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public class ObjectPool : MonoBehaviour {
+
+
+public class OldObjectPool : MonoBehaviour {
 
     public GameObject prefab;
     private List<GameObject> pooledObjects;

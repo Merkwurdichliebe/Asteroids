@@ -6,14 +6,7 @@ using UnityEngine;
 
 public class FireProjectileFromInput : MonoBehaviour {
 
-    public ObjectPool prefabProjectilePool;
     public Transform anchorMainGun;
-    private ObjectPool projectilePool;
-
-    private void Awake()
-    {
-        projectilePool = Instantiate(prefabProjectilePool);
-    }
 
     private void OnEnable()
     {
@@ -27,12 +20,11 @@ public class FireProjectileFromInput : MonoBehaviour {
 
     private void Fire()
     {
-        GameObject projectile = projectilePool.GetPooledObject();
+        GameObject projectile = ObjectPool.Instance.GetPooledObject("PlayerProjectile");
         if (projectile != null)
         {
             projectile.transform.position = anchorMainGun.position;
             projectile.transform.rotation = transform.rotation;
-            // projectile.tag = "PlayerProjectile";
             projectile.SetActive(true);
         }
     }

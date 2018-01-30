@@ -322,6 +322,7 @@
     <Compile Include="Assets\Scripts\Entities\PowerUpController.cs" />
     <Compile Include="Assets\Scripts\Entities\Projectile.cs" />
     <Compile Include="Assets\Scripts\Entities\UFOController.cs" />
+    <Compile Include="Assets\Scripts\For testing\ObjectPool.cs" />
     <Compile Include="Assets\Scripts\For testing\SingletonTest.cs" />
     <Compile Include="Assets\Scripts\Interfaces\ICanFireAtTarget.cs" />
     <Compile Include="Assets\Scripts\Interfaces\IKillable.cs" />
@@ -332,7 +333,7 @@
     <Compile Include="Assets\Scripts\Managers\InputManager.cs" />
     <Compile Include="Assets\Scripts\Managers\MenuManager.cs" />
     <Compile Include="Assets\Scripts\Managers\MusicManager.cs" />
-    <Compile Include="Assets\Scripts\Managers\ObjectPool.cs" />
+    <Compile Include="Assets\Scripts\Managers\OldObjectPool.cs" />
     <Compile Include="Assets\Scripts\Managers\PlayerAudioManager.cs" />
     <Compile Include="Assets\Scripts\Managers\PlayerMoveManager.cs" />
     <Compile Include="Assets\Scripts\Managers\SpawnSafeZoneManager.cs" />

@@ -1005,6 +1005,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2104122569}
   - component: {fileID: 2104122570}
+  - component: {fileID: 2104122572}
   - component: {fileID: 2104122574}
   - component: {fileID: 2104122568}
   - component: {fileID: 2104122573}
@@ -1148,6 +1149,27 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 0
+--- !u!114 &2104122572
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2104122567}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 42ae2fa5bb11f4292b811ffcc738f113, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemsToPool:
+  - objectToPool: {fileID: 1708459439725374, guid: 831000a8a9e9b4d39b5a27a5e801bcd3,
+      type: 2}
+    amountToPool: 20
+    shouldExpand: 0
+  - objectToPool: {fileID: 1153547247518906, guid: 4e7ed8f7a34c547e1bb874136671ebcc,
+      type: 2}
+    amountToPool: 10
+    shouldExpand: 0
+  pooledObjects: []
 --- !u!114 &2104122573
 MonoBehaviour:
   m_ObjectHideFlags: 0

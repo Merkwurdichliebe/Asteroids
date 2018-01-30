@@ -4,20 +4,16 @@ using UnityEngine;
 
 public class FireProjectileAtTarget : MonoBehaviour, ICanFireAtTarget
 {
-    public ObjectPool prefabProjectilePool;
-
     private GameObject target;
     private Vector3 firingPrecision;
     private float firingInterval;
     private Coroutine fireCoroutine;
-    private ObjectPool projectilePool;
 
     // Required by ICanFireAtArget
     public GameObject Target { get { return target; } set { target = value; } }
 
     private void Awake()
     {
-        projectilePool = Instantiate(prefabProjectilePool);
         UpdateStats();
     }
 
@@ -61,7 +57,7 @@ public class FireProjectileAtTarget : MonoBehaviour, ICanFireAtTarget
             Quaternion rotation = Quaternion.AngleAxis(angle, Vector3.forward);
 
             // Fire missile
-            GameObject projectile = projectilePool.GetPooledObject();
+            GameObject projectile = ObjectPool.Instance.GetPooledObject("EnemyProjectile");
             projectile.transform.position = transform.position;
             projectile.transform.rotation = rotation;
             projectile.SetActive(true);
