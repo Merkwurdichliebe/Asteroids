@@ -33,9 +33,6 @@ public class PlayerController : Entity, IKillable
         base.Awake();
         gameObject.name = "Player";
         ps = GetComponent<ParticleSystem>();
-        // gameObject.SetActive(false);
-        // FIXME in order to do that we first have to make the UFO
-        // know where the player is, and it can't find it when it's inactive
     }
 
 

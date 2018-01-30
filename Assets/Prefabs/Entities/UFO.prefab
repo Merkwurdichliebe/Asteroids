@@ -40,6 +40,7 @@ GameObject:
   - component: {fileID: 4789366289164972}
   - component: {fileID: 114521301193238800}
   - component: {fileID: 114986385336347954}
+  - component: {fileID: 114919254889031874}
   - component: {fileID: 212228801216567472}
   - component: {fileID: 50124563754769454}
   - component: {fileID: 70580452906963220}
@@ -125,8 +126,8 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 9cb92918df09f429e94f4da6c22ebc75, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 0.5
-  m_Pitch: 0.3
+  m_Volume: 0.4
+  m_Pitch: 0.2
   Loop: 0
   Mute: 0
   Spatialize: 0
@@ -203,11 +204,11 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 9cb92918df09f429e94f4da6c22ebc75, type: 3}
+  m_audioClip: {fileID: 8300000, guid: f321aa3511c5e433da3ed42d13528a61, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 0.5
+  m_Volume: 0.65
   m_Pitch: 0.8
-  Loop: 0
+  Loop: 1
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
@@ -303,13 +304,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pointValue: 20
-  soundUFOEngine: {fileID: 8300000, guid: f321aa3511c5e433da3ed42d13528a61, type: 3}
-  soundUFOExplosion: {fileID: 8300000, guid: 9cb92918df09f429e94f4da6c22ebc75, type: 3}
-  firingFrequency: 3
-  prefabProjectilePool: {fileID: 114241201023491814, guid: d7e785a4f430e460b9a93da337e2599a,
-    type: 2}
-  spawnFrequency: 2
-  spawnProbability: 1
 --- !u!114 &114827054205866632
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -322,6 +316,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   secondsBeforeDestroy: 3
+--- !u!114 &114919254889031874
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1839108818726510}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e9d700638e0f4aa7a3708a2d5a86217, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114986385336347954
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -333,8 +338,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6418284088e2744f588d84c8cbf44aa6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  prefabProjectilePool: {fileID: 114241201023491814, guid: d7e785a4f430e460b9a93da337e2599a,
-    type: 2}
 --- !u!198 &198118771996917014
 ParticleSystem:
   m_ObjectHideFlags: 1
