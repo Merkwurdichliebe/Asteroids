@@ -11,7 +11,6 @@ public class PlayerController : Entity, IKillable
     public static Action<int> OnPlayerLivesChanged;
 
     private int livesLeft;
-    private Transform anchorMainGun;
     private bool centerIsOccupied;
 
     private ParticleSystem ps;

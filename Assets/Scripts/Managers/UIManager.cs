@@ -50,11 +50,6 @@ public class UIManager : MonoBehaviour {
         textAnnounce.text = "";
     }
 
-    void DoSomething<T>(T value)
-    {
-        Debug.Log(value);
-    }
-
     void CenterClearHandler()
     {
         UpdateDebug("Center is clear");

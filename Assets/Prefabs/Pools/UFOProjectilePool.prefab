@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 4314089545810578}
   - component: {fileID: 114241201023491814}
   m_Layer: 0
-  m_Name: EnemyProjectilePool
+  m_Name: UFOProjectilePool
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -52,5 +52,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   prefab: {fileID: 1153547247518906, guid: 4e7ed8f7a34c547e1bb874136671ebcc, type: 2}
-  pooledObjects: []
   poolSize: 5

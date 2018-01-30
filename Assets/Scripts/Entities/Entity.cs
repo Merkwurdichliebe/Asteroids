@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
+using Random = UnityEngine.Random;
 
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(SpriteRenderer))]
@@ -28,11 +30,14 @@ public abstract class Entity : MonoBehaviour {
 
     public virtual void SetActive(bool active)
     {
+        //Debug.Log("[Entity/SetActive] " + active);
         isAlive = active;
         rend.enabled = active;
         col.enabled = active;
         rb.isKinematic = !active;
+        //Debug.Log("[Entity/SetActive] rend.IsVisible : " + rend.isVisible);
     }
+
 
 
     /// <summary>
@@ -40,6 +45,7 @@ public abstract class Entity : MonoBehaviour {
     /// </summary>
     public virtual void MoveToCenter()
     {
+        //Debug.Log("[Entity/MoveToCenter]");
         // Randomly choose left or right of screen
         float x = (Random.value < 0.5f) ? -10 : 10;
 

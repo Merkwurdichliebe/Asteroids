@@ -2,6 +2,7 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Assertions;
+using Random = UnityEngine.Random;
 
 public class GameManager : MonoBehaviour
 {
@@ -23,6 +24,8 @@ public class GameManager : MonoBehaviour
     public GameObject PrefabUFO;
     public GameObject PrefabPowerup;
     public PlayerController player;
+    public float UFOSpawnFrequency;
+    public float UFOSpawnProbability;
 
     // -------------------------------------------------------------------------
     // Private variables and properties
@@ -51,6 +54,7 @@ public class GameManager : MonoBehaviour
     {
         AsteroidController.OnLastAsteroidDestroyed += NextLevel;
         UFOController.OnScorePoints += HandleScorePoints;
+        UFOController.OnUFODespawned += StartUFOSpawner;
         AsteroidController.OnScorePoints += HandleScorePoints;
     }
 
@@ -58,6 +62,7 @@ public class GameManager : MonoBehaviour
     {
         AsteroidController.OnLastAsteroidDestroyed -= NextLevel;
         UFOController.OnScorePoints -= HandleScorePoints;
+        UFOController.OnUFODespawned -= StartUFOSpawner;
         AsteroidController.OnScorePoints -= HandleScorePoints;
     }
 
@@ -66,9 +71,6 @@ public class GameManager : MonoBehaviour
         // Spawn player
         player = Instantiate(player, Vector2.zero, Quaternion.identity);
         player.Lives = 3;
-
-        // Spawn UFO
-        Instantiate(PrefabUFO);
 
         // Start the first level
         NextLevel();
@@ -81,7 +83,7 @@ public class GameManager : MonoBehaviour
         // Increase level number, display it for three seconds,
         // disable (hide) the player while doing do
         level += 1;
-        Debug.Log("Level " + level + " starting");
+        Debug.Log("[GameManager/NextLevel] Level " + level + " starting");
         OnAnnounceMessage(string.Format("LEVEL {0}", level), 3.0f);
         player.gameObject.SetActive(false);
         StartCoroutine(SpawnAsteroids());
@@ -98,11 +100,36 @@ public class GameManager : MonoBehaviour
         {
             Instantiate(PrefabAsteroid, Vector2.zero, Quaternion.identity);
         }
-        Debug.Log("Asteroids spawned");
+        Debug.Log("[GameManager/SpawnAsteroids] Asteroids spawned");
         player.gameObject.SetActive(true); // FIXME find a clean solution for spawning
         if (OnLevelStarted != null) OnLevelStarted();
+        StartUFOSpawner();
     }
 
+    private void StartUFOSpawner()
+    {
+        Debug.Log("[GameManager/StartUFOSpawner]");
+        StartCoroutine(SpawnUFO());
+    }
+
+    IEnumerator SpawnUFO()
+    {
+        // Allow at least 2 seconds between death and respawn
+        yield return new WaitForSeconds(3.0f);
+
+        // If the random value is higher than the probability,
+        // wait some more (spawnFrequency in seconds)
+        while (Random.value > UFOSpawnProbability)
+        {
+            yield return new WaitForSeconds(UFOSpawnFrequency);
+        }
+
+        // Spawn UFO and add the player object as its target
+        GameObject ufo = Instantiate(PrefabUFO);
+        ufo.GetComponent<ICanFireAtTarget>().Target = player.gameObject;
+        Debug.Log("[GameManager/SpawnUFO] Spawned");
+
+    }
 
 
     void HandleScorePoints(Entity e)
@@ -110,6 +137,9 @@ public class GameManager : MonoBehaviour
         playerScore += e.pointValue;
         if (OnScoreChanged != null) OnScoreChanged(playerScore);
     }
+
+
+
 }
 
 // TODO: powerups

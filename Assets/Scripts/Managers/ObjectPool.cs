@@ -4,7 +4,7 @@ using UnityEngine;
 public class ObjectPool : MonoBehaviour {
 
     public GameObject prefab;
-    public List<GameObject> pooledObjects;
+    private List<GameObject> pooledObjects;
     public int poolSize;
 
     void Start()
@@ -20,8 +20,11 @@ public class ObjectPool : MonoBehaviour {
     }
 
 
-
-    public GameObject GetObject()
+    /// <summary>
+    /// Returns an inactive object in the object pool,
+    /// or null if none are found.
+    /// </summary>
+    public GameObject GetPooledObject()
     {
         for (int i = 0; i < poolSize; i++)
         {

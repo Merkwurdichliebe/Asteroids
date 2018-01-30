@@ -21,21 +21,21 @@ public class PlayerMoveManager : MonoBehaviour {
 
     void OnEnable()
     {
-        Debug.Log("Player Enabled.");
+        Debug.Log("[PlayerMoveManager/OnEnable]");
         PlayerController.OnPlayerSpawned += EnableInput;
         PlayerController.OnPlayerDestroyed += DisableInput;
     }
 
     void OnDisable()
     {
-        Debug.Log("Player Disabled.");
+        Debug.Log("[PlayerMoveManager/OnDisable]");
         PlayerController.OnPlayerSpawned -= EnableInput;
         PlayerController.OnPlayerDestroyed -= DisableInput;
     }
 
     void EnableInput()
     {
-        Debug.Log("Input enabled.");
+        Debug.Log("[PlayerMoveManager/EnableInput]");
         InputManager.OnInputAccelerate += HandleInputAccelerate;
         InputManager.OnInputStop += HandleInputStop;
         InputManager.OnInputTurnLeft += HandleInputTurnLeft;
@@ -44,7 +44,7 @@ public class PlayerMoveManager : MonoBehaviour {
 
     void DisableInput()
     {
-        Debug.Log("Input disabled.");
+        Debug.Log("[PlayerMoveManager/DisableInput]");
         HandleInputStop(); // FIXME Clean this
         InputManager.OnInputAccelerate -= HandleInputAccelerate;
         InputManager.OnInputStop -= HandleInputStop;

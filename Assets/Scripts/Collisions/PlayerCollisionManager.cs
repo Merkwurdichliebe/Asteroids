@@ -12,7 +12,7 @@ public class PlayerCollisionManager : MonoBehaviour {
         if (objTag == "EnemyProjectile")
         {
             collision.gameObject.SetActive(false);
-            Debug.Log("Player hit by enemy projectile");
+            Debug.Log("[PlayerCollisionManager/OnTriggerEnter2D] Player hit by enemy projectile");
             OnPlayerWasHit();
         }
 
@@ -29,7 +29,7 @@ public class PlayerCollisionManager : MonoBehaviour {
         PowerUpController pu = obj.GetComponent<PowerUpController>();
         if (pu.powerUpType == PowerUpType.FrontAndBack)
         {
-            Debug.Log("FrontAndBack Collected");
+            Debug.Log("[PlayerCollisionManager/OnTriggerEnter2D] FrontAndBack Collected");
         }
     }
 
@@ -41,7 +41,7 @@ public class PlayerCollisionManager : MonoBehaviour {
 
         if (goTag == "Asteroid" || goTag == "Enemy")
         {
-            Debug.Log("Player collided with " + goTag);
+            Debug.Log("[PlayerCollisionManager/OnTriggerEnter2D] Player collided with " + goTag);
             OnPlayerWasHit();
         }
     }

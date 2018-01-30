@@ -11,7 +11,7 @@ public class GameOverManager : MonoBehaviour
 
     void GameOver()
     {
-        Debug.Log("GameOver()");
+        Debug.Log("[GameOverManager/GameOver]");
 
         // Handle high score if necessary
         int highscore = PlayerPrefs.GetInt("highscore");

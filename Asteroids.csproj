@@ -323,7 +323,10 @@
     <Compile Include="Assets\Scripts\Entities\Projectile.cs" />
     <Compile Include="Assets\Scripts\Entities\UFOController.cs" />
     <Compile Include="Assets\Scripts\For testing\SingletonTest.cs" />
+    <Compile Include="Assets\Scripts\Interfaces\ICanFireAtTarget.cs" />
     <Compile Include="Assets\Scripts\Interfaces\IKillable.cs" />
+    <Compile Include="Assets\Scripts\Managers\FireProjectileAtTarget.cs" />
+    <Compile Include="Assets\Scripts\Managers\FireProjectileFromInput.cs" />
     <Compile Include="Assets\Scripts\Managers\GameManager.cs" />
     <Compile Include="Assets\Scripts\Managers\GameOverManager.cs" />
     <Compile Include="Assets\Scripts\Managers\InputManager.cs" />
@@ -331,13 +334,14 @@
     <Compile Include="Assets\Scripts\Managers\MusicManager.cs" />
     <Compile Include="Assets\Scripts\Managers\ObjectPool.cs" />
     <Compile Include="Assets\Scripts\Managers\PlayerAudioManager.cs" />
-    <Compile Include="Assets\Scripts\Managers\PlayerFireManager.cs" />
     <Compile Include="Assets\Scripts\Managers\PlayerMoveManager.cs" />
     <Compile Include="Assets\Scripts\Managers\SpawnSafeZoneManager.cs" />
     <Compile Include="Assets\Scripts\Managers\UIManager.cs" />
     <Compile Include="Assets\Scripts\Utilities\CameraController.cs" />
+    <Compile Include="Assets\Scripts\Utilities\DestroyInSeconds.cs" />
     <Compile Include="Assets\Scripts\Utilities\FragmentExploder.cs" />
     <Compile Include="Assets\Scripts\Utilities\MoveToCenter.cs" />
+    <Compile Include="Assets\Scripts\Utilities\PlayAudioAndParticlesOnEnable.cs" />
     <Compile Include="Assets\Scripts\Utilities\SpriteSwitcher.cs" />
     <Compile Include="Assets\Scripts\Utilities\WrapAround.cs" />
   </ItemGroup>

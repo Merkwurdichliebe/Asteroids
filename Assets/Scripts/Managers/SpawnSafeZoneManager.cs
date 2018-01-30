@@ -22,6 +22,12 @@ public class SpawnSafeZoneManager : MonoBehaviour {
         PlayerController.OnPlayerDestroyed += HandlePlayerDestroyed;
     }
 
+    private void OnDisable()
+    {
+        PlayerController.OnPlayerSpawned -= HandlePlayerSpawned;
+        PlayerController.OnPlayerDestroyed -= HandlePlayerDestroyed;
+    }
+
 
 
     private void HandlePlayerSpawned()
@@ -41,7 +47,7 @@ public class SpawnSafeZoneManager : MonoBehaviour {
     private void EnableSafeZone(bool enable)
     {
         col.enabled = enable;
-        Debug.Log("EnabledSafeZone(): " + enable);
+        Debug.Log("[SpawnSaferZoneManager/EnabledSafeZone]: " + enable);
     }
 
 

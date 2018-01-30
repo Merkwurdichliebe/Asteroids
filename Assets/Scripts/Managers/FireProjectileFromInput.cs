@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerFireManager : MonoBehaviour {
+[RequireComponent(typeof(InputManager))]
+
+public class FireProjectileFromInput : MonoBehaviour {
 
     public ObjectPool prefabProjectilePool;
     public Transform anchorMainGun;
@@ -25,7 +27,7 @@ public class PlayerFireManager : MonoBehaviour {
 
     private void Fire()
     {
-        GameObject projectile = projectilePool.GetObject();
+        GameObject projectile = projectilePool.GetPooledObject();
         if (projectile != null)
         {
             projectile.transform.position = anchorMainGun.position;
