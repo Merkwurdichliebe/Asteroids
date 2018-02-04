@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 // Implemented from the tutorial on multiple-objects pool at Ray Wenderlich
@@ -37,14 +36,14 @@ public class ObjectPool : MonoBehaviour {
     // Parent object for all the pooled objects.
     private Transform parent;
 
-    void Awake()
+    private void Awake()
     {
         Instance = this;
         parent = new GameObject().transform;
         parent.gameObject.name = "Object Pool";
     }
 
-    void Start()
+    private void Start()
     {
         pooledObjects = new List<GameObject>();
         foreach (ObjectPoolItem item in itemsToPool)
@@ -58,8 +57,6 @@ public class ObjectPool : MonoBehaviour {
             }
         }
     }
-
-
 
     public GameObject GetPooledObject(string tag)
     {

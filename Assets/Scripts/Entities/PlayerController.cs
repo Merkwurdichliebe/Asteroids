@@ -1,30 +1,28 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using UnityEngine;
-using UnityEngine.Assertions;
 
 public class PlayerController : Entity, IKillable
 {
-    public static Action OnPlayerSpawned;
-    public static Action OnPlayerDestroyed;
-    public static Action OnPlayerLivesZero;
-    public static Action<int> OnPlayerLivesChanged;
+    // -----------------------------------------------------------------------------
+    // Inspector fields
+    // -----------------------------------------------------------------------------
 
-    private int livesLeft;
+    public GameObject explosion;
+    public int lives;
+
+    private int _livesLeft;
     private bool centerIsOccupied;
 
-    private ParticleSystem ps;
+    private PlayerMoveManager moveComponent;
+    private FireProjectileFromInput fireComponent;
 
     public int Lives
     {
-        get
+        get { return _livesLeft; }
+        private set
         {
-            return livesLeft;
-        }
-        set
-        {
-            livesLeft = value;
-            OnPlayerLivesChanged(livesLeft);
+            _livesLeft = value;
+            EventManager.Instance.PlayerLivesChanged(_livesLeft);
         }
     }
 
@@ -32,90 +30,95 @@ public class PlayerController : Entity, IKillable
     {
         base.Awake();
         gameObject.name = "Player";
-        ps = GetComponent<ParticleSystem>();
+        Lives = lives;
+        moveComponent = GetComponent<PlayerMoveManager>();
+        fireComponent = GetComponent<FireProjectileFromInput>();
     }
 
-
+    public override void SetAlive(bool active)
+    {
+        base.SetAlive(active);
+        moveComponent.enabled = active;
+        fireComponent.enabled = active;
+        if (active)
+        {
+            EventManager.Instance.PlayerSpawned();
+        }
+        else 
+        {
+            EventManager.Instance.PlayerDespawned();
+        }
+    }
 
     void OnEnable()
     {
-        SpawnSafeZoneManager.OnSpawnSafeZoneClear += CenterIsClear;
-        SpawnSafeZoneManager.OnSpawnSafeZoneOccupied += CenterIsOccupied;
-        GameManager.OnLevelStarted += HandleLevelStarted;
-        PlayerCollisionManager.OnPlayerWasHit += Kill;
+        EventManager.Instance.OnSpawnSafeZoneClear += CenterIsClear;
+        EventManager.Instance.OnSpawnSafeZoneOccupied += CenterIsOccupied;
+        EventManager.Instance.OnPlayerWasHit += Kill;
     }
 
     void OnDisable()
     {
-        SpawnSafeZoneManager.OnSpawnSafeZoneClear -= CenterIsClear;
-        SpawnSafeZoneManager.OnSpawnSafeZoneOccupied -= CenterIsOccupied;
-        GameManager.OnLevelStarted -= HandleLevelStarted;
-        PlayerCollisionManager.OnPlayerWasHit -= Kill;
+        EventManager.Instance.OnSpawnSafeZoneClear -= CenterIsClear;
+        EventManager.Instance.OnSpawnSafeZoneOccupied -= CenterIsOccupied;
+        EventManager.Instance.OnPlayerWasHit -= Kill;
     }
-
-    void HandleLevelStarted()
-    {
-        gameObject.transform.position = Vector2.zero;
-        gameObject.SetActive(true);
-        OnPlayerSpawned();
-    }
-
 
     void CenterIsClear() { centerIsOccupied = false; }
     void CenterIsOccupied() { centerIsOccupied = true; }
 
+    public void ResetVelocity()
+    {
+        rb.velocity = Vector2.zero;
+    }
+
+    public void ResetPosition()
+    {
+        transform.position = Vector2.zero;
+        transform.rotation = Quaternion.identity;
+    }
+
     public void Kill()
     {
-        GetComponent<FragmentExploder>().Explode(rb.velocity);
-        ps.Play();
+        Instantiate(explosion, transform.position, Quaternion.identity);
 
         // Hide the player, disable its collider & keyboard input
-        SetActive(false);
+        SetAlive(false);
 
         // Reduce 1 life
-        livesLeft -= 1;
+        Lives -= 1;
 
-        OnPlayerDestroyed();
-        OnPlayerLivesChanged(livesLeft);
+        EventManager.Instance.PlayerDestroyed();
+        EventManager.Instance.PlayerLivesChanged(_livesLeft);
 
-        if (livesLeft > 0)
-        {
-            StartCoroutine(Respawn());   
+        if (_livesLeft > 0) {
+            StartCoroutine(RespawnInSeconds(3));
         }
         else
         {
-            OnPlayerLivesZero();
+            EventManager.Instance.PlayerLivesZero();
             Destroy(gameObject, 3);
         }
     }
 
-
-
-    IEnumerator Respawn()
+    IEnumerator RespawnInSeconds(float seconds)
     {
-        // Wait 3 seconds before respawn
-        yield return new WaitForSeconds(3.0f);
+        yield return new WaitForSeconds(seconds);
+        StartCoroutine(WaitForCenterClear());
+    }
 
+    IEnumerator WaitForCenterClear()
+    {
         // Don't do anything while the center is not clear
         while (centerIsOccupied) { yield return null; }
-
-        // Reenable the player when it's clear
-        SetActive(true);
-        transform.position = Vector2.zero;
-        transform.rotation= Quaternion.identity;
-        rb.velocity = Vector2.zero;
-        OnPlayerSpawned();
+        Spawn();
     }
 
     public void Spawn()
     {
-        
-    }
-
-
-
-    public void DeSpawn()
-    {
-
+        SetAlive(true);
+        transform.position = Vector2.zero;
+        transform.rotation = Quaternion.identity;
+        rb.velocity = Vector2.zero;
     }
 }

@@ -4,7 +4,14 @@ using UnityEngine;
 
 public class MoveToCenter : MonoBehaviour
 {
-	void Start()
+    Rigidbody2D rb;
+
+    private void Awake()
+    {
+        rb = GetComponent<Rigidbody2D>();
+    }
+
+	private void Start()
 	{
         // Randomly choose left or right of screen
         float x = (Random.value < 0.5f) ? -10 : 10;
@@ -20,6 +27,6 @@ public class MoveToCenter : MonoBehaviour
         Vector2 vector = Vector3.zero - transform.position;
 
         // Move towards center of screen
-        gameObject.GetComponent<Rigidbody2D>().AddForce(vector * 10);
+        rb.AddForce(vector * 10);
 	}
 }

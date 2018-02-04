@@ -14,22 +14,12 @@ public class FireProjectileAtTarget : MonoBehaviour, ICanFireAtTarget
 
     private void Awake()
     {
-        UpdateStats();
+        UpdateFiringStats();
+        FireAtTarget();
     }
 
-    private void OnEnable()
-    {
-        UFOController.OnUFOSpawned += FireAtTarget;
-        UFOController.OnUFODespawned += StopFiring;
-    }
 
-    private void OnDisable()
-    {
-        UFOController.OnUFOSpawned -= FireAtTarget;
-        UFOController.OnUFODespawned -= StopFiring;
-    }
-
-    void UpdateStats()
+    void UpdateFiringStats()
     {
         Debug.Log("[FireProjectileAtTarget/UpdateStats]");
         // UFO gets more precise as level increases

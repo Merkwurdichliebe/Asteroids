@@ -10,7 +10,7 @@ public class PowerUpController : Entity {
 
     private void Start()
     {
-        MoveToCenter();
+        // MoveToCenter();
     }
 
 

@@ -15,51 +15,32 @@ public abstract class Entity : MonoBehaviour {
     protected SpriteRenderer rend;
     protected Collider2D col;
 
-    // Point value of entity for scoring
-    public int pointValue;
-
+    // On Awake we grab references for the required components
+    // and set isAlive to true.
     public virtual void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
         rend = GetComponentInChildren<SpriteRenderer>();
         col = GetComponent<Collider2D>();
-        isAlive = true;
+        // SetAlive(true);
+        // isAlive = true; // FIXME should call SetAlive but Null reference ???
     }
 
 
-
-    public virtual void SetActive(bool active)
+    /// <summary>
+    /// Toggles state of isAlive member variable.
+    /// Toggles active state of Renderer, Collider and Rigibody.
+    /// We need this in order to make objects disappear and not respond
+    /// to collisions when we need to avoid calling Destroy().
+    /// </summary>
+    /// 
+    public virtual void SetAlive(bool active) // FIXME try to make this an inherited property
     {
-        //Debug.Log("[Entity/SetActive] " + active);
         isAlive = active;
         rend.enabled = active;
         col.enabled = active;
         rb.isKinematic = !active;
-        //Debug.Log("[Entity/SetActive] rend.IsVisible : " + rend.isVisible);
+        Debug.Log("[Entity/SetAlive] " + gameObject.name + " : " + active);
     }
 
-
-
-    /// <summary>
-    /// Moves the attached rigidbody to the center of the screen.
-    /// </summary>
-    public virtual void MoveToCenter()
-    {
-        //Debug.Log("[Entity/MoveToCenter]");
-        // Randomly choose left or right of screen
-        float x = (Random.value < 0.5f) ? -10 : 10;
-
-        // Randomly select a vertical position
-        float y = Random.Range(-6, 6);
-
-        // Set the transform
-        transform.position = new Vector2(x, y);
-        transform.rotation = Quaternion.identity;
-
-        // Calculate vector to center to screen
-        Vector2 vector = Vector3.zero - transform.position;
-
-        // Move towards center of screen
-        rb.AddForce(vector * 10);
-    }
 }

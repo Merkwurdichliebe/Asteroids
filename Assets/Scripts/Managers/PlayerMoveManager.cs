@@ -19,21 +19,8 @@ public class PlayerMoveManager : MonoBehaviour {
         rb = GetComponent<Rigidbody2D>();
     }
 
+
     void OnEnable()
-    {
-        Debug.Log("[PlayerMoveManager/OnEnable]");
-        PlayerController.OnPlayerSpawned += EnableInput;
-        PlayerController.OnPlayerDestroyed += DisableInput;
-    }
-
-    void OnDisable()
-    {
-        Debug.Log("[PlayerMoveManager/OnDisable]");
-        PlayerController.OnPlayerSpawned -= EnableInput;
-        PlayerController.OnPlayerDestroyed -= DisableInput;
-    }
-
-    void EnableInput()
     {
         Debug.Log("[PlayerMoveManager/EnableInput]");
         InputManager.OnInputAccelerate += HandleInputAccelerate;
@@ -42,7 +29,7 @@ public class PlayerMoveManager : MonoBehaviour {
         InputManager.OnInputTurnRight += HandleInputTurnRight;
     }
 
-    void DisableInput()
+    void OnDisable()
     {
         Debug.Log("[PlayerMoveManager/DisableInput]");
         HandleInputStop(); // FIXME Clean this
@@ -80,8 +67,7 @@ public class PlayerMoveManager : MonoBehaviour {
         {
             rb.AddRelativeForce(Vector2.up * thrustScaler, ForceMode2D.Force);
             rb.velocity = Vector2.ClampMagnitude(rb.velocity, 9.9f);
-            // velocity = rb.velocity; // Cached for velocity at impact
-            OnPlayerSpeedChanged(rb.velocity.magnitude);
+            EventManager.Instance.PlayerSpeedChanged(rb.velocity.magnitude);
         }
     }
 

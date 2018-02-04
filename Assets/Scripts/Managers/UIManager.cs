@@ -3,51 +3,78 @@ using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour {
 
-    // Reference to UI Speed Text Field
+    // Editor references to UI elements
     public Text textSpeed;
-
-    // Reference to UI Score Text Field
     public Text textScore;
-
-    // Reference to UI Lives Text Field
     public Text textLives;
-
-    // Reference to UI Announce Text Field
+    public Text labelScore;
+    public Text labelLives;
     public Text textAnnounce;
-
-    // Reference to UI DebugText Field
     public Text textDebug;
-
     public Text textRoaming;
     public GameObject canvas;
 
+    public static UIManager Instance;
+
+    void Awake()
+    {
+        Instance = this;
+        EnableGameUI(false);
+    }
+
+
     private void OnEnable()
     {
-        GameManager.OnScoreChanged += UpdateScore;
-        PlayerController.OnPlayerLivesChanged += UpdateLives;
-        GameManager.OnAnnounceMessage += UpdateAnnounceMessage;
-        SpawnSafeZoneManager.OnSpawnSafeZoneClear += CenterClearHandler;
-        SpawnSafeZoneManager.OnSpawnSafeZoneOccupied += CenterOccupiedHandler;
-        PlayerController.OnPlayerLivesZero += HandleGameOver;
-        UFOController.OnScorePoints += ShowPointsAtWorldPosition;
-        PlayerMoveManager.OnPlayerSpeedChanged += UpdateSpeed;
+
+
+        // UFOController.OnScorePoints += ShowPointsAtWorldPosition;
+
+
+        EventManager.Instance.OnSpawnSafeZoneClear += CenterClearHandler;
+        EventManager.Instance.OnSpawnSafeZoneOccupied += CenterOccupiedHandler;
+        EventManager.Instance.OnGameScoreChanged += UpdateScore;
+        EventManager.Instance.OnPlayerLivesChanged += UpdateLives;
+        EventManager.Instance.OnPlayerLivesZero += HandleGameOver;
+        EventManager.Instance.OnPlayerSpeedChanged += UpdateSpeed;
+        EventManager.Instance.OnEntityKilledByPlayer += ShowPointsAtScreenPosition;
     }
 
     private void OnDisable()
     {
-        GameManager.OnScoreChanged -= UpdateScore;
-        PlayerController.OnPlayerLivesChanged -= UpdateLives;
-        GameManager.OnAnnounceMessage -= UpdateAnnounceMessage;
-        SpawnSafeZoneManager.OnSpawnSafeZoneClear -= CenterClearHandler;
-        SpawnSafeZoneManager.OnSpawnSafeZoneOccupied -= CenterOccupiedHandler;
-        PlayerController.OnPlayerLivesZero -= HandleGameOver;
-        UFOController.OnScorePoints -= ShowPointsAtWorldPosition;
-        PlayerMoveManager.OnPlayerSpeedChanged -= UpdateSpeed;
+        // UFOController.OnScorePoints -= ShowPointsAtWorldPosition;
+
+        EventManager.Instance.OnSpawnSafeZoneClear -= CenterClearHandler;
+        EventManager.Instance.OnSpawnSafeZoneOccupied -= CenterOccupiedHandler;
+        EventManager.Instance.OnGameScoreChanged -= UpdateScore;
+        EventManager.Instance.OnPlayerLivesChanged -= UpdateLives;
+        EventManager.Instance.OnPlayerLivesZero -= HandleGameOver;
+        EventManager.Instance.OnPlayerSpeedChanged -= UpdateSpeed;
     }
 
     void Start()
     {
         textAnnounce.text = "";
+    }
+
+    public void DisplayLevelNumber(int level)
+    {
+        UpdateAnnounceMessage(string.Format("LEVEL {0}", level), 3.0f);
+    }
+
+    public void DisplayGameUI()
+    {
+        ClearAnnounceMessage();
+        EnableGameUI(true);
+    }
+
+    void EnableGameUI(bool state)
+    {
+        textSpeed.gameObject.SetActive(state);
+        textLives.gameObject.SetActive(state);
+        textScore.gameObject.SetActive(state);
+        labelLives.gameObject.SetActive(state);
+        labelScore.gameObject.SetActive(state);
+
     }
 
     void CenterClearHandler()
@@ -88,7 +115,6 @@ public class UIManager : MonoBehaviour {
     public void UpdateAnnounceMessage(string text, float duration)
     {
         textAnnounce.text = text;
-        Invoke("ClearAnnounceMessage", duration);
     }
 
     public void ClearAnnounceMessage()
@@ -96,12 +122,15 @@ public class UIManager : MonoBehaviour {
         textAnnounce.text = "";
     }
 
-    public void ShowPointsAtWorldPosition(Entity e)
+    public void ShowPointsAtScreenPosition(ICanScorePoints entity)
     {
-        Text t = Instantiate(textRoaming);
-        t.transform.SetParent(canvas.transform, false);
-        t.transform.position = Camera.main.WorldToScreenPoint(e.gameObject.transform.position);
-        t.text = e.pointValue.ToString();
-        Destroy(t, 1.0f);
+        if (entity.DisplayPointsWhenKilled == true)
+        {
+            Text t = Instantiate(textRoaming);
+            t.transform.SetParent(canvas.transform, false);
+            t.transform.position = Camera.main.WorldToScreenPoint(entity.gameObject.transform.position);
+            t.text = entity.PointValue.ToString();
+            Destroy(t.gameObject, 1.0f);
+        }
     }
 }

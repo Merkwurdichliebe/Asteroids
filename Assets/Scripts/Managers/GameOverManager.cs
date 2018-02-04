@@ -6,7 +6,7 @@ public class GameOverManager : MonoBehaviour
 {
     private void OnEnable()
     {
-        PlayerController.OnPlayerLivesZero += GameOver;
+        EventManager.Instance.OnPlayerLivesZero += GameOver;
     }
 
     void GameOver()

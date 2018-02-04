@@ -17,14 +17,16 @@ public class PlayerAudioManager : MonoBehaviour {
     {
         PlayerMoveManager.OnPlayerAccelerate += HandleAccelerate;
         PlayerMoveManager.OnPlayerStop += HandleStop;
-        PlayerController.OnPlayerDestroyed += HandlePlayerDestroyed;
+
+        EventManager.Instance.OnPlayerDestroyed += HandlePlayerDestroyed;
     }
 
     private void OnDisable()
     {
         PlayerMoveManager.OnPlayerAccelerate -= HandleAccelerate;
         PlayerMoveManager.OnPlayerStop -= HandleStop;
-        PlayerController.OnPlayerDestroyed -= HandlePlayerDestroyed;
+
+        EventManager.Instance.OnPlayerDestroyed -= HandlePlayerDestroyed;
     }
 
     private void Start()

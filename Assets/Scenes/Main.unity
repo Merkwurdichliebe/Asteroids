@@ -249,63 +249,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &227512982
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 5
-  m_Component:
-  - component: {fileID: 227512985}
-  - component: {fileID: 227512984}
-  - component: {fileID: 227512983}
-  m_Layer: 0
-  m_Name: SpawnSafeZone
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &227512983
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 227512982}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 17297419f33774b119eccda5907343da, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!58 &227512984
-CircleCollider2D:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 227512982}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  serializedVersion: 2
-  m_Radius: 2.5
---- !u!4 &227512985
-Transform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 227512982}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &543536002
 GameObject:
@@ -681,7 +625,7 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1444751500}
---- !u!1001 &1449593807
+--- !u!1001 &1483331185
 Prefab:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -718,12 +662,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4518788132194178, guid: 1d1679504999743b89d4ce54966aba00, type: 2}
       propertyPath: m_RootOrder
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 58672196902418394, guid: 1d1679504999743b89d4ce54966aba00,
-        type: 2}
-      propertyPath: m_IsTrigger
-      value: 1
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 1d1679504999743b89d4ce54966aba00, type: 2}
@@ -989,7 +928,7 @@ RectTransform:
   - {fileID: 845520241}
   - {fileID: 1444751501}
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -1004,9 +943,10 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 2104122569}
+  - component: {fileID: 2104122575}
   - component: {fileID: 2104122570}
-  - component: {fileID: 2104122572}
   - component: {fileID: 2104122574}
+  - component: {fileID: 2104122572}
   - component: {fileID: 2104122568}
   - component: {fileID: 2104122573}
   - component: {fileID: 2104122571}
@@ -1031,6 +971,8 @@ MonoBehaviour:
   textSpeed: {fileID: 543536004}
   textScore: {fileID: 1191835443}
   textLives: {fileID: 90670974}
+  labelScore: {fileID: 1795128841}
+  labelLives: {fileID: 1004370855}
   textAnnounce: {fileID: 845520242}
   textDebug: {fileID: 1444751502}
   textRoaming: {fileID: 114392067046668686, guid: 9f2f7e7f808f44e1bac0a71fac206207,
@@ -1047,7 +989,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2104122570
 MonoBehaviour:
@@ -1060,13 +1002,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e2def2ab3ccac46e589fbe2fc0ddf241, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startingAsteroids: 1
   PrefabAsteroid: {fileID: 1675515984352900, guid: 165fce1b024b44eb7a9ac1c1ea667665,
     type: 2}
   PrefabUFO: {fileID: 1839108818726510, guid: d34b63115465242f48024485b4dba654, type: 2}
   PrefabPowerup: {fileID: 1652396518808640, guid: 1d1679504999743b89d4ce54966aba00,
     type: 2}
+  PrefabSpawnSafeZone: {fileID: 1794067495380198, guid: 403a337438dd9426c938e1581c33ed80,
+    type: 2}
   player: {fileID: 114579725366848430, guid: 1cd0fc377425e480f912e5efcaa6121b, type: 2}
+  startingAsteroids: 4
   UFOSpawnFrequency: 2
   UFOSpawnProbability: 0.5
 --- !u!82 &2104122571
@@ -1157,13 +1101,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 2104122567}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 42ae2fa5bb11f4292b811ffcc738f113, type: 3}
+  m_Script: {fileID: 11500000, guid: 94e377f3e1eee47338e2b9eb9943f9b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   itemsToPool:
   - objectToPool: {fileID: 1708459439725374, guid: 831000a8a9e9b4d39b5a27a5e801bcd3,
       type: 2}
-    amountToPool: 20
+    amountToPool: 10
     shouldExpand: 0
   - objectToPool: {fileID: 1153547247518906, guid: 4e7ed8f7a34c547e1bb874136671ebcc,
       type: 2}
@@ -1190,5 +1134,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d4b48a27236ea4114b49e0aeeb968f7d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &2104122575
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2104122567}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5117a40c7c9794fad91d5b728e6ba35e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

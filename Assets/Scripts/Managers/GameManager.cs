@@ -5,25 +5,23 @@ using UnityEngine.Assertions;
 using Random = UnityEngine.Random;
 
 public class GameManager : MonoBehaviour
-{
-    // -------------------------------------------------------------------------
-    // Messaging delegates
-    // -------------------------------------------------------------------------
-
-    public static Action<int> OnScoreChanged;
-    public static Action<string, float> OnAnnounceMessage;
-    public static Action OnLevelStarted;
-
+{  
     // -------------------------------------------------------------------------
     // Inspector variables
     // -------------------------------------------------------------------------
 
-    public int startingAsteroids;
-    public static int level;
+    // References to prefabs
     public GameObject PrefabAsteroid;
     public GameObject PrefabUFO;
     public GameObject PrefabPowerup;
+    public GameObject PrefabSpawnSafeZone; 
+
+    // Reference to the PlayerController script
     public PlayerController player;
+
+    // Tunable game data
+    public int startingAsteroids;
+    public static int level;
     public float UFOSpawnFrequency;
     public float UFOSpawnProbability;
 
@@ -34,83 +32,116 @@ public class GameManager : MonoBehaviour
     private int playerScore;
     public int PlayerScore { get { return playerScore; } }
 
+    private int countUFO;
+    private int countAsteroids;
+
     // -------------------------------------------------------------------------
-    // Setup methods
+    // Setup
     // -------------------------------------------------------------------------
 
     void Awake()
     {
+        // Check for unconnected prefabs
         Assert.IsNotNull(PrefabAsteroid);
         Assert.IsNotNull(PrefabUFO);
         Assert.IsNotNull(player);
 
-        // Reset the (static) count variable
-        AsteroidController.countAsteroids = 0;
-
+        // Set the level number
         level = 0;
+
+        Instantiate(PrefabSpawnSafeZone, Vector2.zero, Quaternion.identity);
+        UIManager uiManager = GetComponent<UIManager>();
+        if (uiManager != null) uiManager.enabled = true;
+        player = Instantiate(player, Vector2.zero, Quaternion.identity);
     }
+
+
 
     void OnEnable()
     {
-        AsteroidController.OnLastAsteroidDestroyed += NextLevel;
-        UFOController.OnScorePoints += HandleScorePoints;
-        UFOController.OnUFODespawned += StartUFOSpawner;
-        AsteroidController.OnScorePoints += HandleScorePoints;
+        EventManager.Instance.OnLevelCleared += PrepareNextLevel;
+        EventManager.Instance.OnUFODestroyed += StartUFOSpawner;
+        EventManager.Instance.OnUFODestroyed += CheckLevelCleared;
+        EventManager.Instance.OnAsteroidDestroyed += CheckLevelCleared;
+        EventManager.Instance.OnEntityKilledByPlayer += HandleScorePoints;
+        EventManager.Instance.OnPlayerLivesZero += Cleanup;
     }
+
+
 
     void OnDisable()
     {
-        AsteroidController.OnLastAsteroidDestroyed -= NextLevel;
-        UFOController.OnScorePoints -= HandleScorePoints;
-        UFOController.OnUFODespawned -= StartUFOSpawner;
-        AsteroidController.OnScorePoints -= HandleScorePoints;
+        EventManager.Instance.OnLevelCleared -= PrepareNextLevel;
+        EventManager.Instance.OnUFODestroyed -= StartUFOSpawner;
+        EventManager.Instance.OnUFODestroyed += CheckLevelCleared;
+        EventManager.Instance.OnAsteroidDestroyed -= CheckLevelCleared;
+        EventManager.Instance.OnEntityKilledByPlayer -= HandleScorePoints;
+        EventManager.Instance.OnPlayerLivesZero -= Cleanup;
     }
+
+    // -----------------------------------------------------------------------------
+    // Methods
+    // -----------------------------------------------------------------------------
 
     void Start()
     {
-        // Spawn player
-        player = Instantiate(player, Vector2.zero, Quaternion.identity);
-        player.Lives = 3;
-
-        // Start the first level
-        NextLevel();
+        PrepareNextLevel();
     }
 
 
 
-    void NextLevel()
+    void PrepareNextLevel()
     {
-        // Increase level number, display it for three seconds,
-        // disable (hide) the player while doing do
+        Debug.Log("[GameManager/PrepareNextLevel] " + (level + 1));
+        StopAllCoroutines();
+        StartCoroutine(ReadyNextLevel());
+    }
+
+
+
+    IEnumerator ReadyNextLevel()
+    {
         level += 1;
-        Debug.Log("[GameManager/NextLevel] Level " + level + " starting");
-        OnAnnounceMessage(string.Format("LEVEL {0}", level), 3.0f);
-        player.gameObject.SetActive(false);
-        StartCoroutine(SpawnAsteroids());
+        player.SetAlive(false);
+        UIManager.Instance.DisplayLevelNumber(level);
+        yield return new WaitForSeconds(3);
+        UIManager.Instance.DisplayGameUI();
+        StartNextLevel();
     }
 
 
 
-    IEnumerator SpawnAsteroids()
+    void StartNextLevel()
     {
-        yield return new WaitForSeconds(3.0f);
+        SpawnAsteroids();
+        player.Spawn();
+        StartUFOSpawner();
+    }
+
+
+
+    void SpawnAsteroids()
+    {
         // Spawn asteroids based on level number
-        Assert.IsNotNull(PrefabAsteroid);
         for (int i = 0; i < startingAsteroids + level - 1; i++)
         {
             Instantiate(PrefabAsteroid, Vector2.zero, Quaternion.identity);
         }
-        Debug.Log("[GameManager/SpawnAsteroids] Asteroids spawned");
-        player.gameObject.SetActive(true); // FIXME find a clean solution for spawning
-        if (OnLevelStarted != null) OnLevelStarted();
-        StartUFOSpawner();
     }
+
+
 
     private void StartUFOSpawner()
     {
         Debug.Log("[GameManager/StartUFOSpawner]");
-        StartCoroutine(SpawnUFO());
+        if (UFOController.Count < 1)
+        {
+            Debug.Log("(UFO.Count = " + UFOController.Count + ")");
+            StartCoroutine(SpawnUFO());
+        }
     }
+
+
 
     IEnumerator SpawnUFO()
     {
@@ -126,16 +157,36 @@ public class GameManager : MonoBehaviour
 
         // Spawn UFO and add the player object as its target
         GameObject ufo = Instantiate(PrefabUFO);
+
+        // FIXME this gets a null reference when gameover
         ufo.GetComponent<ICanFireAtTarget>().Target = player.gameObject;
         Debug.Log("[GameManager/SpawnUFO] Spawned");
 
     }
 
 
-    void HandleScorePoints(Entity e)
+
+    void CheckLevelCleared()
     {
-        playerScore += e.pointValue;
-        if (OnScoreChanged != null) OnScoreChanged(playerScore);
+        if (AsteroidController.Count == 0 && UFOController.Count == 0)
+        {
+            EventManager.Instance.LevelCleared();
+        }
+    }
+
+
+
+    void HandleScorePoints(ICanScorePoints e)
+    {
+        playerScore += e.PointValue;
+        EventManager.Instance.GameScoreChanged(playerScore);
+    }
+
+
+
+    void Cleanup()
+    {
+        StopAllCoroutines();
     }
 
 
