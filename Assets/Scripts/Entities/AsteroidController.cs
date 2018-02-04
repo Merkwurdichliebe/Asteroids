@@ -106,6 +106,8 @@ public class AsteroidController : Entity, IKillable, ICanScorePoints
 
 
 
+    // (Required by IKillable)
+    // Asteroid kill sequence.
     public void Kill()
     {
         // Instantiate an explosion
@@ -121,6 +123,7 @@ public class AsteroidController : Entity, IKillable, ICanScorePoints
         EventManager.Instance.AsteroidDestroyed();
         Destroy(gameObject);
     }
+
 
 
     // Instantiate two copies of this asteroid.
@@ -148,6 +151,7 @@ public class AsteroidController : Entity, IKillable, ICanScorePoints
             Kill();
         }
     }
+
 
 
     // Projectiles are Triggers, not Colliders.

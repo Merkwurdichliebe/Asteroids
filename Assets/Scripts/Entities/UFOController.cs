@@ -62,7 +62,8 @@ public class UFOController : Entity, IKillable, ICanScorePoints
 
 
 
-    // Required by IKillable
+    // (Required by IKillable)
+    // UFO kill sequence.
     public void Kill()
     {
         Debug.Log("[UFOController/Kill]");
@@ -82,6 +83,7 @@ public class UFOController : Entity, IKillable, ICanScorePoints
 
 
     // We need this in order to handle when the UFO leaves the screen.
+    // The final steps are taken in OnDestroy().
     private void OnBecameInvisible()
     {
         Destroy(gameObject);
@@ -98,19 +100,12 @@ public class UFOController : Entity, IKillable, ICanScorePoints
 
 
 
-    private void OnBecameVisible()
-    {
-        Debug.Log("[UFOController/OnBecameVisible]");
-    }
-
-
-
     // Destroy the UFO if it collides with asteroid or the player.
     void OnCollisionEnter2D(Collision2D collision)
     {
-        string objTag = collision.gameObject.tag;
-
-        if (objTag == "Asteroid" || objTag == "Player")
+        // string objTag = collision.gameObject.tag;
+        if (collision.gameObject.CompareTag("Asteroid") || 
+            collision.gameObject.CompareTag("Player"))
         {
             Kill();   
         }
@@ -124,9 +119,7 @@ public class UFOController : Entity, IKillable, ICanScorePoints
     // as a ICanScorePoints interface.
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        string objTag = collision.gameObject.tag;
-
-        if (objTag == "PlayerProjectile")
+        if (collision.gameObject.CompareTag("PlayerProjectile"))
         {
             EventManager.Instance.EntityKilledByPlayer(this);
             Kill();

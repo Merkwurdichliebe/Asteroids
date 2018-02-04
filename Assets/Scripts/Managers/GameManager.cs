@@ -102,7 +102,7 @@ public class GameManager : MonoBehaviour
     IEnumerator ReadyNextLevel()
     {
         level += 1;
-        player.SetAlive(false);
+        player.ActiveInScene = false;
         UIManager.Instance.DisplayLevelNumber(level);
         yield return new WaitForSeconds(3);
         UIManager.Instance.DisplayGameUI();

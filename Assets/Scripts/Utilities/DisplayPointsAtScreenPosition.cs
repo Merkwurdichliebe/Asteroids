@@ -3,7 +3,7 @@ using UnityEngine.UI;
 
 public class DisplayPointsAtScreenPosition : MonoBehaviour {
 
-    public Canvas canvas;
+    public RectTransform canvas;
     public Text UITextObject;
 
     public void DisplayPoints(string text)

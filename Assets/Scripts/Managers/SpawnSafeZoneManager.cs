@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class SpawnSafeZoneManager : MonoBehaviour {
 
@@ -54,13 +53,13 @@ public class SpawnSafeZoneManager : MonoBehaviour {
 
     void OnTriggerExit2D(Collider2D collision)
     {
-        EventManager.Instance.SpawnSafeZoneClear();
+        EventManager.Instance.SpawnSafeZoneIsClear(true);
     }
 
 
 
     void OnTriggerStay2D(Collider2D collision)
     {
-        EventManager.Instance.SpawnSafeZoneOccupied();
+        EventManager.Instance.SpawnSafeZoneIsClear(false);
     }
 }

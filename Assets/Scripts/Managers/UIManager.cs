@@ -30,8 +30,8 @@ public class UIManager : MonoBehaviour {
         // UFOController.OnScorePoints += ShowPointsAtWorldPosition;
 
 
-        EventManager.Instance.OnSpawnSafeZoneClear += CenterClearHandler;
-        EventManager.Instance.OnSpawnSafeZoneOccupied += CenterOccupiedHandler;
+        EventManager.Instance.OnSpawnSafeZoneClear += HandleCenterIsClear;
+        // EventManager.Instance.OnSpawnSafeZoneOccupied += CenterOccupiedHandler;
         EventManager.Instance.OnGameScoreChanged += UpdateScore;
         EventManager.Instance.OnPlayerLivesChanged += UpdateLives;
         EventManager.Instance.OnPlayerLivesZero += HandleGameOver;
@@ -41,10 +41,7 @@ public class UIManager : MonoBehaviour {
 
     private void OnDisable()
     {
-        // UFOController.OnScorePoints -= ShowPointsAtWorldPosition;
-
-        EventManager.Instance.OnSpawnSafeZoneClear -= CenterClearHandler;
-        EventManager.Instance.OnSpawnSafeZoneOccupied -= CenterOccupiedHandler;
+        EventManager.Instance.OnSpawnSafeZoneClear -= HandleCenterIsClear;
         EventManager.Instance.OnGameScoreChanged -= UpdateScore;
         EventManager.Instance.OnPlayerLivesChanged -= UpdateLives;
         EventManager.Instance.OnPlayerLivesZero -= HandleGameOver;
@@ -77,9 +74,9 @@ public class UIManager : MonoBehaviour {
 
     }
 
-    void CenterClearHandler()
+    void HandleCenterIsClear(bool b)
     {
-        UpdateDebug("Center is clear");
+        UpdateDebug("Center is clear : " + b);
     }
 
     void CenterOccupiedHandler()

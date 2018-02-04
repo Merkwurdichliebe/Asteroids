@@ -8,13 +8,43 @@ public class PlayerController : Entity, IKillable
     // -----------------------------------------------------------------------------
 
     public GameObject explosion;
-    public int lives;
+
+    [Range(1, 10)]
+    public int livesAtStart;
 
     private int _livesLeft;
-    private bool centerIsOccupied;
+    private bool centerIsClear;
 
     private PlayerMoveManager moveComponent;
     private FireProjectileFromInput fireComponent;
+
+    private bool _activeInScene;
+
+    public bool ActiveInScene
+    {
+        get
+        {
+            return _activeInScene;
+        }
+        set
+        {
+            _activeInScene = value;
+            rend.enabled = value;
+            col.enabled = value;
+            rb.isKinematic = !value;
+            moveComponent.enabled = value;
+            fireComponent.enabled = value;
+            if (value)
+            {
+                EventManager.Instance.PlayerSpawned();
+            }
+            else
+            {
+                EventManager.Instance.PlayerDespawned();
+            }
+            Debug.Log("[SetActiveInScene] " + gameObject.name + " : " + value);
+        }
+    }
 
     public int Lives
     {
@@ -26,71 +56,59 @@ public class PlayerController : Entity, IKillable
         }
     }
 
+
+
     public override void Awake()
     {
         base.Awake();
         gameObject.name = "Player";
-        Lives = lives;
+        Lives = livesAtStart;
         moveComponent = GetComponent<PlayerMoveManager>();
         fireComponent = GetComponent<FireProjectileFromInput>();
     }
 
-    public override void SetAlive(bool active)
-    {
-        base.SetAlive(active);
-        moveComponent.enabled = active;
-        fireComponent.enabled = active;
-        if (active)
-        {
-            EventManager.Instance.PlayerSpawned();
-        }
-        else 
-        {
-            EventManager.Instance.PlayerDespawned();
-        }
-    }
+
 
     void OnEnable()
     {
-        EventManager.Instance.OnSpawnSafeZoneClear += CenterIsClear;
-        EventManager.Instance.OnSpawnSafeZoneOccupied += CenterIsOccupied;
+        EventManager.Instance.OnSpawnSafeZoneClear += HandleCenterIsClear;
         EventManager.Instance.OnPlayerWasHit += Kill;
     }
 
+
+
     void OnDisable()
     {
-        EventManager.Instance.OnSpawnSafeZoneClear -= CenterIsClear;
-        EventManager.Instance.OnSpawnSafeZoneOccupied -= CenterIsOccupied;
+        EventManager.Instance.OnSpawnSafeZoneClear -= HandleCenterIsClear;
         EventManager.Instance.OnPlayerWasHit -= Kill;
     }
 
-    void CenterIsClear() { centerIsOccupied = false; }
-    void CenterIsOccupied() { centerIsOccupied = true; }
 
-    public void ResetVelocity()
-    {
-        rb.velocity = Vector2.zero;
-    }
 
-    public void ResetPosition()
-    {
-        transform.position = Vector2.zero;
-        transform.rotation = Quaternion.identity;
-    }
+    // Event handler for when the center spawn safe zone is clear.
+    void HandleCenterIsClear(bool b) { centerIsClear = b; }
 
+
+
+    // (Required by IKillable)
+    // Player kill sequence.
     public void Kill()
     {
+        // Instantiate the explosion prefab
         Instantiate(explosion, transform.position, Quaternion.identity);
 
         // Hide the player, disable its collider & keyboard input
-        SetAlive(false);
+        ActiveInScene = false;
 
-        // Reduce 1 life
+        // Reduce one life
         Lives -= 1;
 
+        // Notify EventManager
         EventManager.Instance.PlayerDestroyed();
         EventManager.Instance.PlayerLivesChanged(_livesLeft);
 
+        // Check if we should respawn.
+        // Otherwise the game is over and we can destroy the player object.
         if (_livesLeft > 0) {
             StartCoroutine(RespawnInSeconds(3));
         }
@@ -101,22 +119,32 @@ public class PlayerController : Entity, IKillable
         }
     }
 
+
+
+    // Wait a while before respawning, to allow for the explosion effect
+    // to finish.
     IEnumerator RespawnInSeconds(float seconds)
     {
         yield return new WaitForSeconds(seconds);
         StartCoroutine(WaitForCenterClear());
     }
 
+
+
+    // Wait until the center spawn safe zone is clear,
+    // so as not to spawn right next to an asteroid or enemy.
     IEnumerator WaitForCenterClear()
     {
-        // Don't do anything while the center is not clear
-        while (centerIsOccupied) { yield return null; }
+        while (!centerIsClear) { yield return null; }
         Spawn();
     }
 
+
+
+    // Reactivate the player and reset its transform and velocity to zero.
     public void Spawn()
     {
-        SetAlive(true);
+        ActiveInScene = true;
         transform.position = Vector2.zero;
         transform.rotation = Quaternion.identity;
         rb.velocity = Vector2.zero;

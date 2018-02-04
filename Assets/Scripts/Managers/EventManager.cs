@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class EventManager : MonoBehaviour
 {
+    public static EventManager Instance;
+
     public Action OnAsteroidDestroyed;
     public Action OnPlayerSpawned;
     public Action OnPlayerDespawned;
@@ -13,30 +15,18 @@ public class EventManager : MonoBehaviour
     public Action<float> OnPlayerSpeedChanged;
     public Action<ICanScorePoints> OnEntityKilledByPlayer;
     public Action OnUFODestroyed;
-    public Action OnSpawnSafeZoneClear;
-    public Action OnSpawnSafeZoneOccupied;
+    public Action<bool> OnSpawnSafeZoneClear;
     public Action<int> OnGameScoreChanged;
     public Action OnLivesEqualsZero;
     public Action OnLevelCleared;
-
-    // Static methods which can be called from anywhere, like this:
-    // EventManager.MessageAsteroidDestroyed()
-    // This will call the event defined above, using:
-    // OnAsteroidDestroyed()
-    // This, in turn, will call all methods which have subscribed
-    // to the event.
-    // We are checking for null before calling the event
-    // Just to make sure that at least one method has subscribed to it.
-
-    public static EventManager Instance;
 
     private void Awake()
     {
         Instance = this;
     }
 
-    // Methods called by the messaging script,
-    // firing the events required if subscribed to
+    // Methods called by various scripts,
+    // firing the events required if they have been subscribed to.
 
     public void AsteroidDestroyed() { if (OnAsteroidDestroyed != null) OnAsteroidDestroyed(); }
     public void PlayerSpawned() { if (OnPlayerSpawned != null) OnPlayerSpawned(); }
@@ -48,8 +38,7 @@ public class EventManager : MonoBehaviour
     public void PlayerSpeedChanged(float speed) { if (OnPlayerSpeedChanged != null) OnPlayerSpeedChanged(speed); }
     public void EntityKilledByPlayer(ICanScorePoints entity) { if (OnEntityKilledByPlayer != null) OnEntityKilledByPlayer(entity); }
     public void UFODestroyed() { if (OnUFODestroyed != null) OnUFODestroyed(); }
-    public void SpawnSafeZoneClear() { if (OnSpawnSafeZoneClear != null) OnSpawnSafeZoneClear(); }
-    public void SpawnSafeZoneOccupied() { if (OnSpawnSafeZoneOccupied != null) OnSpawnSafeZoneOccupied(); }
+    public void SpawnSafeZoneIsClear(bool b) { if (OnSpawnSafeZoneClear != null) OnSpawnSafeZoneClear(b); }
     public void GameScoreChanged(int score) { if (OnGameScoreChanged != null) OnGameScoreChanged(score); }
     public void LevelCleared() { if (OnLevelCleared != null) OnLevelCleared(); }
 }

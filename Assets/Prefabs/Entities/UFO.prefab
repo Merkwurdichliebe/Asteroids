@@ -217,10 +217,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6cc99729255f4bcdbcc474313d9acea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pointValue: 20
   explosion: {fileID: 1567358503014116, guid: 71915c557f2d44ab6aace90312a0c2a3, type: 2}
-  displayPointsWhenKilled: 1
   basePointValue: 30
+  displayPointsWhenKilled: 1
 --- !u!114 &114919254889031874
 MonoBehaviour:
   m_ObjectHideFlags: 1
