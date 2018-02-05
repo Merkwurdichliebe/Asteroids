@@ -1,49 +1,57 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-public class FireProjectileAtTarget : MonoBehaviour, ICanFireAtTarget
+public class FireProjectileAtTarget : MonoBehaviour, IFire
 {
-    private GameObject target;
+    private Transform target;
     private Vector3 firingPrecision;
     private float firingInterval;
     private Coroutine fireCoroutine;
 
-    // Required by ICanFireAtArget
-    public GameObject Target { get { return target; } set { target = value; } }
+
 
     private void Awake()
     {
         UpdateFiringStats();
-        FireAtTarget();
+        AcquireTarget();
+        Fire();
     }
 
 
+    // Update the UFO's firing precision as the level increases.
     void UpdateFiringStats()
     {
-        Debug.Log("[FireProjectileAtTarget/UpdateStats]");
-        // UFO gets more precise as level increases.
         firingPrecision.x = Random.Range(0, Mathf.Clamp(1 - GameManager.level / 10, 0, 1.0f));
         firingPrecision.y = Random.Range(0, Mathf.Clamp(1 - GameManager.level / 10, 0, 1.0f));
         firingInterval = Mathf.Clamp(3 - GameManager.level / 10, 1.0f, 3.0f);
+        Debug.Log("[FireProjectileAtTarget/UpdateStats]");
     }
 
 
 
-    // Required by ICanFireAtArget
-    public void FireAtTarget()
+    // Find the target to shoot at (the player).
+    private void AcquireTarget()
     {
-        fireCoroutine = StartCoroutine(Fire());
+        target = FindObjectOfType<PlayerController>().gameObject.transform;
+        Debug.Log("[FireProjectileAtTarget/AcquireTarget] " + target.gameObject.name);
     }
 
 
 
-    IEnumerator Fire()
+    public void Fire()
+    {
+        fireCoroutine = StartCoroutine(FireAtTarget());
+    }
+
+
+
+    IEnumerator FireAtTarget()
     {
         yield return new WaitForSeconds(1);
         while (true)
         {
             // Calculate vector to player.
-            Vector2 direction = (target.transform.position - transform.position) + firingPrecision;
+            Vector2 direction = (target.position - transform.position) + firingPrecision;
 
             // Calculate angle to player.
             float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg - 90;
@@ -62,10 +70,8 @@ public class FireProjectileAtTarget : MonoBehaviour, ICanFireAtTarget
 
 
 
-    // fixme can probably be deleted
-    private void StopFiring()
+    private void OnDestroy()
     {
-        Debug.Log("[FireProjectileAtTarget/StopFiring]");
         StopCoroutine(fireCoroutine);
     }
 }

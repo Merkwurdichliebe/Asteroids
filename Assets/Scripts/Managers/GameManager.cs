@@ -11,6 +11,7 @@ public class GameManager : MonoBehaviour
     // -------------------------------------------------------------------------
 
     // References to prefabs
+    [Header("Main game prefabs")]
     public GameObject PrefabAsteroid;
     public GameObject PrefabUFO;
     public GameObject PrefabPowerup;
@@ -20,6 +21,7 @@ public class GameManager : MonoBehaviour
     public PlayerController player;
 
     // Tunable game data
+    [Header("Game options")]
     public int startingAsteroids;
     public static int level;
     public float UFOSpawnFrequency;
@@ -52,7 +54,7 @@ public class GameManager : MonoBehaviour
         Instantiate(PrefabSpawnSafeZone, Vector2.zero, Quaternion.identity);
         UIManager uiManager = GetComponent<UIManager>();
         if (uiManager != null) uiManager.enabled = true;
-        player = Instantiate(player, Vector2.zero, Quaternion.identity);
+        player = Instantiate(player);
     }
 
 
@@ -155,13 +157,9 @@ public class GameManager : MonoBehaviour
             yield return new WaitForSeconds(UFOSpawnFrequency);
         }
 
-        // Spawn UFO and add the player object as its target
-        GameObject ufo = Instantiate(PrefabUFO);
-
-        // FIXME this gets a null reference when gameover
-        ufo.GetComponent<ICanFireAtTarget>().Target = player.gameObject;
+        // Spawn the UFO
+        Instantiate(PrefabUFO);
         Debug.Log("[GameManager/SpawnUFO] Spawned");
-
     }
 
 

@@ -15,8 +15,8 @@ public class PlayerController : Entity, IKillable
     private int _livesLeft;
     private bool centerIsClear;
 
-    private PlayerMoveManager moveComponent;
-    private FireProjectileFromInput fireComponent;
+    private IMove moveComponent;
+    private IFire fireComponent;
 
     private bool _activeInScene;
 
@@ -32,8 +32,8 @@ public class PlayerController : Entity, IKillable
             rend.enabled = value;
             col.enabled = value;
             rb.isKinematic = !value;
-            moveComponent.enabled = value;
-            fireComponent.enabled = value;
+            // moveComponent.enabled = value;
+            // fireComponent.enabled = value;
             if (value)
             {
                 EventManager.Instance.PlayerSpawned();
@@ -63,8 +63,8 @@ public class PlayerController : Entity, IKillable
         base.Awake();
         gameObject.name = "Player";
         Lives = livesAtStart;
-        moveComponent = GetComponent<PlayerMoveManager>();
-        fireComponent = GetComponent<FireProjectileFromInput>();
+        moveComponent = GetComponent<IMove>();
+        fireComponent = GetComponent<IFire>();
     }
 
 
@@ -145,7 +145,7 @@ public class PlayerController : Entity, IKillable
     public void Spawn()
     {
         ActiveInScene = true;
-        transform.position = Vector2.zero;
+        transform.position = new Vector2(1, 1);
         transform.rotation = Quaternion.identity;
         rb.velocity = Vector2.zero;
     }

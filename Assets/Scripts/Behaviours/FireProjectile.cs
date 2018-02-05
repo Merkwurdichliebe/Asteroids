@@ -3,9 +3,9 @@
 // This firing script needs an object pool of projectiles to fire.
 // It expects the singleton class (script) called ObjectPool.
 
-[RequireComponent(typeof(InputManager))]
+[RequireComponent(typeof(InputFromKeyboard))]
 
-public class FireProjectileFromInput : MonoBehaviour {
+public class FireProjectile : MonoBehaviour, IFire {
 
     // Get from the Inspector the Transform from which the weapon should fire.
     public Transform anchorMainGun;
@@ -22,19 +22,11 @@ public class FireProjectileFromInput : MonoBehaviour {
         }
     }
 
-    private void OnEnable()
-    {
-        InputManager.OnInputFire += Fire;
-    }
 
-    private void OnDisable()
-    {
-        InputManager.OnInputFire -= Fire;
-    }
 
     // We will get a null reference error if we try to get an object
     // from ObjectPool without making sure it exists.
-    private void Fire()
+    public void Fire()
     {
         if (objectPoolExists)
         {
