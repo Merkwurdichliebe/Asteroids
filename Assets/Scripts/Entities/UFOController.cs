@@ -1,11 +1,10 @@
-﻿using System;
-using System.Collections;
-using UnityEngine;
-using UnityEngine.Assertions;
-using Random = UnityEngine.Random;
+﻿using UnityEngine;
 
-public class UFOController : Entity, IKillable, ICanScorePoints
+public class UFOController : Entity, IKillable, ICanScorePoints, ISpawnable
 {
+
+    public Spawner Spawner { get; set; }
+
     // -----------------------------------------------------------------------------
     // Inspector fields
     // -----------------------------------------------------------------------------
@@ -67,7 +66,6 @@ public class UFOController : Entity, IKillable, ICanScorePoints
     public void Kill()
     {
         Debug.Log("[UFOController/Kill]");
-        // childExplosion.gameObject.SetActive(true);
         Instantiate(explosion, transform.position, Quaternion.identity);
         Destroy(gameObject);
     }
@@ -96,6 +94,7 @@ public class UFOController : Entity, IKillable, ICanScorePoints
     {
         Count -= 1;
         EventManager.Instance.UFODestroyed();
+        Spawner.NotifyDestroyed(this.gameObject);
     }
 
 

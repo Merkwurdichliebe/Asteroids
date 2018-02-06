@@ -1,11 +1,16 @@
 fileFormatVersion: 2
 guid: e2def2ab3ccac46e589fbe2fc0ddf241
-timeCreated: 1517840219
+timeCreated: 1517846385
 licenseType: Free
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - PrefabAsteroid: {instanceID: 0}
+  - PrefabUFO: {instanceID: 0}
+  - PrefabPowerup: {instanceID: 0}
+  - PrefabSpawnSafeZone: {instanceID: 0}
+  - player: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

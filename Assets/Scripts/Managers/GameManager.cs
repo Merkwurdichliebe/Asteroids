@@ -15,7 +15,7 @@ public class GameManager : MonoBehaviour
     public GameObject PrefabAsteroid;
     public GameObject PrefabUFO;
     public GameObject PrefabPowerup;
-    public GameObject PrefabSpawnSafeZone; 
+    public GameObject PrefabSpawnSafeZone;
 
     // Reference to the PlayerController script
     public PlayerController player;
@@ -41,6 +41,7 @@ public class GameManager : MonoBehaviour
     // Setup
     // -------------------------------------------------------------------------
 
+
     void Awake()
     {
         // Check for unconnected prefabs
@@ -61,7 +62,6 @@ public class GameManager : MonoBehaviour
 
     void OnEnable()
     {
-        EventManager.Instance.OnLevelCleared += PrepareNextLevel;
         EventManager.Instance.OnUFODestroyed += StartUFOSpawner;
         EventManager.Instance.OnUFODestroyed += CheckLevelCleared;
         EventManager.Instance.OnAsteroidDestroyed += CheckLevelCleared;
@@ -73,7 +73,6 @@ public class GameManager : MonoBehaviour
 
     void OnDisable()
     {
-        EventManager.Instance.OnLevelCleared -= PrepareNextLevel;
         EventManager.Instance.OnUFODestroyed -= StartUFOSpawner;
         EventManager.Instance.OnUFODestroyed += CheckLevelCleared;
         EventManager.Instance.OnAsteroidDestroyed -= CheckLevelCleared;
@@ -168,7 +167,7 @@ public class GameManager : MonoBehaviour
     {
         if (AsteroidController.Count == 0 && UFOController.Count == 0)
         {
-            EventManager.Instance.LevelCleared();
+            PrepareNextLevel();
         }
     }
 
@@ -186,14 +185,8 @@ public class GameManager : MonoBehaviour
     {
         StopAllCoroutines();
     }
-
-
-
 }
 
 // TODO: powerups
-// TODO: clean player spawning routine
-// TODO: fix screen aspect and wrap around issues
-// TODO: end level only when UFO not here
 // TODO: reset player acceleration sprite when respawning
 // TODO: more asteroids sprite variations

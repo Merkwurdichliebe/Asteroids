@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class FireProjectileAtTarget : MonoBehaviour, IFire
 {
-    private Transform target;
+    private PlayerController target;
     private Vector3 firingPrecision;
     private float firingInterval;
     private Coroutine fireCoroutine;
@@ -32,8 +32,16 @@ public class FireProjectileAtTarget : MonoBehaviour, IFire
     // Find the target to shoot at (the player).
     private void AcquireTarget()
     {
-        target = FindObjectOfType<PlayerController>().gameObject.transform;
-        Debug.Log("[FireProjectileAtTarget/AcquireTarget] " + target.gameObject.name);
+        target = FindObjectOfType<PlayerController>(); // fixme try to find all possible targets
+        if (target != null)
+        {
+            Debug.Log("[FireProjectileAtTarget/AcquireTarget] " + target.gameObject.name);
+        }
+        else
+        {
+            Debug.LogWarning("[FireProjectileAtTarget/AcquireTarget] No Player in scene. Fire disabled.");
+        }
+
     }
 
 
@@ -48,20 +56,29 @@ public class FireProjectileAtTarget : MonoBehaviour, IFire
     IEnumerator FireAtTarget()
     {
         yield return new WaitForSeconds(1);
-        while (true)
+        while (target != null)
         {
-            // Calculate vector to player.
-            Vector2 direction = (target.position - transform.position) + firingPrecision;
+            // Only try to fire if we have an ObjectPool with projectiles.
+            if (ObjectPool.Instance != null)
+            {
+                // Calculate vector to player.
+                Vector2 direction = (target.gameObject.transform.position - transform.position) + firingPrecision;
 
-            // Calculate angle to player.
-            float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg - 90;
-            Quaternion rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+                // Calculate angle to player.
+                float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg - 90;
+                Quaternion rotation = Quaternion.AngleAxis(angle, Vector3.forward);
 
-            // Fire missile.
-            GameObject projectile = ObjectPool.Instance.GetPooledObject("EnemyProjectile");
-            projectile.transform.position = transform.position;
-            projectile.transform.rotation = rotation;
-            projectile.SetActive(true);
+                // Get the projectile from the ObjectPool and set it to active.
+                GameObject projectile = ObjectPool.Instance.GetPooledObject("EnemyProjectile");
+                projectile.transform.position = transform.position;
+                projectile.transform.rotation = rotation;
+                projectile.SetActive(true);
+            }
+            // Otherwise log a warning.
+            else
+            {
+                Debug.LogWarning("[FireProjectileAtTarget/AcquireTarget] ObjectPool missing. Firing disabled.");
+            }
 
             // Let the firing interval pass before firing again.
             yield return new WaitForSeconds(firingInterval);

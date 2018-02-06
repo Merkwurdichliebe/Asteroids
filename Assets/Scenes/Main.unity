@@ -124,7 +124,7 @@ GameObject:
   - component: {fileID: 90670975}
   - component: {fileID: 90670974}
   m_Layer: 5
-  m_Name: TextLives
+  m_Name: Text Lives
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -180,9 +180,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: '00
-
-'
+  m_Text: 
 --- !u!222 &90670975
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -251,6 +249,48 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &447328615
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 447328617}
+  - component: {fileID: 447328616}
+  m_Layer: 0
+  m_Name: Spawner
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &447328616
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 447328615}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e20c42ea76334c96acba6bcb07b188f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spawnableObjects: []
+  probabilityList: []
+--- !u!4 &447328617
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 447328615}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 7.374298, y: -2.0386758, z: -0.22471578}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &543536002
 GameObject:
   m_ObjectHideFlags: 0
@@ -262,7 +302,7 @@ GameObject:
   - component: {fileID: 543536005}
   - component: {fileID: 543536004}
   m_Layer: 5
-  m_Name: TextSpeed
+  m_Name: Text Speed
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -318,7 +358,9 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: SPEED
+  m_Text: '
+
+'
 --- !u!222 &543536005
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -336,7 +378,7 @@ GameObject:
   - component: {fileID: 845520243}
   - component: {fileID: 845520242}
   m_Layer: 5
-  m_Name: LabelAnnounce
+  m_Name: Text Announce
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -410,7 +452,7 @@ GameObject:
   - component: {fileID: 1004370856}
   - component: {fileID: 1004370855}
   m_Layer: 5
-  m_Name: LabelLives
+  m_Name: Text Lives (Label)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -486,7 +528,7 @@ GameObject:
   - component: {fileID: 1191835444}
   - component: {fileID: 1191835443}
   m_Layer: 5
-  m_Name: TextScore
+  m_Name: Text Score
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -542,9 +584,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: '00
-
-'
+  m_Text: 
 --- !u!222 &1191835444
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -562,7 +602,7 @@ GameObject:
   - component: {fileID: 1444751503}
   - component: {fileID: 1444751502}
   m_Layer: 5
-  m_Name: TextDebug
+  m_Name: Text Debug
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -618,7 +658,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: DEBUG
+  m_Text: 
 --- !u!222 &1444751503
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -772,7 +812,7 @@ GameObject:
   - component: {fileID: 1795128842}
   - component: {fileID: 1795128841}
   m_Layer: 5
-  m_Name: LabelScore
+  m_Name: Text Score (Label)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -943,6 +983,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 2104122569}
+  - component: {fileID: 2104122575}
   - component: {fileID: 2104122570}
   - component: {fileID: 2104122574}
   - component: {fileID: 2104122572}
@@ -1133,5 +1174,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d4b48a27236ea4114b49e0aeeb968f7d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &2104122575
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2104122567}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5117a40c7c9794fad91d5b728e6ba35e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

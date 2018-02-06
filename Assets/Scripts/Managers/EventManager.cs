@@ -18,7 +18,6 @@ public class EventManager : MonoBehaviour
     public Action<bool> OnSpawnSafeZoneClear;
     public Action<int> OnGameScoreChanged;
     public Action OnLivesEqualsZero;
-    public Action OnLevelCleared;
 
     private void Awake()
     {
@@ -40,6 +39,5 @@ public class EventManager : MonoBehaviour
     public void UFODestroyed() { if (OnUFODestroyed != null) OnUFODestroyed(); }
     public void SpawnSafeZoneIsClear(bool b) { if (OnSpawnSafeZoneClear != null) OnSpawnSafeZoneClear(b); }
     public void GameScoreChanged(int score) { if (OnGameScoreChanged != null) OnGameScoreChanged(score); }
-    public void LevelCleared() { if (OnLevelCleared != null) OnLevelCleared(); }
 }
 
