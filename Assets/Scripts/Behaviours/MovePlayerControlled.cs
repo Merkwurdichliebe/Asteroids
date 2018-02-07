@@ -7,14 +7,20 @@ using UnityEngine;
 public class MovePlayerControlled : MonoBehaviour, IMove
 {
 
-    public static Action OnPlayerAccelerate;
-    public static Action OnPlayerStop;
+    public static Action OnPlayerAccelerating;
+    public static Action OnPlayerStopped;
 
-    private float rotScaler = 5.0f;
-    private float thrustScaler = 0.5f;
+    public float rotationMultiplier = 5.0f;
+    public float thrustMultiplier = 0.5f;
     private bool isAccelerating;
 
     private Rigidbody2D rb;
+
+    //
+    //  Events
+    //
+
+    public static Action<float> OnPlayerSpeedChanged; 
 
     void Awake()
     {
@@ -28,32 +34,32 @@ public class MovePlayerControlled : MonoBehaviour, IMove
     public void MoveForward()
     {
         isAccelerating = true;
-        OnPlayerAccelerate(); // FIXME this is only for the audio manager
+        if (OnPlayerAccelerating != null) { OnPlayerAccelerating(); }
     }
 
     public void Stop()
     {
         isAccelerating = false;
-        OnPlayerStop(); // FIXME this is only for the audio manager
+        if (OnPlayerStopped != null) { OnPlayerStopped(); }
     }
 
     public void TurnLeft()
     {
-        rb.transform.Rotate(Vector3.forward * rotScaler);
+        rb.transform.Rotate(Vector3.forward * rotationMultiplier);
     }
 
     public void TurnRight()
     {
-        rb.transform.Rotate(Vector3.back * rotScaler);
+        rb.transform.Rotate(Vector3.back * rotationMultiplier);
     }
 
     private void FixedUpdate()
     {
         if (isAccelerating)
         {
-            rb.AddRelativeForce(Vector2.up * thrustScaler, ForceMode2D.Force);
+            rb.AddRelativeForce(Vector2.up * thrustMultiplier, ForceMode2D.Force);
             rb.velocity = Vector2.ClampMagnitude(rb.velocity, 9.9f);
-            EventManager.Instance.PlayerSpeedChanged(rb.velocity.magnitude);
+            if (OnPlayerSpeedChanged != null) { OnPlayerSpeedChanged(rb.velocity.magnitude); }
         }
     }
 }

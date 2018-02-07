@@ -12,14 +12,14 @@ public class SpriteSwitcher : MonoBehaviour {
 
     private void OnEnable()
     {
-        MovePlayerControlled.OnPlayerAccelerate += SpriteThrust;
-        MovePlayerControlled.OnPlayerStop += SpriteIdle;
+        MovePlayerControlled.OnPlayerAccelerating += SpriteThrust;
+        MovePlayerControlled.OnPlayerStopped += SpriteIdle;
     }
 
     private void OnDisable()
     {
-        MovePlayerControlled.OnPlayerAccelerate -= SpriteThrust;
-        MovePlayerControlled.OnPlayerStop -= SpriteIdle;
+        MovePlayerControlled.OnPlayerAccelerating -= SpriteThrust;
+        MovePlayerControlled.OnPlayerStopped -= SpriteIdle;
     }
 
     private void Start ()

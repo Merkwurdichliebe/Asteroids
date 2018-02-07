@@ -1,5 +1,5 @@
-﻿using UnityEngine;
-using System;
+﻿using System;
+using UnityEngine;
 using Random = UnityEngine.Random;
 
 
@@ -58,6 +58,14 @@ public class AsteroidController : Entity, IKillable, ICanScorePoints
     // Static property counting how many are in the scene
     //
     public static int Count { get; private set; }
+
+    //
+    //  Events
+    //
+
+    public static Action<AsteroidController> OnAsteroidDestroyed; 
+    public static Action OnAsteroidLastDestroyed;
+    // public Action<ICanScorePoints> OnScorePoints { get; set; }
 
     // -----------------------------------------------------------------------------
     // Methods
@@ -122,14 +130,24 @@ public class AsteroidController : Entity, IKillable, ICanScorePoints
         // Asteroid should break if it's not the smallest size
         if (_phase < 2) { Break(_phase + 1); }
 
-        // Decrease the total asteroid count property
-        Count -= 1;
-        Debug.Log("[AsteroidController/Kill] Count = " + Count);
-
-        // Fire notification and destroy
-        EventManager.Instance.AsteroidDestroyed();
-
         Destroy(gameObject);
+    }
+
+    private void OnDestroy()
+    {
+        //
+        // Decrease the total asteroid count property and fire an event
+        //
+        Count -= 1;
+        if (OnAsteroidDestroyed != null) { OnAsteroidDestroyed(this); }
+
+        //
+        // If number of asteroids is zero fire the proper event
+        //
+        if (Count == 0)
+        {
+            if (OnAsteroidLastDestroyed != null) { OnAsteroidLastDestroyed(); }
+        }
     }
 
 
@@ -161,16 +179,17 @@ public class AsteroidController : Entity, IKillable, ICanScorePoints
     }
 
 
-
+    //
     // Projectiles are Triggers, not Colliders.
-    // Notify the EventManager, then destroy the asteroid.
+    // Fire an event then destroy the asteroid.
     // The EventManager will get this instance of the script
     // as a ICanScorePoints interface.
+    //
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("PlayerProjectile"))
         {
-            EventManager.Instance.EntityKilledByPlayer(this);
+            // if (OnScorePoints != null) { OnScorePoints(this); }
             Kill();
         }
     }

@@ -31,6 +31,7 @@ public class Spawner : MonoBehaviour, ICanSpawnEntities
     private List<SpawnableObject> spawnableObjectsWeighted;
     private Dictionary<string, int> spawnedCount;
     private Coroutine spawnCoroutine;
+    private float timeSinceLastSpawn;
 
     //
     // Properties
@@ -108,6 +109,72 @@ public class Spawner : MonoBehaviour, ICanSpawnEntities
         }
     }
 
+    //
+    // Reset the spawn timer when enabled.
+    //
+
+    private void OnEnable()
+    {
+        timeSinceLastSpawn = Time.time;
+    }
+
+    //
+    // Check the spawn timer and call SpawnAnObject when ready.
+    //
+
+    private void Update()
+    {
+        if (Time.time - timeSinceLastSpawn > secondsBetweenSpawns)
+        {
+            SpawnAnObject();
+        }
+    }
+
+    private void SpawnAnObject()
+    {
+        // Compare a random value between 0 and 1
+        // to the overallSpawnProbability. 
+        if (Random.value < overallSpawnProbability)
+        {
+            // Get the object to spawn from the weighted List of objects
+            SpawnableObject obj = spawnableObjectsWeighted[Random.Range(0, spawnableObjectsWeighted.Count)];
+
+            // If the maximum number hasn't been reached...
+            if (spawnedCount[obj.prefab.name] < obj.maxSimultaneousInstances)
+            {
+                // ...instantiate the prefab.
+                GameObject o = Instantiate(obj.prefab);
+
+                // Set the gameObject's name. This is crucial for the
+                // NotifyDestroyed() method to work, because the name
+                // is the Dictionary key.
+                o.name = obj.prefab.name;
+
+                // Set the Spawner property on script implementing ISpawnable
+                // to this script, so that it can call back NotifyDestroyed().
+                // We need to check for null if we are not enforcing
+                // the implementation of ISpawnable.
+                // If we *are* enforcing it, an error will have been logged
+                // already in Initialize().
+                ISpawnable sp = o.GetComponent<ISpawnable>();
+                if (sp != null) { sp.Spawner = this; }
+
+                // Increase the spawn count in the Dictionary
+                // and in the public property.
+                spawnedCount[obj.prefab.name]++;
+                TotalCount++;
+                timeSinceLastSpawn = Time.time;
+                Debug.Log("[Spawner/SpawnCoroutine] " + obj.prefab.name + " spawned");
+            }
+            else
+            {
+                Debug.Log("[Spawner/SpawnCoroutine] "
+                          + obj.prefab.name + " already at maximum ("
+                          + obj.maxSimultaneousInstances + ")");
+            }
+        }
+    }
+
     // This method gets called by spawned objects when they are destroyed
     // and decreases the count value in the Dictionary.
     // At least one script on the spawned object should implement ISpawnable.
@@ -116,79 +183,6 @@ public class Spawner : MonoBehaviour, ICanSpawnEntities
         Debug.Log("[Spawner/NotifyDestroyed] " + obj.name);
         spawnedCount[obj.name]--;
         TotalCount--;
-    }
-
-    private void Start()
-    {
-        if (spawnableObjects.Length > 0) StartSpawning();
-    }
-
-    // Other objects might need to ask this script to start spawning,
-    // so it's separate from Start()
-    public void StartSpawning()
-    {
-        Debug.Log("[Spawner/StartSpawning]");
-        spawnCoroutine = StartCoroutine(SpawnCoroutine());
-    }
-
-    // Stop the spawning coroutine. This can be stopped between
-    // levels and therefore at the start of the first level,
-    // so we have to check for null first.
-    public void StopSpawning()
-    {
-        if (spawnCoroutine != null) { StopCoroutine(spawnCoroutine); }
-    }
-
-    // Main spawning routine. This continuously spawns the prefabs
-    // and is only stopped by StopSpawning().
-    IEnumerator SpawnCoroutine()
-    {
-        while (true)
-        {
-            // Wait before selecting which object to spawn
-            yield return new WaitForSeconds(secondsBetweenSpawns);
-
-            // Compare a random value between 0 and 1
-            // to the overallSpawnProbability. 
-            if (Random.value < overallSpawnProbability)
-            {
-                // Get the object to spawn from the weighted List of objects
-                SpawnableObject obj = spawnableObjectsWeighted[Random.Range(0, spawnableObjectsWeighted.Count)];
-
-                // If the maximum number hasn't been reached...
-                if (spawnedCount[obj.prefab.name] < obj.maxSimultaneousInstances)
-                {
-                    // ...instantiate the prefab.
-                    GameObject o = Instantiate(obj.prefab);
-
-                    // Set the gameObject's name. This is crucial for the
-                    // NotifyDestroyed() method to work, because the name
-                    // is the Dictionary key.
-                    o.name = obj.prefab.name;
-
-                    // Set the Spawner property on script implementing ISpawnable
-                    // to this script, so that it can call back NotifyDestroyed().
-                    // We need to check for null if we are not enforcing
-                    // the implementation of ISpawnable.
-                    // If we *are* enforcing it, an error will have been logged
-                    // already in Initialize().
-                    ISpawnable sp = o.GetComponent<ISpawnable>();
-                    if (sp != null) { sp.Spawner = this; }
-
-                    // Increase the spawn count in the Dictionary
-                    // and in the public property.
-                    spawnedCount[obj.prefab.name]++;
-                    TotalCount++;
-                    Debug.Log("[Spawner/SpawnCoroutine] " + obj.prefab.name + " spawned");
-                }
-                else
-                {
-                    Debug.Log("[Spawner/SpawnCoroutine] "
-                              + obj.prefab.name + " already at maximum ("
-                              + obj.maxSimultaneousInstances + ")");
-                }
-            }
-        }
     }
 }
 

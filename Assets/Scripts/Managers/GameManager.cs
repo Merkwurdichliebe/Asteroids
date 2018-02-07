@@ -16,6 +16,7 @@ public class GameManager : MonoBehaviour
     public GameObject PrefabUFO;
     public GameObject PrefabPowerup;
     public GameObject PrefabSpawnSafeZone;
+    public GameObject PrefabComet;
 
     // Reference to the PlayerController script
     public PlayerController player;
@@ -37,6 +38,13 @@ public class GameManager : MonoBehaviour
     private int countUFO;
     private int countAsteroids;
     private Spawner spawner;
+
+    //
+    //  Events
+    //
+
+    public static Action<int> OnGameScoreChanged;
+    public static Action<bool> OnGameLevelNumberDisplay;
 
     // -------------------------------------------------------------------------
     // Setup
@@ -72,20 +80,16 @@ public class GameManager : MonoBehaviour
 
     void OnEnable()
     {
-        //EventManager.Instance.OnAsteroidDestroyed += CheckLevelCleared;
-        EventManager.Instance.OnEntityKilledByPlayer += HandleScorePoints;
-        EventManager.Instance.OnEntityKilledByPlayer += CheckLevelCleared;
-        EventManager.Instance.OnPlayerLivesZero += Cleanup;
+        AsteroidController.OnAsteroidLastDestroyed += CheckLevelCleared;
+        PlayerController.OnPlayerLivesZero += Cleanup;
     }
 
 
 
     void OnDisable()
     {
-        //EventManager.Instance.OnAsteroidDestroyed -= CheckLevelCleared;
-        EventManager.Instance.OnEntityKilledByPlayer -= HandleScorePoints;
-        EventManager.Instance.OnEntityKilledByPlayer -= CheckLevelCleared;
-        EventManager.Instance.OnPlayerLivesZero -= Cleanup;
+        PlayerController.OnPlayerLivesZero -= Cleanup;
+        AsteroidController.OnAsteroidLastDestroyed -= CheckLevelCleared;
     }
 
     // -----------------------------------------------------------------------------
@@ -110,11 +114,14 @@ public class GameManager : MonoBehaviour
 
     IEnumerator ReadyNextLevel()
     {
+        if (OnGameLevelNumberDisplay != null) { OnGameLevelNumberDisplay(true); }
         level += 1;
         player.ActiveInScene = false;
-        if (spawner != null) { spawner.StopSpawning(); }
+        if (spawner != null) { spawner.enabled = false; }
         UIManager.Instance.DisplayLevelNumber(level);
+        Instantiate(PrefabComet);
         yield return new WaitForSeconds(3);
+        if (OnGameLevelNumberDisplay != null) { OnGameLevelNumberDisplay(false); }
         UIManager.Instance.DisplayGameUI();
         StartNextLevel();
     }
@@ -125,7 +132,7 @@ public class GameManager : MonoBehaviour
     {
         SpawnAsteroids();
         player.Spawn();
-        if (spawner != null) { spawner.StartSpawning(); }
+        if (spawner != null) { spawner.enabled = true; }
     }
 
 
@@ -139,14 +146,11 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    void CheckLevelCleared(ICanScorePoints e)
+    void CheckLevelCleared()
     {
         Debug.Log("[GameManager/CheckLevelCleared] Asteroids " +
                   AsteroidController.Count + " Spawner " + spawner.TotalCount);
-        if (AsteroidController.Count == 0 && spawner.TotalCount == 0)
-        {
-            PrepareNextLevel();
-        }
+        if (player.Lives != 0) { PrepareNextLevel(); }
     }
 
 
@@ -154,10 +158,8 @@ public class GameManager : MonoBehaviour
     void HandleScorePoints(ICanScorePoints e)
     {
         playerScore += e.PointValue;
-        EventManager.Instance.GameScoreChanged(playerScore);
+        if (OnGameScoreChanged != null) { OnGameScoreChanged(playerScore); }
     }
-
-
 
     void Cleanup()
     {

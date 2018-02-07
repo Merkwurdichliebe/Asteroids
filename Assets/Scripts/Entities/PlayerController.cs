@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using UnityEngine;
 
 public class PlayerController : Entity, IKillable
@@ -38,11 +39,11 @@ public class PlayerController : Entity, IKillable
             // fireComponent.enabled = value;
             if (value)
             {
-                EventManager.Instance.PlayerSpawned();
+                if (OnPlayerSpawned != null) { OnPlayerSpawned(); }
             }
             else
             {
-                EventManager.Instance.PlayerDespawned();
+                if (OnPlayerDespawned != null) { OnPlayerDespawned(); }
             }
             Debug.Log("[SetActiveInScene] " + gameObject.name + " : " + value);
         }
@@ -54,9 +55,19 @@ public class PlayerController : Entity, IKillable
         private set
         {
             _livesLeft = value;
-            EventManager.Instance.PlayerLivesChanged(_livesLeft);
+            if (OnPlayerLivesChanged != null) { OnPlayerLivesChanged(_livesLeft); }
         }
     }
+
+    // 
+    // Events
+    //
+
+    public static Action OnPlayerSpawned;
+    public static Action OnPlayerDespawned;
+    public static Action OnPlayerDestroyed;
+    public static Action<int> OnPlayerLivesChanged;
+    public static Action OnPlayerLivesZero;
 
 
 
@@ -73,16 +84,14 @@ public class PlayerController : Entity, IKillable
 
     void OnEnable()
     {
-        EventManager.Instance.OnSpawnSafeZoneClear += HandleCenterIsClear;
-        EventManager.Instance.OnPlayerWasHit += Kill;
+        SpawnSafeZoneManager.OnSpawnSafeZoneCleared += HandleCenterIsClear;
     }
 
 
 
     void OnDisable()
     {
-        EventManager.Instance.OnSpawnSafeZoneClear -= HandleCenterIsClear;
-        EventManager.Instance.OnPlayerWasHit -= Kill;
+        SpawnSafeZoneManager.OnSpawnSafeZoneCleared -= HandleCenterIsClear;
     }
 
 
@@ -105,9 +114,8 @@ public class PlayerController : Entity, IKillable
         // Reduce one life
         Lives -= 1;
 
-        // Notify EventManager
-        EventManager.Instance.PlayerDestroyed();
-        EventManager.Instance.PlayerLivesChanged(_livesLeft);
+        // Fire events
+        if (OnPlayerDestroyed != null) { OnPlayerDestroyed(); }
 
         // Check if we should respawn.
         // Otherwise the game is over and we can destroy the player object.
@@ -116,7 +124,7 @@ public class PlayerController : Entity, IKillable
         }
         else
         {
-            EventManager.Instance.PlayerLivesZero();
+            if (OnPlayerLivesZero != null) { OnPlayerLivesZero(); }
             Destroy(gameObject, 3);
         }
     }

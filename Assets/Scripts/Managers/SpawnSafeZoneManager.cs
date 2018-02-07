@@ -1,8 +1,15 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class SpawnSafeZoneManager : MonoBehaviour {
 
     private Collider2D col;
+
+    //
+    //  Events
+    //
+
+    public static Action<bool> OnSpawnSafeZoneCleared; 
 
     void Awake()
     {
@@ -17,14 +24,14 @@ public class SpawnSafeZoneManager : MonoBehaviour {
 
     private void OnEnable()
     {
-        EventManager.Instance.OnPlayerSpawned += HandlePlayerSpawned;
-        EventManager.Instance.OnPlayerDestroyed += HandlePlayerDestroyed;
+        PlayerController.OnPlayerSpawned += HandlePlayerSpawned;
+        PlayerController.OnPlayerDestroyed += HandlePlayerDestroyed;
     }
 
     private void OnDisable()
     {
-        EventManager.Instance.OnPlayerSpawned -= HandlePlayerSpawned;
-        EventManager.Instance.OnPlayerDestroyed -= HandlePlayerDestroyed;
+        PlayerController.OnPlayerSpawned -= HandlePlayerSpawned;
+        PlayerController.OnPlayerDestroyed -= HandlePlayerDestroyed;
     }
 
 
@@ -53,14 +60,14 @@ public class SpawnSafeZoneManager : MonoBehaviour {
 
     void OnTriggerExit2D(Collider2D collision)
     {
-        EventManager.Instance.SpawnSafeZoneIsClear(true);
+        if (OnSpawnSafeZoneCleared != null) { OnSpawnSafeZoneCleared(true); }
     }
 
 
 
     void OnTriggerStay2D(Collider2D collision)
     {
-        EventManager.Instance.SpawnSafeZoneIsClear(false);
+        if (OnSpawnSafeZoneCleared != null) { OnSpawnSafeZoneCleared(false); }
     }
 
     // FIXME check if it's better to use a non-trigger with isTouching

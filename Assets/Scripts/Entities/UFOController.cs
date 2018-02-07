@@ -26,15 +26,11 @@ public class UFOController : Entity, IKillable, ICanScorePoints, ISpawnable
 
     private int _pointValue;
 
-    // Static property counting how many are in the scene
-    public static int Count { get; private set; }
-
 
 
     public override void Awake()
     {
         base.Awake();
-        Count += 1;
     }
 
 
@@ -48,14 +44,14 @@ public class UFOController : Entity, IKillable, ICanScorePoints, ISpawnable
 
     private void OnEnable()
     {
-        EventManager.Instance.OnPlayerLivesZero += CleanUp;
+        GameOverManager.OnGameOver += CleanUp;
     }
 
 
 
     private void OnDisable()
     {
-        EventManager.Instance.OnPlayerLivesZero -= CleanUp;
+        GameOverManager.OnGameOver -= CleanUp;
     }
 
 
@@ -92,8 +88,6 @@ public class UFOController : Entity, IKillable, ICanScorePoints, ISpawnable
     private void OnDestroy()
     {
         Debug.Log("[UFOController/OnDestroy]");
-        Count -= 1;
-        EventManager.Instance.UFODestroyed();
         if (Spawner != null) Spawner.NotifyDestroyed(this.gameObject);
     }
 

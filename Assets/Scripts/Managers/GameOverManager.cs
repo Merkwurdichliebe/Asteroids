@@ -1,12 +1,15 @@
+﻿using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class GameOverManager : MonoBehaviour
 {
+    public static Action OnGameOver;
+
     private void OnEnable()
     {
-        EventManager.Instance.OnPlayerLivesZero += GameOver;
+        PlayerController.OnPlayerLivesZero += GameOver;
     }
 
     void GameOver()
@@ -29,6 +32,7 @@ public class GameOverManager : MonoBehaviour
     {
         yield return new WaitForSeconds(5);
         StopAllCoroutines();
+        if (OnGameOver != null) { OnGameOver(); }
         SceneManager.LoadScene("Menu");
     } 
 }

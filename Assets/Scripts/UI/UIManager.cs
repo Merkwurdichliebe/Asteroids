@@ -22,26 +22,6 @@ public class UIManager : MonoBehaviour {
         EnableGameUI(false);
     }
 
-
-    private void OnEnable()
-    {
-        EventManager.Instance.OnSpawnSafeZoneClear += HandleCenterIsClear;
-        EventManager.Instance.OnGameScoreChanged += UpdateScore;
-        EventManager.Instance.OnPlayerLivesChanged += UpdateLives;
-        EventManager.Instance.OnPlayerLivesZero += HandleGameOver;
-        EventManager.Instance.OnPlayerSpeedChanged += UpdateSpeed;
-        EventManager.Instance.OnEntityKilledByPlayer += ShowPointsAtScreenPosition;
-    }
-
-    private void OnDisable()
-    {
-        EventManager.Instance.OnSpawnSafeZoneClear -= HandleCenterIsClear;
-        EventManager.Instance.OnGameScoreChanged -= UpdateScore;
-        EventManager.Instance.OnPlayerLivesChanged -= UpdateLives;
-        EventManager.Instance.OnPlayerLivesZero -= HandleGameOver;
-        EventManager.Instance.OnPlayerSpeedChanged -= UpdateSpeed;
-    }
-
     void Start()
     {
         textAnnounce.text = "";
@@ -65,7 +45,6 @@ public class UIManager : MonoBehaviour {
         textScore.gameObject.SetActive(state);
         labelLives.gameObject.SetActive(state);
         labelScore.gameObject.SetActive(state);
-
     }
 
     void HandleCenterIsClear(bool b)
@@ -123,5 +102,24 @@ public class UIManager : MonoBehaviour {
             t.text = entity.PointValue.ToString();
             Destroy(t.gameObject, 1.0f);
         }
+    }
+
+    private void OnEnable()
+    {
+        GameManager.OnGameScoreChanged += UpdateScore;
+        PlayerController.OnPlayerLivesChanged += UpdateLives;
+        PlayerController.OnPlayerLivesZero += HandleGameOver;
+        MovePlayerControlled.OnPlayerSpeedChanged += UpdateSpeed;
+        SpawnSafeZoneManager.OnSpawnSafeZoneCleared += HandleCenterIsClear;
+        // EventManager.Instance.OnEntityKilledByPlayer += ShowPointsAtScreenPosition;
+    }
+
+    private void OnDisable()
+    {
+        GameManager.OnGameScoreChanged -= UpdateScore;
+        PlayerController.OnPlayerLivesChanged -= UpdateLives;
+        PlayerController.OnPlayerLivesZero -= HandleGameOver;
+        MovePlayerControlled.OnPlayerSpeedChanged -= UpdateSpeed;
+        SpawnSafeZoneManager.OnSpawnSafeZoneCleared -= HandleCenterIsClear;
     }
 }

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public interface ICanScorePoints {
 
@@ -16,4 +17,6 @@ public interface ICanScorePoints {
     // This allows selecting, in the prefab, whether the entity
     // should show its score value at its position when destroyed.
     bool DisplayPointsWhenKilled { get; }
+
+    // Action<ICanScorePoints> OnScorePoints { get; set; }
 }
