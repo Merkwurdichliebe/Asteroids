@@ -213,7 +213,7 @@ MonoBehaviour:
   spawnableObjects:
   - prefab: {fileID: 1839108818726510, guid: d34b63115465242f48024485b4dba654, type: 2}
     probabilityWeight: 1
-    maxSimultaneousInstances: 3
+    maxSimultaneousInstances: 10
   - prefab: {fileID: 1675515984352900, guid: 165fce1b024b44eb7a9ac1c1ea667665, type: 2}
     probabilityWeight: 1
     maxSimultaneousInstances: 10

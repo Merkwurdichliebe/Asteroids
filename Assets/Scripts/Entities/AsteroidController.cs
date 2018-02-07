@@ -5,7 +5,7 @@ using Random = UnityEngine.Random;
 
 public class AsteroidController : Entity, IKillable, ICanScorePoints
 {
-// -----------------------------------------------------------------------------
+    // -----------------------------------------------------------------------------
     // Inspector fields
     // -----------------------------------------------------------------------------
 
@@ -47,11 +47,16 @@ public class AsteroidController : Entity, IKillable, ICanScorePoints
     }
     public bool DisplayPointsWhenKilled { get { return displayPointsWhenKilled; } }
 
-    // Internal variables
+    //
+    // Private fields
+    //
+
     private int _phase = 0;
     private int _pointValue;
 
+    //
     // Static property counting how many are in the scene
+    //
     public static int Count { get; private set; }
 
     // -----------------------------------------------------------------------------
@@ -67,6 +72,7 @@ public class AsteroidController : Entity, IKillable, ICanScorePoints
 
         // Increase static asteroid count with each instantiation.
         Count += 1;
+        Debug.Log("[AsteroidController/Awake] Count = " + Count);
 
         // Set default phase property. This is changed only by Break().
         Phase = 0;
@@ -118,9 +124,11 @@ public class AsteroidController : Entity, IKillable, ICanScorePoints
 
         // Decrease the total asteroid count property
         Count -= 1;
+        Debug.Log("[AsteroidController/Kill] Count = " + Count);
 
         // Fire notification and destroy
         EventManager.Instance.AsteroidDestroyed();
+
         Destroy(gameObject);
     }
 

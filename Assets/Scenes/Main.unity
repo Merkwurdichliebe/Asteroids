@@ -943,6 +943,7 @@ GameObject:
   - component: {fileID: 2104122569}
   - component: {fileID: 2104122575}
   - component: {fileID: 2104122570}
+  - component: {fileID: 2104122576}
   - component: {fileID: 2104122574}
   - component: {fileID: 2104122572}
   - component: {fileID: 2104122568}
@@ -1145,3 +1146,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5117a40c7c9794fad91d5b728e6ba35e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &2104122576
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2104122567}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e20c42ea76334c96acba6bcb07b188f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  secondsBetweenSpawns: 3
+  overallSpawnProbability: 1
+  spawnableInterfaceIsMandatory: 1
+  spawnableObjects:
+  - prefab: {fileID: 1839108818726510, guid: d34b63115465242f48024485b4dba654, type: 2}
+    probabilityWeight: 1
+    maxSimultaneousInstances: 2

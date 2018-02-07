@@ -28,6 +28,7 @@ public class GameOverManager : MonoBehaviour
     IEnumerator DisplayMenu()
     {
         yield return new WaitForSeconds(5);
+        StopAllCoroutines();
         SceneManager.LoadScene("Menu");
     } 
 }

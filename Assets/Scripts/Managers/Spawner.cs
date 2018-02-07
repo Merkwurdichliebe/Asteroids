@@ -4,10 +4,12 @@ using UnityEngine;
 
 public class Spawner : MonoBehaviour, ICanSpawnEntities
 {
-    // ---------- Inspector fields ----------
+    //
+    // Inspector fields
+    //
 
     [Header("General Settings")]
-    public int secondsBetweenSpawns;
+    public float secondsBetweenSpawns;
     [Range(0, 1)]
     public float overallSpawnProbability = 1;
 
@@ -21,12 +23,20 @@ public class Spawner : MonoBehaviour, ICanSpawnEntities
     [Header("List of prefabs to spawn")]
     public SpawnableObject[] spawnableObjects;
 
-    // ---------- Private fields ----------
+    //
+    // Private fields
+    //
 
     private int totalProbabilityWeights;
     private List<SpawnableObject> spawnableObjectsWeighted;
     private Dictionary<string, int> spawnedCount;
     private Coroutine spawnCoroutine;
+
+    //
+    // Properties
+    //
+
+    public int TotalCount { get; private set; }
 
     // Check if the SpawnableObject array size has been set
     // then go through initialization. Otherwise log a warning.
@@ -92,6 +102,10 @@ public class Spawner : MonoBehaviour, ICanSpawnEntities
                 }
             }
         }
+        if(spawnableObjectsWeighted.Count == 0)
+        {
+            Debug.LogError("[Spawner] Contains no prefabs.");
+        }
     }
 
     // This method gets called by spawned objects when they are destroyed
@@ -99,7 +113,9 @@ public class Spawner : MonoBehaviour, ICanSpawnEntities
     // At least one script on the spawned object should implement ISpawnable.
     public void NotifyDestroyed(GameObject obj)
     {
+        Debug.Log("[Spawner/NotifyDestroyed] " + obj.name);
         spawnedCount[obj.name]--;
+        TotalCount--;
     }
 
     private void Start()
@@ -115,10 +131,12 @@ public class Spawner : MonoBehaviour, ICanSpawnEntities
         spawnCoroutine = StartCoroutine(SpawnCoroutine());
     }
 
-    // Stop the spawning coroutine
+    // Stop the spawning coroutine. This can be stopped between
+    // levels and therefore at the start of the first level,
+    // so we have to check for null first.
     public void StopSpawning()
     {
-        StopCoroutine(spawnCoroutine);
+        if (spawnCoroutine != null) { StopCoroutine(spawnCoroutine); }
     }
 
     // Main spawning routine. This continuously spawns the prefabs
@@ -154,14 +172,13 @@ public class Spawner : MonoBehaviour, ICanSpawnEntities
                     // the implementation of ISpawnable.
                     // If we *are* enforcing it, an error will have been logged
                     // already in Initialize().
-                    if (!spawnableInterfaceIsMandatory)
-                    {
-                        ISpawnable sp = o.GetComponent<ISpawnable>();
-                        if (sp != null) { sp.Spawner = this; }
-                    }
+                    ISpawnable sp = o.GetComponent<ISpawnable>();
+                    if (sp != null) { sp.Spawner = this; }
 
-                    // Increase the spawn count in the Dictionary.
+                    // Increase the spawn count in the Dictionary
+                    // and in the public property.
                     spawnedCount[obj.prefab.name]++;
+                    TotalCount++;
                     Debug.Log("[Spawner/SpawnCoroutine] " + obj.prefab.name + " spawned");
                 }
                 else
@@ -182,7 +199,7 @@ public struct SpawnableObject
 {
     public GameObject prefab;
 
-    [Range(0, 10)]
+    [Range(1, 10)]
     public int probabilityWeight;
     public int maxSimultaneousInstances;
 }

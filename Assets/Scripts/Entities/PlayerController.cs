@@ -7,8 +7,10 @@ public class PlayerController : Entity, IKillable
     // Inspector fields
     // -----------------------------------------------------------------------------
 
+    [Header("When destroyed")]
     public GameObject explosion;
 
+    [Header("Starting stats")]
     [Range(1, 10)]
     public int livesAtStart;
 

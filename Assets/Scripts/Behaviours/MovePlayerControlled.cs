@@ -13,11 +13,16 @@ public class MovePlayerControlled : MonoBehaviour, IMove
     private float rotScaler = 5.0f;
     private float thrustScaler = 0.5f;
     private bool isAccelerating;
+
     private Rigidbody2D rb;
 
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
+        if (rb == null)
+        {
+            Debug.LogError("[MovePlayerControlled] Requires Rigidbody2D.");
+        }
     }
 
     public void MoveForward()

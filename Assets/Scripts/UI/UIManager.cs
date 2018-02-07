@@ -25,13 +25,7 @@ public class UIManager : MonoBehaviour {
 
     private void OnEnable()
     {
-
-
-        // UFOController.OnScorePoints += ShowPointsAtWorldPosition;
-
-
         EventManager.Instance.OnSpawnSafeZoneClear += HandleCenterIsClear;
-        // EventManager.Instance.OnSpawnSafeZoneOccupied += CenterOccupiedHandler;
         EventManager.Instance.OnGameScoreChanged += UpdateScore;
         EventManager.Instance.OnPlayerLivesChanged += UpdateLives;
         EventManager.Instance.OnPlayerLivesZero += HandleGameOver;

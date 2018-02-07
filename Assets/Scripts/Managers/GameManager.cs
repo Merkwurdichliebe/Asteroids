@@ -36,6 +36,7 @@ public class GameManager : MonoBehaviour
 
     private int countUFO;
     private int countAsteroids;
+    private Spawner spawner;
 
     // -------------------------------------------------------------------------
     // Setup
@@ -52,9 +53,18 @@ public class GameManager : MonoBehaviour
         // Set the level number
         level = 0;
 
+        // Create the Player spawn safe zone
         Instantiate(PrefabSpawnSafeZone, Vector2.zero, Quaternion.identity);
         UIManager uiManager = GetComponent<UIManager>();
         if (uiManager != null) uiManager.enabled = true;
+
+        // Get a reference to the Spawner
+        spawner = GetComponent<Spawner>();
+        if (spawner == null)
+        {
+            Debug.LogWarning("[GameManager] No Spawner present. Entity spawning disabled.");
+        }
+
         player = Instantiate(player);
     }
 
@@ -62,10 +72,9 @@ public class GameManager : MonoBehaviour
 
     void OnEnable()
     {
-        EventManager.Instance.OnUFODestroyed += StartUFOSpawner;
-        EventManager.Instance.OnUFODestroyed += CheckLevelCleared;
-        EventManager.Instance.OnAsteroidDestroyed += CheckLevelCleared;
+        //EventManager.Instance.OnAsteroidDestroyed += CheckLevelCleared;
         EventManager.Instance.OnEntityKilledByPlayer += HandleScorePoints;
+        EventManager.Instance.OnEntityKilledByPlayer += CheckLevelCleared;
         EventManager.Instance.OnPlayerLivesZero += Cleanup;
     }
 
@@ -73,10 +82,9 @@ public class GameManager : MonoBehaviour
 
     void OnDisable()
     {
-        EventManager.Instance.OnUFODestroyed -= StartUFOSpawner;
-        EventManager.Instance.OnUFODestroyed += CheckLevelCleared;
-        EventManager.Instance.OnAsteroidDestroyed -= CheckLevelCleared;
+        //EventManager.Instance.OnAsteroidDestroyed -= CheckLevelCleared;
         EventManager.Instance.OnEntityKilledByPlayer -= HandleScorePoints;
+        EventManager.Instance.OnEntityKilledByPlayer -= CheckLevelCleared;
         EventManager.Instance.OnPlayerLivesZero -= Cleanup;
     }
 
@@ -104,6 +112,7 @@ public class GameManager : MonoBehaviour
     {
         level += 1;
         player.ActiveInScene = false;
+        if (spawner != null) { spawner.StopSpawning(); }
         UIManager.Instance.DisplayLevelNumber(level);
         yield return new WaitForSeconds(3);
         UIManager.Instance.DisplayGameUI();
@@ -116,7 +125,7 @@ public class GameManager : MonoBehaviour
     {
         SpawnAsteroids();
         player.Spawn();
-        StartUFOSpawner();
+        if (spawner != null) { spawner.StartSpawning(); }
     }
 
 
@@ -130,42 +139,11 @@ public class GameManager : MonoBehaviour
         }
     }
 
-
-
-    private void StartUFOSpawner()
+    void CheckLevelCleared(ICanScorePoints e)
     {
-        Debug.Log("[GameManager/StartUFOSpawner]");
-        if (UFOController.Count < 1)
-        {
-            Debug.Log("(UFO.Count = " + UFOController.Count + ")");
-            StartCoroutine(SpawnUFO());
-        }
-    }
-
-
-
-    IEnumerator SpawnUFO()
-    {
-        // Allow at least 2 seconds between death and respawn
-        yield return new WaitForSeconds(3.0f);
-
-        // If the random value is higher than the probability,
-        // wait some more (spawnFrequency in seconds)
-        while (Random.value > UFOSpawnProbability)
-        {
-            yield return new WaitForSeconds(UFOSpawnFrequency);
-        }
-
-        // Spawn the UFO
-        Instantiate(PrefabUFO);
-        Debug.Log("[GameManager/SpawnUFO] Spawned");
-    }
-
-
-
-    void CheckLevelCleared()
-    {
-        if (AsteroidController.Count == 0 && UFOController.Count == 0)
+        Debug.Log("[GameManager/CheckLevelCleared] Asteroids " +
+                  AsteroidController.Count + " Spawner " + spawner.TotalCount);
+        if (AsteroidController.Count == 0 && spawner.TotalCount == 0)
         {
             PrepareNextLevel();
         }

@@ -34,7 +34,6 @@ public class UFOController : Entity, IKillable, ICanScorePoints, ISpawnable
     public override void Awake()
     {
         base.Awake();
-        gameObject.name = "UFO";
         Count += 1;
     }
 
@@ -92,9 +91,10 @@ public class UFOController : Entity, IKillable, ICanScorePoints, ISpawnable
     // We decrease the count and fire the event only when destroyed.
     private void OnDestroy()
     {
+        Debug.Log("[UFOController/OnDestroy]");
         Count -= 1;
         EventManager.Instance.UFODestroyed();
-        if (Spawner) Spawner.NotifyDestroyed(this.gameObject);
+        if (Spawner != null) Spawner.NotifyDestroyed(this.gameObject);
     }
 
 

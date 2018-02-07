@@ -194,7 +194,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3dc2c4401e00499fbf3acd847ec8738, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 3
+  speed: 2
 --- !u!114 &114415981674599652
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -246,6 +246,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5778ad202432432ba6d61b2a6df62ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  distanceThreshold: 1
+  detectionAngle: 20
+  objectsToAvoid:
+    serializedVersion: 2
+    m_Bits: 2304
 --- !u!114 &114919254889031874
 MonoBehaviour:
   m_ObjectHideFlags: 1
