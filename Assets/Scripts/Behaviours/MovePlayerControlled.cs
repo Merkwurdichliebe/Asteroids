@@ -23,13 +23,13 @@ public class MovePlayerControlled : MonoBehaviour, IMove
     public void MoveForward()
     {
         isAccelerating = true;
-        OnPlayerAccelerate(); // fixme this is only for the audio manager
+        OnPlayerAccelerate(); // FIXME this is only for the audio manager
     }
 
     public void Stop()
     {
         isAccelerating = false;
-        OnPlayerStop(); // fixme this is only for the audio manager
+        OnPlayerStop(); // FIXME this is only for the audio manager
     }
 
     public void TurnLeft()

@@ -209,16 +209,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   secondsBetweenSpawns: 1
   overallSpawnProbability: 1
+  spawnableInterfaceIsMandatory: 0
   spawnableObjects:
   - prefab: {fileID: 1839108818726510, guid: d34b63115465242f48024485b4dba654, type: 2}
     probabilityWeight: 1
-    maxSimultaneousInstances: 1
-  - prefab: {fileID: 0}
-    probabilityWeight: 1
-    maxSimultaneousInstances: 2
-  - prefab: {fileID: 1149688395102474, guid: 44bc92cf706434b5fac1f4a590920ab1, type: 2}
-    probabilityWeight: 1
     maxSimultaneousInstances: 3
+  - prefab: {fileID: 1675515984352900, guid: 165fce1b024b44eb7a9ac1c1ea667665, type: 2}
+    probabilityWeight: 1
+    maxSimultaneousInstances: 10
 --- !u!114 &1034281523
 MonoBehaviour:
   m_ObjectHideFlags: 0

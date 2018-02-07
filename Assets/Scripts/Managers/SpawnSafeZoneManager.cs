@@ -63,7 +63,14 @@ public class SpawnSafeZoneManager : MonoBehaviour {
         EventManager.Instance.SpawnSafeZoneIsClear(false);
     }
 
-    // fixme check if it's better to use a non-trigger with isTouching
+    // FIXME check if it's better to use a non-trigger with isTouching
     // https://docs.unity3d.com/ScriptReference/Collider2D.IsTouching.html
+
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.green;
+        Gizmos.DrawWireSphere(transform.position, col.GetComponentInChildren<CircleCollider2D>().radius);
+    }
 
 }

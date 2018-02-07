@@ -3,11 +3,8 @@ using UnityEngine;
 
 public class InputFromKeyboard : MonoBehaviour {
 
-    public static Action OnInputAccelerate;
-    public static Action OnInputStop;
-    public static Action OnInputTurnRight;
-    public static Action OnInputTurnLeft;
-    public static Action OnInputFire;
+    [Header("Leave this unchecked to use continuous key input")]
+    public bool discreteKeyInput;
 
     private IMove moveComponent;
     private IFire fireComponent;
@@ -28,6 +25,46 @@ public class InputFromKeyboard : MonoBehaviour {
     }
 
     private void Update()
+    {
+        if (discreteKeyInput)
+        {
+            GetDiscreteKeyInput();
+        }
+        else
+        {
+            GetContinuousKeyInput();
+        }
+    }
+
+    private void GetDiscreteKeyInput()
+    {
+        if (Input.GetKeyDown(KeyCode.UpArrow))
+        {
+            moveComponent.MoveForward();
+        }
+
+        if (Input.GetKeyDown(KeyCode.DownArrow))
+        {
+            moveComponent.Stop();
+        }
+
+        if (Input.GetKeyDown(KeyCode.LeftArrow))
+        {
+            moveComponent.TurnLeft();
+        }
+
+        if (Input.GetKeyDown(KeyCode.RightArrow))
+        {
+            moveComponent.TurnRight();
+        }
+
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            fireComponent.Fire();
+        }
+    }
+
+    private void GetContinuousKeyInput()
     {
         if (Input.GetKeyDown(KeyCode.UpArrow))
         {

@@ -94,7 +94,7 @@ public class UFOController : Entity, IKillable, ICanScorePoints, ISpawnable
     {
         Count -= 1;
         EventManager.Instance.UFODestroyed();
-        Spawner.NotifyDestroyed(this.gameObject);
+        if (Spawner) Spawner.NotifyDestroyed(this.gameObject);
     }
 
 

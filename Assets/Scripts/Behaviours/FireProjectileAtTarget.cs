@@ -32,7 +32,7 @@ public class FireProjectileAtTarget : MonoBehaviour, IFire
     // Find the target to shoot at (the player).
     private void AcquireTarget()
     {
-        target = FindObjectOfType<PlayerController>(); // fixme try to find all possible targets
+        target = FindObjectOfType<PlayerController>(); // FIXME try to find all possible targets
         if (target != null)
         {
             Debug.Log("[FireProjectileAtTarget/AcquireTarget] " + target.gameObject.name);

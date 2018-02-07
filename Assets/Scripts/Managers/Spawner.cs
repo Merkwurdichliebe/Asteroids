@@ -11,11 +11,14 @@ public class Spawner : MonoBehaviour, ICanSpawnEntities
     [Range(0, 1)]
     public float overallSpawnProbability = 1;
 
+    [Header("Only allow prefabs which implement ISpawnable")]
+    public bool spawnableInterfaceIsMandatory;
+
     // An list of SpawnableObject objects
     // (cf. struct below)
     // Allows dropping prefabs to spawn
     // and set weight & max values for each
-    [Header("Objects to spawn")]
+    [Header("List of prefabs to spawn")]
     public SpawnableObject[] spawnableObjects;
 
     // ---------- Private fields ----------
@@ -25,7 +28,21 @@ public class Spawner : MonoBehaviour, ICanSpawnEntities
     private Dictionary<string, int> spawnedCount;
     private Coroutine spawnCoroutine;
 
+    // Check if the SpawnableObject array size has been set
+    // then go through initialization. Otherwise log a warning.
     private void Awake()
+    {
+        if (spawnableObjects.Length > 0)
+        {
+            Initialize();
+        }
+        else
+        {
+            Debug.LogWarning("[Spawner/Awake] Spawner on '" + this.gameObject.name + "' is empty.");
+        }
+    }
+
+    private void Initialize()
     {
         // Initialize a List of SpawnableObject which will contain
         // a number of each equal to its weight. Its the simplest way
@@ -39,33 +56,39 @@ public class Spawner : MonoBehaviour, ICanSpawnEntities
 
         // For each spawnable object, add it to the List as many times
         // as its weight value, and set its spawned count to zero.
-foreach (SpawnableObject obj in spawnableObjects)
+        foreach (SpawnableObject obj in spawnableObjects)
         {
-            for (int i = 0; i < obj.probabilityWeight; i++)
+            // First check if the prefab is actually set,
+            // because array size allows the prefab slot to be empty.
+            if (obj.prefab != null)
             {
-                // All prefabs should have a component which implements
-                // the ISpawnable interface for the NotifyDestroyed()
-                // callback to work.
-                ISpawnable sp = obj.prefab.GetComponent<ISpawnable>();
-                if (sp != null)
+                // Loop through the weight value
+                for (int i = 0; i < obj.probabilityWeight; i++)
                 {
-                    spawnableObjectsWeighted.Add(obj);
-                }
-                else
-                {
-                    Debug.LogError("[Spawner/Awake] Prefab '" + obj.prefab.name +
-                                  "' doesn't implement interface 'ISpawnable'.");
-                }
+                    if (spawnableInterfaceIsMandatory)
+                    {
+                        // All prefabs should have a component which implements
+                        // the ISpawnable interface for the NotifyDestroyed()
+                        // callback to work.
+                        if (obj.prefab.GetComponent<ISpawnable>() == null) 
+                        {
+                            Debug.LogError("[Spawner/Awake] Prefab '" + obj.prefab.name +
+                                "' doesn't implement interface 'ISpawnable'.");
+                        }
+                    }
 
-                // If the Dictionary already has a key with the prefab's name,
-                // log a warning as this will get unpredictable results.
-                if (!spawnedCount.ContainsKey(obj.prefab.name))
-                {
-                    spawnedCount[obj.prefab.name] = 0;
-                }
-                else
-                {
-                    Debug.LogWarning("[Spawner/Awake] Spawner has prefabs with identical names");
+                    spawnableObjectsWeighted.Add(obj);
+
+                    // If the Dictionary already has a key with the prefab's name,
+                    // log a warning as this will get unpredictable results.
+                    if (!spawnedCount.ContainsKey(obj.prefab.name))
+                    {
+                        spawnedCount[obj.prefab.name] = 0;
+                    }
+                    else
+                    {
+                        Debug.LogWarning("[Spawner/Awake] Spawner has prefabs with identical names");
+                    }
                 }
             }
         }
@@ -81,7 +104,7 @@ foreach (SpawnableObject obj in spawnableObjects)
 
     private void Start()
     {
-        StartSpawning();
+        if (spawnableObjects.Length > 0) StartSpawning();
     }
 
     // Other objects might need to ask this script to start spawning,
@@ -127,7 +150,15 @@ foreach (SpawnableObject obj in spawnableObjects)
 
                     // Set the Spawner property on script implementing ISpawnable
                     // to this script, so that it can call back NotifyDestroyed().
-                    o.GetComponent<ISpawnable>().Spawner = this;
+                    // We need to check for null if we are not enforcing
+                    // the implementation of ISpawnable.
+                    // If we *are* enforcing it, an error will have been logged
+                    // already in Initialize().
+                    if (!spawnableInterfaceIsMandatory)
+                    {
+                        ISpawnable sp = o.GetComponent<ISpawnable>();
+                        if (sp != null) { sp.Spawner = this; }
+                    }
 
                     // Increase the spawn count in the Dictionary.
                     spawnedCount[obj.prefab.name]++;
