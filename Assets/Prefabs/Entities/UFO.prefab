@@ -22,6 +22,7 @@ GameObject:
   - component: {fileID: 114521301193238800}
   - component: {fileID: 114124665907846890}
   - component: {fileID: 114669014028120842}
+  - component: {fileID: 114920467303069440}
   - component: {fileID: 114811995898526576}
   - component: {fileID: 114986385336347954}
   - component: {fileID: 114919254889031874}
@@ -262,6 +263,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e9d700638e0f4aa7a3708a2d5a86217, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &114920467303069440
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1839108818726510}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 326c40b5900734d5aa1c37cda8fc4514, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  basePointValue: 30
+  perLevelIncrease: 10
+  displayPointsWhenKilled: 1
 --- !u!114 &114986385336347954
 MonoBehaviour:
   m_ObjectHideFlags: 1

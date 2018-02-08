@@ -3,7 +3,7 @@ using UnityEngine;
 using Random = UnityEngine.Random;
 
 
-public class AsteroidController : Entity, IKillable, ICanScorePoints
+public class AsteroidController : Entity, IKillable
 {
     // -----------------------------------------------------------------------------
     // Inspector fields
@@ -14,8 +14,6 @@ public class AsteroidController : Entity, IKillable, ICanScorePoints
 
     // Reference for asteroid sprites variations
     public Sprite[] sprite;
-    public int basePointValue;
-    public bool displayPointsWhenKilled;
 
     // -----------------------------------------------------------------------------
     // Properties
@@ -34,25 +32,15 @@ public class AsteroidController : Entity, IKillable, ICanScorePoints
             _phase = value;
             float newScale = 1.0f / Mathf.Pow(2, _phase);
             transform.localScale = new Vector3(newScale, newScale, 1);
-            PointValue = (_phase + 1) * basePointValue;
             gameObject.name = "Asteroid (Phase " + _phase + ")";
         }
     }
-
-    // PointValue property —— Required by ICanScorePoints
-    public int PointValue
-    {
-        get { return _pointValue; }
-        private set { _pointValue = value; }
-    }
-    public bool DisplayPointsWhenKilled { get { return displayPointsWhenKilled; } }
 
     //
     // Private fields
     //
 
     private int _phase = 0;
-    private int _pointValue;
 
     //
     // Static property counting how many are in the scene
@@ -65,7 +53,7 @@ public class AsteroidController : Entity, IKillable, ICanScorePoints
 
     public static Action<AsteroidController> OnAsteroidDestroyed; 
     public static Action OnAsteroidLastDestroyed;
-    // public Action<ICanScorePoints> OnScorePoints { get; set; }
+
 
     // -----------------------------------------------------------------------------
     // Methods
@@ -80,7 +68,6 @@ public class AsteroidController : Entity, IKillable, ICanScorePoints
 
         // Increase static asteroid count with each instantiation.
         Count += 1;
-        Debug.Log("[AsteroidController/Awake] Count = " + Count);
 
         // Set default phase property. This is changed only by Break().
         Phase = 0;
@@ -113,7 +100,7 @@ public class AsteroidController : Entity, IKillable, ICanScorePoints
         // Give the asteroid random force and torque
         float dirX = Random.Range(-1f, 1f);
         float dirY = Random.Range(-1f, 1f);
-        Vector2 randomVector = new Vector2(dirX, dirY) * (2 + GameManager.level * 0.5f) * rb.mass;
+        Vector2 randomVector = new Vector2(dirX, dirY) * (2 + GameManager.CurrentLevel * 0.5f) * rb.mass;
         rb.AddRelativeForce(randomVector, ForceMode2D.Impulse);
         rb.AddTorque(Random.Range(-1 * rb.mass, 1 * rb.mass), ForceMode2D.Impulse);
     }
@@ -154,14 +141,14 @@ public class AsteroidController : Entity, IKillable, ICanScorePoints
 
     // Instantiate two copies of this asteroid.
     // Set them to the next phase to make them smaller.
-    public void Break(int phase)
+    public void Break(int newPhase)
     {
         for (int i = 0; i < 2; i++)
         {
             GameObject obj = Instantiate(gameObject, Vector2.zero, Quaternion.identity);
             obj.transform.position = transform.position;
             AsteroidController astController = obj.GetComponent<AsteroidController>();
-            astController.Phase = phase;
+            astController.Phase = newPhase;
         }
     }
 
@@ -179,17 +166,13 @@ public class AsteroidController : Entity, IKillable, ICanScorePoints
     }
 
 
-    //
-    // Projectiles are Triggers, not Colliders.
-    // Fire an event then destroy the asteroid.
-    // The EventManager will get this instance of the script
-    // as a ICanScorePoints interface.
-    //
+
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("PlayerProjectile"))
         {
-            // if (OnScorePoints != null) { OnScorePoints(this); }
+            ScoreController sc = (ScoreControllerAsteroid)GetComponent<ScoreController>();
+            sc.ScorePoints();
             Kill();
         }
     }

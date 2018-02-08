@@ -18,7 +18,7 @@ public class GameOverManager : MonoBehaviour
 
         // Handle high score if necessary
         int highscore = PlayerPrefs.GetInt("highscore");
-        int score = GetComponent<GameManager>().PlayerScore;
+        int score = GetComponent<ScoreManager>().CurrentScore;
         if ( score > highscore)
         {
             PlayerPrefs.SetInt("highscore", score);

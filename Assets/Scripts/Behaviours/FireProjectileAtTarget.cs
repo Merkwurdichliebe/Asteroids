@@ -21,9 +21,9 @@ public class FireProjectileAtTarget : MonoBehaviour, IFire
     // Update the UFO's firing precision as the level increases.
     void UpdateFiringStats()
     {
-        firingPrecision.x = Random.Range(0, Mathf.Clamp(1 - GameManager.level / 10, 0, 1.0f));
-        firingPrecision.y = Random.Range(0, Mathf.Clamp(1 - GameManager.level / 10, 0, 1.0f));
-        firingInterval = Mathf.Clamp(3 - GameManager.level / 10, 1.0f, 3.0f);
+        firingPrecision.x = Random.Range(0, Mathf.Clamp(1 - GameManager.CurrentLevel / 10, 0, 1.0f));
+        firingPrecision.y = Random.Range(0, Mathf.Clamp(1 - GameManager.CurrentLevel / 10, 0, 1.0f));
+        firingInterval = Mathf.Clamp(3 - GameManager.CurrentLevel / 10, 1.0f, 3.0f);
         Debug.Log("[FireProjectileAtTarget/UpdateStats]");
     }
 

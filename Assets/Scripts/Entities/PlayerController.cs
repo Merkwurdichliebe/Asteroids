@@ -52,7 +52,7 @@ public class PlayerController : Entity, IKillable
     public int Lives
     {
         get { return _livesLeft; }
-        private set
+        set
         {
             _livesLeft = value;
             if (OnPlayerLivesChanged != null) { OnPlayerLivesChanged(_livesLeft); }

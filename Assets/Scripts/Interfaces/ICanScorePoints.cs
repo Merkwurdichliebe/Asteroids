@@ -19,4 +19,5 @@ public interface ICanScorePoints {
     bool DisplayPointsWhenKilled { get; }
 
     // Action<ICanScorePoints> OnScorePoints { get; set; }
+    // ScoreManager ScoreManager { set; }
 }

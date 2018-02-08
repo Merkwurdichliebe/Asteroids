@@ -92,31 +92,25 @@ public class UIManager : MonoBehaviour {
         textAnnounce.text = "";
     }
 
-    public void ShowPointsAtScreenPosition(ICanScorePoints entity)
+    public void ShowPointsAtScreenPosition(GameObject obj, int points)
     {
-        if (entity.DisplayPointsWhenKilled == true)
-        {
-            Text t = Instantiate(textRoaming);
-            t.transform.SetParent(canvas.transform, false);
-            t.transform.position = Camera.main.WorldToScreenPoint(entity.gameObject.transform.position);
-            t.text = entity.PointValue.ToString();
-            Destroy(t.gameObject, 1.0f);
-        }
+        Text t = Instantiate(textRoaming);
+        t.transform.SetParent(canvas.transform, false);
+        t.transform.position = Camera.main.WorldToScreenPoint(obj.transform.position);
+        t.text = points.ToString();
+        Destroy(t.gameObject, 1.0f);
     }
 
     private void OnEnable()
     {
-        GameManager.OnGameScoreChanged += UpdateScore;
         PlayerController.OnPlayerLivesChanged += UpdateLives;
         PlayerController.OnPlayerLivesZero += HandleGameOver;
         MovePlayerControlled.OnPlayerSpeedChanged += UpdateSpeed;
         SpawnSafeZoneManager.OnSpawnSafeZoneCleared += HandleCenterIsClear;
-        // EventManager.Instance.OnEntityKilledByPlayer += ShowPointsAtScreenPosition;
     }
 
     private void OnDisable()
     {
-        GameManager.OnGameScoreChanged -= UpdateScore;
         PlayerController.OnPlayerLivesChanged -= UpdateLives;
         PlayerController.OnPlayerLivesZero -= HandleGameOver;
         MovePlayerControlled.OnPlayerSpeedChanged -= UpdateSpeed;

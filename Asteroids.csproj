@@ -321,6 +321,8 @@
     <Compile Include="Assets\Scripts\Behaviours\InputFromKeyboard.cs" />
     <Compile Include="Assets\Scripts\Behaviours\MoveCrossTheScreenThruCenter.cs" />
     <Compile Include="Assets\Scripts\Behaviours\MovePlayerControlled.cs" />
+    <Compile Include="Assets\Scripts\Behaviours\ScoreController.cs" />
+    <Compile Include="Assets\Scripts\Behaviours\ScoreControllerAsteroid.cs" />
     <Compile Include="Assets\Scripts\Collisions\PlayerCollisionManager.cs" />
     <Compile Include="Assets\Scripts\Entities\AsteroidController.cs" />
     <Compile Include="Assets\Scripts\Entities\Entity.cs" />
@@ -341,6 +343,7 @@
     <Compile Include="Assets\Scripts\Managers\MenuManager.cs" />
     <Compile Include="Assets\Scripts\Managers\MusicManager.cs" />
     <Compile Include="Assets\Scripts\Managers\PlayerAudioManager.cs" />
+    <Compile Include="Assets\Scripts\Managers\ScoreManager.cs" />
     <Compile Include="Assets\Scripts\Managers\Spawner.cs" />
     <Compile Include="Assets\Scripts\Managers\SpawnSafeZoneManager.cs" />
     <Compile Include="Assets\Scripts\Managers\UFOAudioManager.cs" />

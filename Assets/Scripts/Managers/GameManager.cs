@@ -5,7 +5,7 @@ using UnityEngine.Assertions;
 using Random = UnityEngine.Random;
 
 public class GameManager : MonoBehaviour
-{  
+{
     // -------------------------------------------------------------------------
     // Inspector variables
     // -------------------------------------------------------------------------
@@ -23,27 +23,30 @@ public class GameManager : MonoBehaviour
 
     // Tunable game data
     [Header("Game options")]
-    public int startingAsteroids;
-    public static int level;
-    public float UFOSpawnFrequency;
-    public float UFOSpawnProbability;
+    public int startWithLevel = 1;
+    public int startWithAsteroids = 3;
+    public int startWithPlayerLives = 3;
 
     // -------------------------------------------------------------------------
     // Private variables and properties
     // -------------------------------------------------------------------------
 
-    private int playerScore;
-    public int PlayerScore { get { return playerScore; } }
-
-    private int countUFO;
     private int countAsteroids;
     private Spawner spawner;
+
+    // 
+    // Properties
+    //
+
+    public static int CurrentLevel
+    {
+        get; private set;
+    }
 
     //
     //  Events
     //
 
-    public static Action<int> OnGameScoreChanged;
     public static Action<bool> OnGameLevelNumberDisplay;
 
     // -------------------------------------------------------------------------
@@ -59,21 +62,22 @@ public class GameManager : MonoBehaviour
         Assert.IsNotNull(player);
 
         // Set the level number
-        level = 0;
+        CurrentLevel = startWithLevel;
 
         // Create the Player spawn safe zone
         Instantiate(PrefabSpawnSafeZone, Vector2.zero, Quaternion.identity);
-        UIManager uiManager = GetComponent<UIManager>();
-        if (uiManager != null) uiManager.enabled = true;
+        UIManager ui = GetComponent<UIManager>();
+        if (ui != null) ui.enabled = true;
 
         // Get a reference to the Spawner
         spawner = GetComponent<Spawner>();
         if (spawner == null)
         {
-            Debug.LogWarning("[GameManager] No Spawner present. Entity spawning disabled.");
+            Debug.LogWarning("[GameManager/Awake] No Spawner present. Entity spawning disabled.");
         }
 
         player = Instantiate(player);
+        player.Lives = startWithPlayerLives;
     }
 
 
@@ -105,7 +109,7 @@ public class GameManager : MonoBehaviour
 
     void PrepareNextLevel()
     {
-        Debug.Log("[GameManager/PrepareNextLevel] " + (level + 1));
+        Debug.Log("[GameManager/PrepareNextLevel] " + CurrentLevel);
         StopAllCoroutines();
         StartCoroutine(ReadyNextLevel());
     }
@@ -115,10 +119,9 @@ public class GameManager : MonoBehaviour
     IEnumerator ReadyNextLevel()
     {
         if (OnGameLevelNumberDisplay != null) { OnGameLevelNumberDisplay(true); }
-        level += 1;
         player.ActiveInScene = false;
         if (spawner != null) { spawner.enabled = false; }
-        UIManager.Instance.DisplayLevelNumber(level);
+        UIManager.Instance.DisplayLevelNumber(CurrentLevel);
         Instantiate(PrefabComet);
         yield return new WaitForSeconds(3);
         if (OnGameLevelNumberDisplay != null) { OnGameLevelNumberDisplay(false); }
@@ -140,7 +143,7 @@ public class GameManager : MonoBehaviour
     void SpawnAsteroids()
     {
         // Spawn asteroids based on level number
-        for (int i = 0; i < startingAsteroids + level - 1; i++)
+        for (int i = 0; i < startWithAsteroids + CurrentLevel - 1; i++)
         {
             Instantiate(PrefabAsteroid, Vector2.zero, Quaternion.identity);
         }
@@ -150,15 +153,10 @@ public class GameManager : MonoBehaviour
     {
         Debug.Log("[GameManager/CheckLevelCleared] Asteroids " +
                   AsteroidController.Count + " Spawner " + spawner.TotalCount);
-        if (player.Lives != 0) { PrepareNextLevel(); }
-    }
-
-
-
-    void HandleScorePoints(ICanScorePoints e)
-    {
-        playerScore += e.PointValue;
-        if (OnGameScoreChanged != null) { OnGameScoreChanged(playerScore); }
+        if (player.Lives != 0) {
+            CurrentLevel += 1;
+            PrepareNextLevel();
+        }
     }
 
     void Cleanup()

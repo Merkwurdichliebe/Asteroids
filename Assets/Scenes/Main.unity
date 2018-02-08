@@ -899,6 +899,7 @@ GameObject:
   - component: {fileID: 2104122569}
   - component: {fileID: 2104122575}
   - component: {fileID: 2104122570}
+  - component: {fileID: 2104122577}
   - component: {fileID: 2104122576}
   - component: {fileID: 2104122574}
   - component: {fileID: 2104122572}
@@ -967,9 +968,9 @@ MonoBehaviour:
   PrefabComet: {fileID: 1661287572815834, guid: 8972d0ae4b3ed4753ae706c86a3f2d2a,
     type: 2}
   player: {fileID: 114579725366848430, guid: 1cd0fc377425e480f912e5efcaa6121b, type: 2}
-  startingAsteroids: 1
-  UFOSpawnFrequency: 2
-  UFOSpawnProbability: 0.5
+  startWithLevel: 1
+  startWithAsteroids: 3
+  startWithPlayerLives: 3
 --- !u!82 &2104122571
 AudioSource:
   m_ObjectHideFlags: 0
@@ -1122,3 +1123,14 @@ MonoBehaviour:
   - prefab: {fileID: 1839108818726510, guid: d34b63115465242f48024485b4dba654, type: 2}
     probabilityWeight: 1
     maxSimultaneousInstances: 1
+--- !u!114 &2104122577
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2104122567}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e397d6304e8aa4d5e87259193cec3ce3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

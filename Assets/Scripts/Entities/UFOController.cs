@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class UFOController : Entity, IKillable, ICanScorePoints, ISpawnable
+public class UFOController : Entity, IKillable, ISpawnable
 {
 
     public Spawner Spawner { get; set; }
@@ -16,14 +16,6 @@ public class UFOController : Entity, IKillable, ICanScorePoints, ISpawnable
     public int basePointValue;
     public bool displayPointsWhenKilled;
 
-    // Required by ICanScorePoints
-    public int PointValue
-    {
-        get { return _pointValue; }
-        set { _pointValue = value; }
-    }
-    public bool DisplayPointsWhenKilled { get { return displayPointsWhenKilled; } }
-
     private int _pointValue;
 
 
@@ -32,15 +24,6 @@ public class UFOController : Entity, IKillable, ICanScorePoints, ISpawnable
     {
         base.Awake();
     }
-
-
-
-    private void Start()
-    {
-        PointValue = GameManager.level * basePointValue;
-    }
-
-
 
     private void OnEnable()
     {
@@ -106,15 +89,12 @@ public class UFOController : Entity, IKillable, ICanScorePoints, ISpawnable
 
 
 
-    // Projectiles are Triggers, not Colliders.
-    // Notify the EventManager, then destroy the UFO.
-    // The EventManager will get this instance of the script
-    // as a ICanScorePoints interface.
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag("PlayerProjectile"))
         {
-            EventManager.Instance.EntityKilledByPlayer(this);
+            ScoreController sc = GetComponent<ScoreController>();
+            sc.ScorePoints();
             Kill();
         }
     }
