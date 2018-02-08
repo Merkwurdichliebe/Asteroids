@@ -7,6 +7,7 @@ public class FireProjectileAtTarget : MonoBehaviour, IFire
     private Vector3 firingPrecision;
     private float firingInterval;
     private Coroutine fireCoroutine;
+    public bool CanFire { get; set; }
 
 
 
@@ -15,6 +16,22 @@ public class FireProjectileAtTarget : MonoBehaviour, IFire
         UpdateFiringStats();
         AcquireTarget();
         Fire();
+    }
+
+    private void OnEnable()
+    {
+        PlayerController.OnPlayerSpawned += EnableFire;
+        PlayerController.OnPlayerDespawned += DisableFire;
+    }
+
+    private void EnableFire()
+    {
+        CanFire = true;
+    }
+
+    private void DisableFire()
+    {
+        CanFire = false;
     }
 
 
@@ -27,7 +44,7 @@ public class FireProjectileAtTarget : MonoBehaviour, IFire
         Debug.Log("[FireProjectileAtTarget/UpdateStats]");
     }
 
-
+    // FIXME Disable ufo firing when spawning and player not spawned yet
 
     // Find the target to shoot at (the player).
     private void AcquireTarget()
@@ -44,19 +61,16 @@ public class FireProjectileAtTarget : MonoBehaviour, IFire
 
     }
 
-
-
     public void Fire()
     {
         fireCoroutine = StartCoroutine(FireAtTarget());
     }
 
 
-
     IEnumerator FireAtTarget()
     {
         yield return new WaitForSeconds(1);
-        while (target != null)
+        while (target != null && CanFire)
         {
             // Only try to fire if we have an ObjectPool with projectiles.
             if (ObjectPool.Instance != null)
@@ -89,6 +103,6 @@ public class FireProjectileAtTarget : MonoBehaviour, IFire
 
     private void OnDestroy()
     {
-        StopCoroutine(fireCoroutine);
+        DisableFire();
     }
 }

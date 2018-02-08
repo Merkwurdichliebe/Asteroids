@@ -163,15 +163,15 @@ public class Spawner : MonoBehaviour, ICanSpawnEntities
                 // and in the public property.
                 spawnedCount[obj.prefab.name]++;
                 TotalCount++;
-                timeSinceLastSpawn = Time.time;
-                Debug.Log("[Spawner/SpawnCoroutine] " + obj.prefab.name + " spawned");
+                Debug.Log("[Spawner/SpawnAnObject] " + obj.prefab.name + " spawned");
             }
             else
             {
-                Debug.Log("[Spawner/SpawnCoroutine] "
+                Debug.Log("[Spawner/SpawnAnObject] "
                           + obj.prefab.name + " already at maximum ("
                           + obj.maxSimultaneousInstances + ")");
             }
+            timeSinceLastSpawn = Time.time;
         }
     }
 

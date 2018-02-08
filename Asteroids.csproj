@@ -321,8 +321,11 @@
     <Compile Include="Assets\Scripts\Behaviours\InputFromKeyboard.cs" />
     <Compile Include="Assets\Scripts\Behaviours\MoveCrossTheScreenThruCenter.cs" />
     <Compile Include="Assets\Scripts\Behaviours\MovePlayerControlled.cs" />
+    <Compile Include="Assets\Scripts\Behaviours\RandomizeInitialMotion.cs" />
     <Compile Include="Assets\Scripts\Behaviours\ScoreController.cs" />
     <Compile Include="Assets\Scripts\Behaviours\ScoreControllerAsteroid.cs" />
+    <Compile Include="Assets\Scripts\Collisions\DestroyedByPlayerProjectiles.cs" />
+    <Compile Include="Assets\Scripts\Collisions\EnemyCollisionManager.cs" />
     <Compile Include="Assets\Scripts\Collisions\PlayerCollisionManager.cs" />
     <Compile Include="Assets\Scripts\Entities\AsteroidController.cs" />
     <Compile Include="Assets\Scripts\Entities\Entity.cs" />
@@ -350,7 +353,6 @@
     <Compile Include="Assets\Scripts\---TBE\DelegateTest.cs" />
     <Compile Include="Assets\Scripts\---TBE\OldObjectPool.cs" />
     <Compile Include="Assets\Scripts\---TBE\SingletonTest.cs" />
-    <Compile Include="Assets\Scripts\UI\DisplayPointsAtScreenPosition.cs" />
     <Compile Include="Assets\Scripts\UI\UIManager.cs" />
     <Compile Include="Assets\Scripts\Utilities\AudioListenerVolume.cs" />
     <Compile Include="Assets\Scripts\Utilities\DestroyInSeconds.cs" />

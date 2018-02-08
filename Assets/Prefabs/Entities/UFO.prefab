@@ -22,12 +22,13 @@ GameObject:
   - component: {fileID: 114521301193238800}
   - component: {fileID: 114124665907846890}
   - component: {fileID: 114669014028120842}
-  - component: {fileID: 114920467303069440}
   - component: {fileID: 114811995898526576}
   - component: {fileID: 114986385336347954}
+  - component: {fileID: 114023724918377884}
+  - component: {fileID: 114128479866955304}
+  - component: {fileID: 114920467303069440}
   - component: {fileID: 114919254889031874}
   - component: {fileID: 212228801216567472}
-  - component: {fileID: 114415981674599652}
   - component: {fileID: 50124563754769454}
   - component: {fileID: 70580452906963220}
   - component: {fileID: 95269012221205156}
@@ -184,6 +185,17 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
+--- !u!114 &114023724918377884
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1839108818726510}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea57c6d22c16c4d3a9184708a366092a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114124665907846890
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -196,7 +208,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 2
---- !u!114 &114415981674599652
+--- !u!114 &114128479866955304
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -204,12 +216,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1839108818726510}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ac98c87d4a81d47a0a87668253739b76, type: 3}
+  m_Script: {fileID: 11500000, guid: edf3479214c764ec3955072f23ac9adc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  canvas: {fileID: 0}
-  UITextObject: {fileID: 114392067046668686, guid: 9f2f7e7f808f44e1bac0a71fac206207,
-    type: 2}
 --- !u!114 &114521301193238800
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -222,8 +231,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   explosion: {fileID: 1567358503014116, guid: 71915c557f2d44ab6aace90312a0c2a3, type: 2}
-  basePointValue: 30
-  displayPointsWhenKilled: 1
 --- !u!114 &114669014028120842
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -251,7 +258,7 @@ MonoBehaviour:
   detectionAngle: 20
   objectsToAvoid:
     serializedVersion: 2
-    m_Bits: 2304
+    m_Bits: 2816
 --- !u!114 &114919254889031874
 MonoBehaviour:
   m_ObjectHideFlags: 1

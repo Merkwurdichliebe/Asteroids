@@ -10,6 +10,7 @@ public class FireProjectile : MonoBehaviour, IFire {
     // Get from the Inspector the Transform from which the weapon should fire.
     public Transform anchorMainGun;
 
+    public bool CanFire { get; set; }
     private bool objectPoolExists = true;
 
     // Check if the object pool exists and if not display a warning.
@@ -28,7 +29,7 @@ public class FireProjectile : MonoBehaviour, IFire {
     // from ObjectPool without making sure it exists.
     public void Fire()
     {
-        if (objectPoolExists)
+        if (objectPoolExists && CanFire)
         {
             GameObject projectile = ObjectPool.Instance.GetPooledObject("PlayerProjectile");
             if (projectile != null)

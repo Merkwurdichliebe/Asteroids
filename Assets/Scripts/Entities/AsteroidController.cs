@@ -5,9 +5,9 @@ using Random = UnityEngine.Random;
 
 public class AsteroidController : Entity, IKillable
 {
-    // -----------------------------------------------------------------------------
+    //
     // Inspector fields
-    // -----------------------------------------------------------------------------
+    //
 
     // Explosion prefab to be instantiated when destroyed
     public GameObject explosion;
@@ -39,7 +39,6 @@ public class AsteroidController : Entity, IKillable
     //
     // Private fields
     //
-
     private int _phase = 0;
 
     //
@@ -50,7 +49,6 @@ public class AsteroidController : Entity, IKillable
     //
     //  Events
     //
-
     public static Action<AsteroidController> OnAsteroidDestroyed; 
     public static Action OnAsteroidLastDestroyed;
 
@@ -83,26 +81,6 @@ public class AsteroidController : Entity, IKillable
         {
             transform.position = new Vector2(Random.Range(-15, 15), Random.Range(3, 6)); 
         }
-
-        // Set the mass to be proportionate to the asteroid size
-        // This makes inter-asteroid collisions more realistic
-        rb.mass = 1 / (_phase + 1);
-
-        // Add position and rotation variations
-        float x = Random.Range(transform.position.x - 0.5f, transform.position.x + 0.5f);
-        float y = Random.Range(transform.position.y - 0.5f, transform.position.y + 0.5f);
-        float rot = Random.Range(0f, 1f);
-
-        // Set the transform
-        transform.position = new Vector2(x, y);
-        transform.Rotate(new Vector3(0, 0, rot)); 
-
-        // Give the asteroid random force and torque
-        float dirX = Random.Range(-1f, 1f);
-        float dirY = Random.Range(-1f, 1f);
-        Vector2 randomVector = new Vector2(dirX, dirY) * (2 + GameManager.CurrentLevel * 0.5f) * rb.mass;
-        rb.AddRelativeForce(randomVector, ForceMode2D.Impulse);
-        rb.AddTorque(Random.Range(-1 * rb.mass, 1 * rb.mass), ForceMode2D.Impulse);
     }
 
 
@@ -149,31 +127,6 @@ public class AsteroidController : Entity, IKillable
             obj.transform.position = transform.position;
             AsteroidController astController = obj.GetComponent<AsteroidController>();
             astController.Phase = newPhase;
-        }
-    }
-
-
-
-    // The PlayerCollisionManager already checks for collisions with asteroids
-    // but we want the asteroid to be destroyed when the player crashes into it,
-    // so we deal with it here.
-    private void OnCollisionEnter2D(Collision2D other)
-    {
-        if (other.gameObject.CompareTag("Player") || other.gameObject.CompareTag("Enemy"))
-        {
-            Kill();
-        }
-    }
-
-
-
-    private void OnTriggerEnter2D(Collider2D other)
-    {
-        if (other.CompareTag("PlayerProjectile"))
-        {
-            ScoreController sc = (ScoreControllerAsteroid)GetComponent<ScoreController>();
-            sc.ScorePoints();
-            Kill();
         }
     }
 }

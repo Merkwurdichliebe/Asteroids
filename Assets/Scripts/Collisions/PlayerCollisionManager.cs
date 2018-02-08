@@ -29,6 +29,7 @@ public class PlayerCollisionManager : MonoBehaviour {
         {
             Debug.Log("[PlayerCollisionManager/OnTriggerEnter2D] Player collided with " + goTag);
             player.Kill();
+            collision.gameObject.GetComponent<IKillable>().Kill();
         }
     }
 

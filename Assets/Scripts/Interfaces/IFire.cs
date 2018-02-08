@@ -1,4 +1,5 @@
 ﻿public interface IFire {
 
-    void Fire();	
+    void Fire();
+    bool CanFire { get; set; }
 }
