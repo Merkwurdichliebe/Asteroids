@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyCollisionManager : MonoBehaviour {
+public class AsteroidCollisionManager : MonoBehaviour
+{
 
     private IKillable myself;
 
@@ -11,14 +12,13 @@ public class EnemyCollisionManager : MonoBehaviour {
         myself = gameObject.GetComponent<IKillable>();
     }
 
-    // Destroy this and other object if colliding with asteroid or the player.
+    // Destroy this and other object if colliding with enemy or the player.
     void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("Asteroid") ||
+        if (collision.gameObject.CompareTag("Enemy") ||
             collision.gameObject.CompareTag("Player"))
         {
             myself.Kill();
-            collision.gameObject.GetComponent<IKillable>().Kill();
         }
     }
 }

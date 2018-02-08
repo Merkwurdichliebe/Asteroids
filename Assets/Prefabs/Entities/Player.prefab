@@ -38,7 +38,8 @@ GameObject:
   - component: {fileID: 114450025990637772}
   - component: {fileID: 114416720915243778}
   - component: {fileID: 114747288095868216}
-  - component: {fileID: 114445492628736984}
+  - component: {fileID: 114019090253752360}
+  - component: {fileID: 114331243683534090}
   - component: {fileID: 114975582913275540}
   - component: {fileID: 114815654117538412}
   - component: {fileID: 114860798685419980}
@@ -50,7 +51,7 @@ GameObject:
   m_Layer: 9
   m_Name: Player
   m_TagString: Player
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: 3936346786652291628, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -210,6 +211,20 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 0
+--- !u!114 &114019090253752360
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1729157800514620}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8528d94e846414ce8ba232d5c763890c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tags:
+  - Enemy
+  - Asteroid
 --- !u!114 &114128046529340278
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -223,6 +238,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   destroyed: {fileID: 8300000, guid: f96550c7e73a74f4db42faa9d351b6c2, type: 3}
   engine: {fileID: 8300000, guid: 1480f96f6d60a448b8d19eecf51a32e4, type: 3}
+--- !u!114 &114331243683534090
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1729157800514620}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0375e813909a548f1b21e72005088221, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  projectileType: 1
+  scorePoints: 0
 --- !u!114 &114416720915243778
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -236,17 +264,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rotationMultiplier: 3
   thrustMultiplier: 0.4
---- !u!114 &114445492628736984
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1729157800514620}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7b23098f852d446e5b51f26121b865af, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114450025990637772
 MonoBehaviour:
   m_ObjectHideFlags: 1

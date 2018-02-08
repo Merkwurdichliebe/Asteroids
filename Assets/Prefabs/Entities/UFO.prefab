@@ -24,8 +24,8 @@ GameObject:
   - component: {fileID: 114669014028120842}
   - component: {fileID: 114811995898526576}
   - component: {fileID: 114986385336347954}
-  - component: {fileID: 114023724918377884}
-  - component: {fileID: 114128479866955304}
+  - component: {fileID: 114250491376626882}
+  - component: {fileID: 114190891522283650}
   - component: {fileID: 114920467303069440}
   - component: {fileID: 114919254889031874}
   - component: {fileID: 212228801216567472}
@@ -36,7 +36,7 @@ GameObject:
   m_Layer: 8
   m_Name: UFO
   m_TagString: Enemy
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -185,17 +185,6 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
---- !u!114 &114023724918377884
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1839108818726510}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ea57c6d22c16c4d3a9184708a366092a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114124665907846890
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -208,7 +197,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 2
---- !u!114 &114128479866955304
+--- !u!114 &114190891522283650
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -216,9 +205,25 @@ MonoBehaviour:
   m_GameObject: {fileID: 1839108818726510}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: edf3479214c764ec3955072f23ac9adc, type: 3}
+  m_Script: {fileID: 11500000, guid: 0375e813909a548f1b21e72005088221, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  projectileType: 0
+  scorePoints: 1
+--- !u!114 &114250491376626882
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1839108818726510}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8528d94e846414ce8ba232d5c763890c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tags:
+  - Player
+  - Asteroid
 --- !u!114 &114521301193238800
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -295,6 +300,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6418284088e2744f588d84c8cbf44aa6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  firingInterval: 2
 --- !u!212 &212228801216567472
 SpriteRenderer:
   m_ObjectHideFlags: 1

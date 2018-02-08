@@ -6,8 +6,10 @@ public class FireProjectileAtTarget : MonoBehaviour, IFire
     private PlayerController target;
     private Vector3 firingPrecision;
     private Coroutine fireCoroutine;
+    private int currentLevel;
     public bool FiringEnabled { get; set; }
     public float firingInterval;
+
 
 
 
@@ -25,6 +27,23 @@ public class FireProjectileAtTarget : MonoBehaviour, IFire
         PlayerController.OnPlayerDespawned += DisableFire;
     }
 
+    private void OnDisable()
+    {
+        PlayerController.OnPlayerSpawned -= EnableFire;
+        PlayerController.OnPlayerDespawned -= DisableFire;
+        StopCoroutine(fireCoroutine);
+    }
+
+    private void Start()
+    {
+        // Caching this for later. It might help with cleanup
+        // when the app quits, in case GameManager is destroyed
+        // before this instance.
+        currentLevel = GameManager.CurrentLevel;
+
+        firingInterval = Mathf.Clamp(firingInterval / currentLevel, 0.2f, 3.0f);
+    }
+
     private void EnableFire()
     {
         FiringEnabled = true;
@@ -39,10 +58,8 @@ public class FireProjectileAtTarget : MonoBehaviour, IFire
     // Update the UFO's firing precision as the level increases.
     void UpdateFiringStats()
     {
-        firingPrecision.x = Random.Range(0, Mathf.Clamp(1 - GameManager.CurrentLevel / 10, 0, 1.0f));
-        firingPrecision.y = Random.Range(0, Mathf.Clamp(1 - GameManager.CurrentLevel / 10, 0, 1.0f));
-        // firingInterval = Mathf.Clamp(3 - GameManager.CurrentLevel / 10, 1.0f, 3.0f);
-        // FIXME add some randomness here and level progression
+        firingPrecision.x = Random.Range(0, Mathf.Clamp(1 - currentLevel / 10, 0, 1.0f));
+        firingPrecision.y = Random.Range(0, Mathf.Clamp(1 - currentLevel / 10, 0, 1.0f));
         Debug.Log("[FireProjectileAtTarget/UpdateStats]");
     }
 
@@ -108,5 +125,6 @@ public class FireProjectileAtTarget : MonoBehaviour, IFire
     private void OnDestroy()
     {
         DisableFire();
+        StopCoroutine(fireCoroutine);
     }
 }

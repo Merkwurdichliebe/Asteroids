@@ -969,8 +969,9 @@ MonoBehaviour:
     type: 2}
   player: {fileID: 114579725366848430, guid: 1cd0fc377425e480f912e5efcaa6121b, type: 2}
   startWithLevel: 1
-  startWithAsteroids: 3
+  startWithAsteroids: 4
   startWithPlayerLives: 10
+  dontSpawnAsteroids: 0
 --- !u!82 &2104122571
 AudioSource:
   m_ObjectHideFlags: 0
@@ -1116,7 +1117,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e20c42ea76334c96acba6bcb07b188f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  secondsBetweenSpawns: 6
+  secondsBetweenSpawns: 2
   overallSpawnProbability: 1
   spawnableInterfaceIsMandatory: 1
   spawnableObjects:

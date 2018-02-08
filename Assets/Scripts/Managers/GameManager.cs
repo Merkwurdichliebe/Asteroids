@@ -26,6 +26,7 @@ public class GameManager : MonoBehaviour
     public int startWithLevel = 1;
     public int startWithAsteroids = 3;
     public int startWithPlayerLives = 3;
+    public bool dontSpawnAsteroids;
 
     // -------------------------------------------------------------------------
     // Private variables and properties
@@ -141,9 +142,12 @@ public class GameManager : MonoBehaviour
     void SpawnAsteroids()
     {
         // Spawn asteroids based on level number
-        for (int i = 0; i < startWithAsteroids + CurrentLevel - 1; i++)
+        if (!dontSpawnAsteroids)
         {
-            Instantiate(PrefabAsteroid, Vector2.zero, Quaternion.identity);
+            for (int i = 0; i < startWithAsteroids + CurrentLevel - 1; i++)
+            {
+                Instantiate(PrefabAsteroid, Vector2.zero, Quaternion.identity);
+            }
         }
     }
 

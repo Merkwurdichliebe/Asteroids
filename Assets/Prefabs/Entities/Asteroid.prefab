@@ -22,7 +22,8 @@ GameObject:
   - component: {fileID: 114571590671854378}
   - component: {fileID: 114351796837842282}
   - component: {fileID: 114100902338733286}
-  - component: {fileID: 114909608750541122}
+  - component: {fileID: 114522971740998954}
+  - component: {fileID: 114957409315236638}
   - component: {fileID: 114200468601164074}
   - component: {fileID: 212291358676762358}
   - component: {fileID: 50915112063009898}
@@ -123,7 +124,21 @@ MonoBehaviour:
   randomPositionDelta: 0.3
   addRandomForce: 1
   addRandomTorque: 1
-  levelMultiplier: 0.5
+  levelMultiplier: 0.25
+--- !u!114 &114522971740998954
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1675515984352900}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8528d94e846414ce8ba232d5c763890c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tags:
+  - Player
+  - Enemy
 --- !u!114 &114571590671854378
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -141,7 +156,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: cb9b02ab918b44b35bcb09b774b746ec, type: 3}
   - {fileID: 21300000, guid: 7c7e569596b86428cbdceb002e78e890, type: 3}
   - {fileID: 21300000, guid: f3314b3f36a15467fb633508737f415c, type: 3}
---- !u!114 &114909608750541122
+--- !u!114 &114957409315236638
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -149,9 +164,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1675515984352900}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: edf3479214c764ec3955072f23ac9adc, type: 3}
+  m_Script: {fileID: 11500000, guid: 0375e813909a548f1b21e72005088221, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  projectileType: 0
+  scorePoints: 1
 --- !u!212 &212291358676762358
 SpriteRenderer:
   m_ObjectHideFlags: 1
