@@ -5,9 +5,9 @@ public class FireProjectileAtTarget : MonoBehaviour, IFire
 {
     private PlayerController target;
     private Vector3 firingPrecision;
-    private float firingInterval;
     private Coroutine fireCoroutine;
-    public bool CanFire { get; set; }
+    public bool FiringEnabled { get; set; }
+    public float firingInterval;
 
 
 
@@ -15,6 +15,7 @@ public class FireProjectileAtTarget : MonoBehaviour, IFire
     {
         UpdateFiringStats();
         AcquireTarget();
+        EnableFire();
         Fire();
     }
 
@@ -26,12 +27,12 @@ public class FireProjectileAtTarget : MonoBehaviour, IFire
 
     private void EnableFire()
     {
-        CanFire = true;
+        FiringEnabled = true;
     }
 
     private void DisableFire()
     {
-        CanFire = false;
+        FiringEnabled = false;
     }
 
 
@@ -40,11 +41,10 @@ public class FireProjectileAtTarget : MonoBehaviour, IFire
     {
         firingPrecision.x = Random.Range(0, Mathf.Clamp(1 - GameManager.CurrentLevel / 10, 0, 1.0f));
         firingPrecision.y = Random.Range(0, Mathf.Clamp(1 - GameManager.CurrentLevel / 10, 0, 1.0f));
-        firingInterval = Mathf.Clamp(3 - GameManager.CurrentLevel / 10, 1.0f, 3.0f);
+        // firingInterval = Mathf.Clamp(3 - GameManager.CurrentLevel / 10, 1.0f, 3.0f);
+        // FIXME add some randomness here and level progression
         Debug.Log("[FireProjectileAtTarget/UpdateStats]");
     }
-
-    // FIXME Disable ufo firing when spawning and player not spawned yet
 
     // Find the target to shoot at (the player).
     private void AcquireTarget()
@@ -69,12 +69,15 @@ public class FireProjectileAtTarget : MonoBehaviour, IFire
 
     IEnumerator FireAtTarget()
     {
+        // Wait for 1 second before starting to fire
         yield return new WaitForSeconds(1);
-        while (target != null && CanFire)
+        while (target != null)
         {
             // Only try to fire if we have an ObjectPool with projectiles.
-            if (ObjectPool.Instance != null)
+            if (ObjectPool.Instance != null && FiringEnabled)
             {
+                UpdateFiringStats(); // FIXME try not to call this every time or simplify the formula in the method
+
                 // Calculate vector to player.
                 Vector2 direction = (target.gameObject.transform.position - transform.position) + firingPrecision;
 
@@ -84,16 +87,17 @@ public class FireProjectileAtTarget : MonoBehaviour, IFire
 
                 // Get the projectile from the ObjectPool and set it to active.
                 GameObject projectile = ObjectPool.Instance.GetPooledObject("EnemyProjectile");
-                projectile.transform.position = transform.position;
-                projectile.transform.rotation = rotation;
-                projectile.SetActive(true);
-            }
-            // Otherwise log a warning.
-            else
-            {
-                Debug.LogWarning("[FireProjectileAtTarget/AcquireTarget] ObjectPool missing. Firing disabled.");
-            }
 
+                // ObjectPoll will return null if no objects left,
+                // so we check before firing.
+                if (projectile != null)
+                {
+                    projectile.transform.position = transform.position;
+                    projectile.transform.rotation = rotation;
+                    projectile.SetActive(true);
+                }
+            }
+   
             // Let the firing interval pass before firing again.
             yield return new WaitForSeconds(firingInterval);
         }

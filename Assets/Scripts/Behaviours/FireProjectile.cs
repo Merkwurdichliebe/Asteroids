@@ -10,7 +10,7 @@ public class FireProjectile : MonoBehaviour, IFire {
     // Get from the Inspector the Transform from which the weapon should fire.
     public Transform anchorMainGun;
 
-    public bool CanFire { get; set; }
+    public bool FiringEnabled { get; set; }
     private bool objectPoolExists = true;
 
     // Check if the object pool exists and if not display a warning.
@@ -19,7 +19,7 @@ public class FireProjectile : MonoBehaviour, IFire {
         if (ObjectPool.Instance == null || !ObjectPool.Instance.enabled)
         {
             objectPoolExists = false;
-            Debug.LogWarning("FireProjectilePool needs an enabled ObjectPool. Firing is disabled.");
+            Debug.LogWarning("[FireProjectile] needs an enabled ObjectPool. Firing is disabled.");
         }
     }
 
@@ -29,7 +29,7 @@ public class FireProjectile : MonoBehaviour, IFire {
     // from ObjectPool without making sure it exists.
     public void Fire()
     {
-        if (objectPoolExists && CanFire)
+        if (objectPoolExists && FiringEnabled)
         {
             GameObject projectile = ObjectPool.Instance.GetPooledObject("PlayerProjectile");
             if (projectile != null)

@@ -120,7 +120,6 @@ public class GameManager : MonoBehaviour
     {
         if (OnGameLevelNumberDisplay != null) { OnGameLevelNumberDisplay(true); }
         player.ActiveInScene = false;
-        if (spawner != null) { spawner.enabled = false; }
         UIManager.Instance.DisplayLevelNumber(CurrentLevel);
         Instantiate(PrefabComet);
         yield return new WaitForSeconds(3);
@@ -135,7 +134,6 @@ public class GameManager : MonoBehaviour
     {
         SpawnAsteroids();
         player.Spawn();
-        if (spawner != null) { spawner.enabled = true; }
     }
 
 
@@ -166,5 +164,4 @@ public class GameManager : MonoBehaviour
 }
 
 // TODO: powerups
-// TODO: reset player acceleration sprite when respawning
 // TODO: more asteroids sprite variations

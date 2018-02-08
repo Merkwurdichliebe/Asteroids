@@ -32,6 +32,7 @@ public class Spawner : MonoBehaviour, ICanSpawnEntities
     private Dictionary<string, int> spawnedCount;
     private Coroutine spawnCoroutine;
     private float timeSinceLastSpawn;
+    private bool spawnerEnabled;
 
     //
     // Properties
@@ -112,23 +113,42 @@ public class Spawner : MonoBehaviour, ICanSpawnEntities
     //
     // Reset the spawn timer when enabled.
     //
-
     private void OnEnable()
     {
         timeSinceLastSpawn = Time.time;
+        PlayerController.OnPlayerSpawned += EnableSpawner;
+        PlayerController.OnPlayerDespawned += DisableSpawner;
     }
+
+    private void OnDisable()
+    {
+        PlayerController.OnPlayerSpawned -= EnableSpawner;
+        PlayerController.OnPlayerDespawned += DisableSpawner;
+    }
+
+    private void EnableSpawner()
+    {
+        spawnerEnabled = true;
+    }
+
+    private void DisableSpawner()
+    {
+        spawnerEnabled = false;
+    }
+
+
 
     //
     // Check the spawn timer and call SpawnAnObject when ready.
     //
-
     private void Update()
     {
-        if (Time.time - timeSinceLastSpawn > secondsBetweenSpawns)
+        if (Time.time - timeSinceLastSpawn > secondsBetweenSpawns && spawnerEnabled)
         {
             SpawnAnObject();
         }
     }
+
 
     private void SpawnAnObject()
     {

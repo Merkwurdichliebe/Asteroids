@@ -36,7 +36,7 @@ public class PlayerController : Entity, IKillable
             col.enabled = value;
             rb.isKinematic = !value;
             // moveComponent.enabled = value;
-            fireComponent.CanFire = value;
+            fireComponent.FiringEnabled = value;
             if (value)
             {
                 if (OnPlayerSpawned != null) { OnPlayerSpawned(); }

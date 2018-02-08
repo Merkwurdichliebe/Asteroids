@@ -1,5 +1,5 @@
 ﻿public interface IFire {
 
     void Fire();
-    bool CanFire { get; set; }
+    bool FiringEnabled { get; set; }
 }

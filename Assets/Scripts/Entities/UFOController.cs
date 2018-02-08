@@ -55,6 +55,4 @@ public class UFOController : Entity, IKillable, ISpawnable
         Debug.Log("[UFOController/OnDestroy]");
         if (Spawner != null) Spawner.NotifyDestroyed(this.gameObject);
     }
-
-
 }
