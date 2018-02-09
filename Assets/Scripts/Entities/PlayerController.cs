@@ -45,7 +45,7 @@ public class PlayerController : Entity, IKillable
             {
                 if (OnPlayerDespawned != null) { OnPlayerDespawned(); }
             }
-            Debug.Log("[SetActiveInScene] " + gameObject.name + " : " + value);
+            Debug.Log("[PlayerController/PropertyActiveInScene] " + gameObject.name + " : " + value);
         }
     }
 
@@ -78,6 +78,7 @@ public class PlayerController : Entity, IKillable
         Lives = livesAtStart;
         moveComponent = GetComponent<IMove>();
         fireComponent = GetComponent<IFire>();
+        centerIsClear = true;
     }
 
 
@@ -97,7 +98,7 @@ public class PlayerController : Entity, IKillable
 
 
     // Event handler for when the center spawn safe zone is clear.
-    void HandleCenterIsClear(bool b) { centerIsClear = b; }
+    void HandleCenterIsClear(bool clear) { centerIsClear = clear; }
 
 
 
@@ -108,7 +109,8 @@ public class PlayerController : Entity, IKillable
         // Instantiate the explosion prefab
         Instantiate(explosion, transform.position, Quaternion.identity);
 
-        // Hide the player, disable its collider & keyboard input
+        // Stop and hide the player, disable its collider & keyboard input
+        rb.velocity = Vector2.zero;
         ActiveInScene = false;
 
         // Reduce one life
@@ -120,7 +122,7 @@ public class PlayerController : Entity, IKillable
         // Check if we should respawn.
         // Otherwise the game is over and we can destroy the player object.
         if (_livesLeft > 0) {
-            StartCoroutine(RespawnInSeconds(3));
+            SpawnInSeconds(3);
         }
         else
         {
@@ -129,33 +131,34 @@ public class PlayerController : Entity, IKillable
         }
     }
 
-
-
     // Wait a while before respawning, to allow for the explosion effect
     // to finish.
-    IEnumerator RespawnInSeconds(float seconds)
+    public void SpawnInSeconds(int seconds)
     {
-        yield return new WaitForSeconds(seconds);
-        StartCoroutine(WaitForCenterClear());
+        StartCoroutine(WaitForSeconds(seconds));
     }
 
-
+    // Wait for a number of seconds,
+    // then start the safe zone clear check.
+    IEnumerator WaitForSeconds(float seconds)
+    {
+        yield return new WaitForSeconds(seconds);
+        StartCoroutine(WaitForCenterClearCoroutine());
+    }
 
     // Wait until the center spawn safe zone is clear,
     // so as not to spawn right next to an asteroid or enemy.
-    IEnumerator WaitForCenterClear()
+    IEnumerator WaitForCenterClearCoroutine()
     {
         while (!centerIsClear) { yield return null; }
         Spawn();
     }
 
-
-
     // Reactivate the player and reset its transform and velocity to zero.
     public void Spawn()
     {
         ActiveInScene = true;
-        transform.position = new Vector2(1, 1);
+        transform.position = new Vector2(0, 0);
         transform.rotation = Quaternion.identity;
         rb.velocity = Vector2.zero;
     }

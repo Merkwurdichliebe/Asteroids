@@ -300,7 +300,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6418284088e2744f588d84c8cbf44aa6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  firingInterval: 2
+  firingInterval: 3
+  firingIntervalLevelMultiplier: 1.5
 --- !u!212 &212228801216567472
 SpriteRenderer:
   m_ObjectHideFlags: 1

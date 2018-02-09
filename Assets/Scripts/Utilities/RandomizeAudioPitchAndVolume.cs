@@ -1,9 +1,14 @@
 ﻿using UnityEngine;
 
+//
+// This component adds some randomness to the pitch and volume
+// of the Audiosource component, defined by two sliders in the Inspector
+//
+
 [RequireComponent(typeof(AudioSource))]
 
 public class RandomizeAudioPitchAndVolume : MonoBehaviour {
-
+    
     [Range(0, 1f)]
     public float randomizePitch;
     [Range(0, 1f)]
@@ -11,7 +16,8 @@ public class RandomizeAudioPitchAndVolume : MonoBehaviour {
 
     private void Awake()
     {
-        GetComponent<AudioSource>().pitch = Random.Range(1 - randomizePitch, 1 + randomizePitch);
-        GetComponent<AudioSource>().volume = Random.Range(1 - randomizeVolume, 1 + randomizeVolume);
+        AudioSource au = GetComponent<AudioSource>();
+        au.pitch = Random.Range(au.pitch - randomizePitch, au.pitch + randomizePitch);
+        au.volume = Random.Range(au.volume - randomizeVolume, au.volume + randomizeVolume);
     }
 }

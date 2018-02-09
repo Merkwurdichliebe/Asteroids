@@ -12,6 +12,7 @@ public class UIManager : MonoBehaviour {
     public Text textAnnounce;
     public Text textDebug;
     public Text textRoaming;
+    public Text safeZone;
     public GameObject canvas;
 
     public static UIManager Instance;
@@ -47,9 +48,9 @@ public class UIManager : MonoBehaviour {
         labelScore.gameObject.SetActive(state);
     }
 
-    void HandleCenterIsClear(bool b)
+    void HandleCenterIsClear(bool isClear)
     {
-        UpdateDebug("Center is clear : " + b);
+        UpdateDebug("Center is clear : " + isClear);
     }
 
     void CenterOccupiedHandler()

@@ -27,6 +27,7 @@ public class GameManager : MonoBehaviour
     public int startWithAsteroids = 3;
     public int startWithPlayerLives = 3;
     public bool dontSpawnAsteroids;
+    public bool dontSpawnPlayer;
 
     // -------------------------------------------------------------------------
     // Private variables and properties
@@ -34,6 +35,7 @@ public class GameManager : MonoBehaviour
 
     private int countAsteroids;
     private Spawner spawner;
+    private GameObject spawnSafeZone;
 
     // 
     // Properties
@@ -48,7 +50,8 @@ public class GameManager : MonoBehaviour
     //  Events
     //
 
-    public static Action<bool> OnGameLevelNumberDisplay;
+    public static Action OnGameLevelDisplay;
+    public static Action OnGameLevelStart;
 
     // -------------------------------------------------------------------------
     // Setup
@@ -66,7 +69,7 @@ public class GameManager : MonoBehaviour
         CurrentLevel = startWithLevel;
 
         // Create the Player spawn safe zone
-        Instantiate(PrefabSpawnSafeZone, Vector2.zero, Quaternion.identity);
+        spawnSafeZone = Instantiate(PrefabSpawnSafeZone, Vector2.zero, Quaternion.identity);
         UIManager ui = GetComponent<UIManager>();
         if (ui != null) ui.enabled = true;
 
@@ -87,6 +90,9 @@ public class GameManager : MonoBehaviour
     {
         AsteroidController.OnAsteroidLastDestroyed += CheckLevelCleared;
         PlayerController.OnPlayerLivesZero += Cleanup;
+        PlayerController.OnPlayerSpawned += DisableSafeZone;
+        PlayerController.OnPlayerDestroyed += EnableSafeZone;
+        PlayerController.OnPlayerDespawned += EnableSafeZone;
     }
 
 
@@ -95,6 +101,9 @@ public class GameManager : MonoBehaviour
     {
         PlayerController.OnPlayerLivesZero -= Cleanup;
         AsteroidController.OnAsteroidLastDestroyed -= CheckLevelCleared;
+        PlayerController.OnPlayerSpawned -= DisableSafeZone;
+        PlayerController.OnPlayerDestroyed -= EnableSafeZone;
+        PlayerController.OnPlayerDespawned -= EnableSafeZone;
     }
 
     // -----------------------------------------------------------------------------
@@ -106,7 +115,15 @@ public class GameManager : MonoBehaviour
         PrepareNextLevel();
     }
 
+    void DisableSafeZone()
+    {
+        spawnSafeZone.SetActive(false);
+    }
 
+    void EnableSafeZone()
+    {
+        spawnSafeZone.SetActive(true);
+    }
 
     void PrepareNextLevel()
     {
@@ -119,12 +136,12 @@ public class GameManager : MonoBehaviour
 
     IEnumerator ReadyNextLevel()
     {
-        if (OnGameLevelNumberDisplay != null) { OnGameLevelNumberDisplay(true); }
+        if (OnGameLevelDisplay != null) { OnGameLevelDisplay(); }
         player.ActiveInScene = false;
         UIManager.Instance.DisplayLevelNumber(CurrentLevel);
         Instantiate(PrefabComet);
         yield return new WaitForSeconds(3);
-        if (OnGameLevelNumberDisplay != null) { OnGameLevelNumberDisplay(false); }
+        if (OnGameLevelStart != null) { OnGameLevelStart(); }
         UIManager.Instance.DisplayGameUI();
         StartNextLevel();
     }
@@ -133,8 +150,14 @@ public class GameManager : MonoBehaviour
 
     void StartNextLevel()
     {
-        SpawnAsteroids();
-        player.Spawn();
+        if (!dontSpawnAsteroids)
+        {
+            SpawnAsteroids();
+        }
+        if (!dontSpawnPlayer)
+        {
+            player.SpawnInSeconds(0);
+        }
     }
 
 
@@ -142,12 +165,9 @@ public class GameManager : MonoBehaviour
     void SpawnAsteroids()
     {
         // Spawn asteroids based on level number
-        if (!dontSpawnAsteroids)
+        for (int i = 0; i < startWithAsteroids + CurrentLevel - 1; i++)
         {
-            for (int i = 0; i < startWithAsteroids + CurrentLevel - 1; i++)
-            {
-                Instantiate(PrefabAsteroid, Vector2.zero, Quaternion.identity);
-            }
+            Instantiate(PrefabAsteroid, Vector2.zero, Quaternion.identity);
         }
     }
 

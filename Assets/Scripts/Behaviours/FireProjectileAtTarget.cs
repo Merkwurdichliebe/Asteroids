@@ -9,6 +9,8 @@ public class FireProjectileAtTarget : MonoBehaviour, IFire
     private int currentLevel;
     public bool FiringEnabled { get; set; }
     public float firingInterval;
+    [Range(1f, 10f)]
+    public float firingIntervalLevelMultiplier;
 
 
 
