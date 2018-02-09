@@ -2,21 +2,28 @@
 
 public class UFOController : Entity, IKillable, ISpawnable
 {
-
-    public Spawner Spawner { get; set; }
-
-    // -----------------------------------------------------------------------------
-    // Inspector fields
-    // -----------------------------------------------------------------------------
-
-    // Explosion prefab to be instantiated when destroyed
+    //
+    // Inspector fields 
+    //
     public GameObject explosion;
 
+    //
+    // This property is injected by Spawner through ISpawnable,
+    // so that the UFO can notify its Spawner when it's dead.
+    //
+    public Spawner Spawner { get; set; }
+
+    //
+    // Initialisation 
+    //
     public override void Awake()
     {
         base.Awake();
     }
 
+    //
+    // FIXME Do we need these three?
+    //
     private void OnEnable()
     {
         GameOverManager.OnGameOver += CleanUp;
@@ -27,8 +34,16 @@ public class UFOController : Entity, IKillable, ISpawnable
         GameOverManager.OnGameOver -= CleanUp;
     }
 
+    void CleanUp()
+    {
+        StopAllCoroutines();
+        Destroy(gameObject);
+    }
+
+    //
     // (Required by IKillable)
     // UFO kill sequence.
+    //
     public void Kill()
     {
         Debug.Log("[UFOController/Kill]");
@@ -36,20 +51,18 @@ public class UFOController : Entity, IKillable, ISpawnable
         Destroy(gameObject);
     }
 
-    void CleanUp()
-    {
-        StopAllCoroutines();
-        Destroy(gameObject);
-    }
-
+    //
     // We need this in order to handle when the UFO leaves the screen.
-    // The final steps are taken in OnDestroy().
+    // The final event notification is handled in OnDestroy().
+    //
     private void OnBecameInvisible()
     {
         Destroy(gameObject);
     }
 
-    // We decrease the count and fire the event only when destroyed.
+    //
+    // Notify Spawner that we died. 
+    //
     private void OnDestroy()
     {
         Debug.Log("[UFOController/OnDestroy]");

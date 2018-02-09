@@ -8,16 +8,12 @@ public class AsteroidController : Entity, IKillable
     //
     // Inspector fields
     //
-
-    // Explosion prefab to be instantiated when destroyed
     public GameObject explosion;
-
-    // Reference for asteroid sprites variations
     public Sprite[] sprite;
 
-    // -----------------------------------------------------------------------------
-    // Properties
-    // -----------------------------------------------------------------------------
+    //
+    // Properties 
+    //
 
     // Phase Property
     // Asteroids start at Phase 0
@@ -42,21 +38,18 @@ public class AsteroidController : Entity, IKillable
     private int _phase = 0;
 
     //
-    // Static property counting how many are in the scene
+    // Static property counting the total number of asteroids in the scene
     //
     public static int Count { get; private set; }
 
     //
     //  Events
     //
-    public static Action<AsteroidController> OnAsteroidDestroyed; 
     public static Action OnAsteroidLastDestroyed;
 
-
-    // -----------------------------------------------------------------------------
-    // Methods
-    // -----------------------------------------------------------------------------
-
+    //
+    // Initialisation
+    //
     public override void Awake()
     {
         base.Awake();
@@ -71,12 +64,12 @@ public class AsteroidController : Entity, IKillable
         Phase = 0;
     }
 
-
-
+    //
+    // If it's a new asteroid (instantiated by GameManager),
+    // set its transform to a random value.
+    //
     void Start()
     {
-        // If it's a new asteroid (instantiated by GameManager),
-        // set its transform to a random value.
         if (_phase == 0) 
         {
             transform.position = new Vector2(Random.Range(-15, 15), Random.Range(3, 6)); 
@@ -84,9 +77,10 @@ public class AsteroidController : Entity, IKillable
     }
 
 
-
+    //
     // (Required by IKillable)
     // Asteroid kill sequence.
+    //
     public void Kill()
     {
         // Instantiate an explosion
@@ -98,27 +92,24 @@ public class AsteroidController : Entity, IKillable
         Destroy(gameObject);
     }
 
+    //
+    // When destroyed, decrease the Count property by one.
+    // If it's the last asteroid in the scene, fire an event.
+    //
     private void OnDestroy()
     {
-        //
-        // Decrease the total asteroid count property and fire an event
-        //
         Count -= 1;
-        if (OnAsteroidDestroyed != null) { OnAsteroidDestroyed(this); }
-
-        //
-        // If number of asteroids is zero fire the proper event
-        //
         if (Count == 0)
         {
             if (OnAsteroidLastDestroyed != null) { OnAsteroidLastDestroyed(); }
         }
     }
 
-
-
+    //
     // Instantiate two copies of this asteroid.
-    // Set them to the next phase to make them smaller.
+    // Set them to the next phase to make them smaller
+    // (this will be handle by the Phase property).
+    //
     public void Break(int newPhase)
     {
         for (int i = 0; i < 2; i++)

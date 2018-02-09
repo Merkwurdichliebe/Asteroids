@@ -10,9 +10,7 @@ public class UIManager : MonoBehaviour {
     public Text labelScore;
     public Text labelLives;
     public Text textAnnounce;
-    public Text textDebug;
     public Text textRoaming;
-    public Text safeZone;
     public GameObject canvas;
 
     public static UIManager Instance;
@@ -48,22 +46,7 @@ public class UIManager : MonoBehaviour {
         labelScore.gameObject.SetActive(state);
     }
 
-    void HandleCenterIsClear(bool isClear)
-    {
-        UpdateDebug("Center is clear : " + isClear);
-    }
-
-    void CenterOccupiedHandler()
-    {
-        UpdateDebug("Center is occupied");
-    }
-
-    void UpdateDebug(string text)
-    {
-        textDebug.text = text;
-    }
-
-    void UpdateSpeed(float velocity)
+void UpdateSpeed(float velocity)
     {
         textSpeed.text = string.Format("SPEED: {0:0.0}", velocity);
     }
@@ -107,7 +90,6 @@ public class UIManager : MonoBehaviour {
         PlayerController.OnPlayerLivesChanged += UpdateLives;
         PlayerController.OnPlayerLivesZero += HandleGameOver;
         MovePlayerControlled.OnPlayerSpeedChanged += UpdateSpeed;
-        SpawnSafeZoneManager.OnSpawnSafeZoneCleared += HandleCenterIsClear;
     }
 
     private void OnDisable()
@@ -115,6 +97,5 @@ public class UIManager : MonoBehaviour {
         PlayerController.OnPlayerLivesChanged -= UpdateLives;
         PlayerController.OnPlayerLivesZero -= HandleGameOver;
         MovePlayerControlled.OnPlayerSpeedChanged -= UpdateSpeed;
-        SpawnSafeZoneManager.OnSpawnSafeZoneCleared -= HandleCenterIsClear;
     }
 }

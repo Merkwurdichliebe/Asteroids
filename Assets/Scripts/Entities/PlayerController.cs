@@ -4,10 +4,9 @@ using UnityEngine;
 
 public class PlayerController : Entity, IKillable
 {
-    // -----------------------------------------------------------------------------
-    // Inspector fields
-    // -----------------------------------------------------------------------------
-
+    //
+    // Inspector fields 
+    //
     [Header("When destroyed")]
     public GameObject explosion;
 
@@ -15,14 +14,22 @@ public class PlayerController : Entity, IKillable
     [Range(1, 10)]
     public int livesAtStart;
 
+    //
+    // Private fields
+    //
     private int _livesLeft;
     private bool centerIsClear;
-
+    private bool _activeInScene;
     private IMove moveComponent;
     private IFire fireComponent;
 
-    private bool _activeInScene;
-
+    //
+    // Property: Player active in scene.
+    // The player is the only entity which doesn't get OnDestroy
+    // when it is killed or hit. Instead, we hide it and disable its
+    // rigidbody & collider here. This is because the Player handles its own
+    // respawning checks and lives count, so we need to keep it alive.
+    //
     public bool ActiveInScene
     {
         get
@@ -49,6 +56,9 @@ public class PlayerController : Entity, IKillable
         }
     }
 
+    //
+    // Property: Player lives count
+    //
     public int Lives
     {
         get { return _livesLeft; }
@@ -62,15 +72,15 @@ public class PlayerController : Entity, IKillable
     // 
     // Events
     //
-
     public static Action OnPlayerSpawned;
     public static Action OnPlayerDespawned;
     public static Action OnPlayerDestroyed;
     public static Action<int> OnPlayerLivesChanged;
     public static Action OnPlayerLivesZero;
 
-
-
+    //
+    // Initialisation
+    //
     public override void Awake()
     {
         base.Awake();
@@ -81,29 +91,29 @@ public class PlayerController : Entity, IKillable
         centerIsClear = true;
     }
 
-
-
+    //
+    // Event subscriptions
+    //
     void OnEnable()
     {
         SpawnSafeZoneManager.OnSpawnSafeZoneCleared += HandleCenterIsClear;
     }
-
-
 
     void OnDisable()
     {
         SpawnSafeZoneManager.OnSpawnSafeZoneCleared -= HandleCenterIsClear;
     }
 
-
-
+    //
     // Event handler for when the center spawn safe zone is clear.
+    //
     void HandleCenterIsClear(bool clear) { centerIsClear = clear; }
 
 
-
+    //
     // (Required by IKillable)
     // Player kill sequence.
+    //
     public void Kill()
     {
         // Instantiate the explosion prefab

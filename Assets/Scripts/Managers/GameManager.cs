@@ -26,8 +26,8 @@ public class GameManager : MonoBehaviour
     public int startWithLevel = 1;
     public int startWithAsteroids = 3;
     public int startWithPlayerLives = 3;
-    public bool dontSpawnAsteroids;
-    public bool dontSpawnPlayer;
+    public bool spawnAsteroids;
+    public bool spawnPlayer;
 
     // -------------------------------------------------------------------------
     // Private variables and properties
@@ -115,6 +115,9 @@ public class GameManager : MonoBehaviour
         PrepareNextLevel();
     }
 
+    //
+    // 
+    //
     void DisableSafeZone()
     {
         spawnSafeZone.SetActive(false);
@@ -125,6 +128,9 @@ public class GameManager : MonoBehaviour
         spawnSafeZone.SetActive(true);
     }
 
+    //
+    // 
+    //
     void PrepareNextLevel()
     {
         Debug.Log("[GameManager/PrepareNextLevel] " + CurrentLevel);
@@ -132,8 +138,9 @@ public class GameManager : MonoBehaviour
         StartCoroutine(ReadyNextLevel());
     }
 
-
-
+    //
+    // 
+    //
     IEnumerator ReadyNextLevel()
     {
         if (OnGameLevelDisplay != null) { OnGameLevelDisplay(); }
@@ -147,21 +154,18 @@ public class GameManager : MonoBehaviour
     }
 
 
-
+    //
+    // 
+    //
     void StartNextLevel()
     {
-        if (!dontSpawnAsteroids)
-        {
-            SpawnAsteroids();
-        }
-        if (!dontSpawnPlayer)
-        {
-            player.SpawnInSeconds(0);
-        }
+        if (spawnAsteroids) { SpawnAsteroids(); }
+        if (spawnPlayer) { player.SpawnInSeconds(0); }
     }
 
-
-
+    //
+    // 
+    //
     void SpawnAsteroids()
     {
         // Spawn asteroids based on level number
