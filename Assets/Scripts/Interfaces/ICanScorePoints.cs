@@ -18,6 +18,4 @@ public interface ICanScorePoints {
     // should show its score value at its position when destroyed.
     bool DisplayPointsWhenKilled { get; }
 
-    // Action<ICanScorePoints> OnScorePoints { get; set; }
-    // ScoreManager ScoreManager { set; }
 }

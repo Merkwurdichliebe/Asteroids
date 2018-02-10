@@ -159,17 +159,21 @@ public class GameManager : MonoBehaviour
     //
     void StartNextLevel()
     {
-        if (spawnAsteroids) { SpawnAsteroids(); }
-        if (spawnPlayer) { player.SpawnInSeconds(0); }
+        if (spawnAsteroids) {
+            SpawnAsteroids(startWithAsteroids + CurrentLevel - 1);
+        }
+        if (spawnPlayer) {
+            player.SpawnInSeconds(0);
+        }
     }
 
     //
     // 
     //
-    void SpawnAsteroids()
+    public void SpawnAsteroids(int count)
     {
         // Spawn asteroids based on level number
-        for (int i = 0; i < startWithAsteroids + CurrentLevel - 1; i++)
+        for (int i = 0; i < count; i++)
         {
             Instantiate(PrefabAsteroid, Vector2.zero, Quaternion.identity);
         }

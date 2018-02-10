@@ -323,8 +323,6 @@
     <Compile Include="Assets\Scripts\Behaviours\MoveCrossTheScreenThruCenter.cs" />
     <Compile Include="Assets\Scripts\Behaviours\MovePlayerControlled.cs" />
     <Compile Include="Assets\Scripts\Behaviours\RandomizeInitialMotion.cs" />
-    <Compile Include="Assets\Scripts\Behaviours\ScoreController.cs" />
-    <Compile Include="Assets\Scripts\Behaviours\ScoreControllerAsteroid.cs" />
     <Compile Include="Assets\Scripts\Collisions\DestroyedByCollision.cs" />
     <Compile Include="Assets\Scripts\Collisions\DestroyedByProjectile.cs" />
     <Compile Include="Assets\Scripts\Entities\AsteroidController.cs" />
@@ -343,10 +341,13 @@
     <Compile Include="Assets\Scripts\Managers\GameOverManager.cs" />
     <Compile Include="Assets\Scripts\Managers\MusicManager.cs" />
     <Compile Include="Assets\Scripts\Managers\PlayerAudioManager.cs" />
-    <Compile Include="Assets\Scripts\Managers\ScoreManager.cs" />
     <Compile Include="Assets\Scripts\Managers\Spawner.cs" />
     <Compile Include="Assets\Scripts\Managers\SpawnSafeZoneManager.cs" />
     <Compile Include="Assets\Scripts\Managers\UFOAudioManager.cs" />
+    <Compile Include="Assets\Scripts\Score\BonusLifeAtPoints.cs" />
+    <Compile Include="Assets\Scripts\Score\ScoreController.cs" />
+    <Compile Include="Assets\Scripts\Score\ScoreControllerAsteroid.cs" />
+    <Compile Include="Assets\Scripts\Score\ScoreManager.cs" />
     <Compile Include="Assets\Scripts\---TBE\AsteroidCollisionManager.cs" />
     <Compile Include="Assets\Scripts\---TBE\DelegateTest.cs" />
     <Compile Include="Assets\Scripts\---TBE\DestroyedByEnemyProjectiles.cs" />
