@@ -33,6 +33,7 @@ public class Spawner : MonoBehaviour, ICanSpawnEntities
     private Coroutine spawnCoroutine;
     private float timeSinceLastSpawn;
     private bool spawnerEnabled;
+    private Transform spawnerParent;
 
     //
     // Properties
@@ -56,6 +57,9 @@ public class Spawner : MonoBehaviour, ICanSpawnEntities
 
     private void Initialize()
     {
+        GameObject empty = new GameObject { name = "Spawner objects" };
+        spawnerParent = empty.transform;
+
         // Initialize a List of SpawnableObject which will contain
         // a number of each equal to its weight. Its the simplest way
         // of implementing weights in a random selection
@@ -77,33 +81,17 @@ public class Spawner : MonoBehaviour, ICanSpawnEntities
                 // Loop through the weight value
                 for (int i = 0; i < obj.probabilityWeight; i++)
                 {
-                    if (spawnableInterfaceIsMandatory)
-                    {
-                        // All prefabs should have a component which implements
-                        // the ISpawnable interface for the NotifyDestroyed()
-                        // callback to work.
-                        if (obj.prefab.GetComponent<ISpawnable>() == null) 
-                        {
-                            Debug.LogError("[Spawner/Awake] Prefab '" + obj.prefab.name +
-                                "' doesn't implement interface 'ISpawnable'.");
-                        }
-                    }
-
                     spawnableObjectsWeighted.Add(obj);
 
-                    // If the Dictionary already has a key with the prefab's name,
-                    // log a warning as this will get unpredictable results.
+                    // Add key value to the count dictionary
                     if (!spawnedCount.ContainsKey(obj.prefab.name))
                     {
                         spawnedCount[obj.prefab.name] = 0;
                     }
-                    else
-                    {
-                        Debug.LogWarning("[Spawner/Awake] Spawner has prefabs with identical names");
-                    }
                 }
             }
         }
+
         if(spawnableObjectsWeighted.Count == 0)
         {
             Debug.LogError("[Spawner] Contains no prefabs.");
@@ -163,21 +151,17 @@ public class Spawner : MonoBehaviour, ICanSpawnEntities
             if (spawnedCount[obj.prefab.name] < obj.maxSimultaneousInstances)
             {
                 // ...instantiate the prefab.
-                GameObject o = Instantiate(obj.prefab);
+                Spawnable o = Instantiate(obj.prefab);
+                o.transform.parent = spawnerParent;
 
                 // Set the gameObject's name. This is crucial for the
                 // NotifyDestroyed() method to work, because the name
                 // is the Dictionary key.
                 o.name = obj.prefab.name;
 
-                // Set the Spawner property on script implementing ISpawnable
-                // to this script, so that it can call back NotifyDestroyed().
-                // We need to check for null if we are not enforcing
-                // the implementation of ISpawnable.
-                // If we *are* enforcing it, an error will have been logged
-                // already in Initialize().
-                ISpawnable sp = o.GetComponent<ISpawnable>();
-                if (sp != null) { sp.Spawner = this; }
+                // Set the Spawner property on the Spawnable to this instance,
+                // so that it can call back NotifyDestroyed().
+                o.Spawner = this;
 
                 // Increase the spawn count in the Dictionary
                 // and in the public property.
@@ -211,7 +195,7 @@ public class Spawner : MonoBehaviour, ICanSpawnEntities
 [System.Serializable]
 public struct SpawnableObject
 {
-    public GameObject prefab;
+    public Spawnable prefab;
 
     [Range(1, 10)]
     public int probabilityWeight;

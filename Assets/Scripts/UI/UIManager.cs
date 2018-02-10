@@ -76,12 +76,12 @@ void UpdateSpeed(float velocity)
         textAnnounce.text = "";
     }
 
-    public void ShowPointsAtScreenPosition(GameObject obj, int points)
+    public void ShowTextAtScreenPosition(GameObject obj, string text)
     {
         Text t = Instantiate(textRoaming);
         t.transform.SetParent(canvas.transform, false);
         t.transform.position = Camera.main.WorldToScreenPoint(obj.transform.position);
-        t.text = points.ToString();
+        t.text = text;
         Destroy(t.gameObject, 1.0f);
     }
 

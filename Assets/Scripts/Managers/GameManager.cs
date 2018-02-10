@@ -12,14 +12,12 @@ public class GameManager : MonoBehaviour
 
     // References to prefabs
     [Header("Main game prefabs")]
-    public GameObject PrefabAsteroid;
-    public GameObject PrefabUFO;
-    public GameObject PrefabPowerup;
-    public GameObject PrefabSpawnSafeZone;
-    public GameObject PrefabComet;
-
-    // Reference to the PlayerController script
     public PlayerController player;
+    public AsteroidController asteroid;
+
+    [Header("Extra game prefabs")]
+    public GameObject spawnSafeZonePrefab;
+    public GameObject cometPrefab;
 
     // Tunable game data
     [Header("Game options")]
@@ -61,15 +59,15 @@ public class GameManager : MonoBehaviour
     void Awake()
     {
         // Check for unconnected prefabs
-        Assert.IsNotNull(PrefabAsteroid);
-        Assert.IsNotNull(PrefabUFO);
+        Assert.IsNotNull(asteroid);
         Assert.IsNotNull(player);
+        Assert.IsNotNull(spawnSafeZonePrefab);
 
         // Set the level number
         CurrentLevel = startWithLevel;
 
         // Create the Player spawn safe zone
-        spawnSafeZone = Instantiate(PrefabSpawnSafeZone, Vector2.zero, Quaternion.identity);
+        spawnSafeZone = Instantiate(spawnSafeZonePrefab, Vector2.zero, Quaternion.identity);
         UIManager ui = GetComponent<UIManager>();
         if (ui != null) ui.enabled = true;
 
@@ -146,7 +144,7 @@ public class GameManager : MonoBehaviour
         if (OnGameLevelDisplay != null) { OnGameLevelDisplay(); }
         player.ActiveInScene = false;
         UIManager.Instance.DisplayLevelNumber(CurrentLevel);
-        Instantiate(PrefabComet);
+        Instantiate(cometPrefab);
         yield return new WaitForSeconds(3);
         if (OnGameLevelStart != null) { OnGameLevelStart(); }
         UIManager.Instance.DisplayGameUI();
@@ -175,7 +173,7 @@ public class GameManager : MonoBehaviour
         // Spawn asteroids based on level number
         for (int i = 0; i < count; i++)
         {
-            Instantiate(PrefabAsteroid, Vector2.zero, Quaternion.identity);
+            Instantiate(asteroid, Vector2.zero, Quaternion.identity);
         }
     }
 

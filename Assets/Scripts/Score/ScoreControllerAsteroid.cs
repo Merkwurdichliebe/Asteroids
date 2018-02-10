@@ -26,7 +26,7 @@ public class ScoreControllerAsteroid : ScoreController {
         if (ast != null && OnScorePoints != null)
         {
             int points = basePointValue * (ast.Phase + 1);
-            OnScorePoints(this.gameObject, points, displayPointsWhenKilled);
+            OnScorePoints(this.gameObject, points, displayPointsLocally);
         }
     }
 }

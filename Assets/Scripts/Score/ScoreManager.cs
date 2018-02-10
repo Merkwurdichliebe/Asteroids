@@ -43,12 +43,12 @@ public class ScoreManager : MonoBehaviour {
     //
     // Update the score 
     //
-    public void ScorePoints(GameObject obj, int points, bool displayPointsWhenKilled)
+    public void ScorePoints(GameObject obj, int points, bool displayPointsLocally)
     {
         CurrentScore += points;
-        if (displayPointsWhenKilled)
+        if (displayPointsLocally)
         {
-            ui.ShowPointsAtScreenPosition(obj, points);
+            ui.ShowTextAtScreenPosition(obj, points.ToString());
         }
         if (bonusLifeEveryPoints > 0)
         {

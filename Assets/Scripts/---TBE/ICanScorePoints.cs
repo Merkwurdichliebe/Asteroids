@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-public interface ICanScorePoints {
+public interface ICanScorePointsTBE {
 
     // gameObject is needed for finding the entity's transform position
     // This is inherited from MonoBehaviour and doesn't need explicit implementation

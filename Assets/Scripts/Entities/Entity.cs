@@ -1,12 +1,14 @@
 ﻿using UnityEngine;
 
+/// <summary>
+/// Base class for all entities (player, asteroids, UFO, powerups)
+/// that use physics and the SpriteRenderer.
+/// Member variables are declared as "protected", which makes them
+/// private variables accessible by child classes.
+/// </summary>
+
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(SpriteRenderer))]
-
-// Base class for all entities (player, asteroids, UFO, powerups)
-// that use physics and the SpriteRenderer.
-// Member variables are declared as "protected", which makes them
-// private variables accessible by child classes.
 
 public abstract class Entity : MonoBehaviour {
     

@@ -1,21 +1,17 @@
 ﻿<Properties StartupConfiguration="{644F8B3B-773E-06CE-D89F-7ADA47CB3411}|">
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Score/ScoreController.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/PowerUps/Spawnable.cs">
     <Files>
-      <File FileName="Assets/Scripts/Entities/PlayerController.cs" Line="143" Column="5" />
-      <File FileName="Assets/Scripts/Managers/GameManager.cs" Line="90" Column="41" />
-      <File FileName="Assets/Scripts/Entities/AsteroidController.cs" Line="124" Column="1" />
-      <File FileName="Assets/Scripts/Entities/Entity.cs" Line="11" Column="23" />
-      <File FileName="Assets/Scripts/Entities/PowerUpController.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/Entities/Projectile.cs" Line="91" Column="2" />
-      <File FileName="Assets/Scripts/Entities/UFOController.cs" Line="64" Column="36" />
-      <File FileName="Assets/Scripts/Managers/Spawner.cs" Line="5" Column="39" />
-      <File FileName="Assets/Scripts/Interfaces/ICanSpawnEntities.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/Utilities/PlayAudioAndParticlesOnEnable.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/UI/UIManager.cs" Line="54" Column="39" />
-      <File FileName="Assets/Scripts/Interfaces/ICanScorePoints.cs" Line="21" Column="1" />
-      <File FileName="Assets/Scripts/Score/BonusLifeAtPoints.cs" Line="16" Column="29" />
-      <File FileName="Assets/Scripts/Score/ScoreManager.cs" Line="41" Column="1" />
-      <File FileName="Assets/Scripts/Score/ScoreController.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Interfaces/ISpawnable.cs" Line="5" Column="2" />
+      <File FileName="Assets/Scripts/PowerUps/PowerUp.cs" Line="3" Column="10" />
+      <File FileName="Assets/Scripts/PowerUps/Spawnable.cs" Line="12" Column="1" />
+      <File FileName="Assets/Scripts/Managers/Spawner.cs" Line="163" Column="20" />
+      <File FileName="Assets/Scripts/PowerUps/PowerUpBonusLife.cs" Line="6" Column="1" />
+      <File FileName="Assets/Scripts/PowerUps/PowerUpPoints.cs" Line="16" Column="2" />
+      <File FileName="Assets/Scripts/Entities/UFOController.cs" Line="17" Column="1" />
+      <File FileName="Assets/Scripts/Entities/Entity.cs" Line="12" Column="1" />
+      <File FileName="Assets/Scripts/Entities/AsteroidController.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Entities/Projectile.cs" Line="72" Column="18" />
+      <File FileName="Assets/Scripts/Utilities/DestroyWhenInvisible.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />

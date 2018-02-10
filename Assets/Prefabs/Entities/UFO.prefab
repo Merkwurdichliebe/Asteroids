@@ -288,7 +288,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   basePointValue: 30
   perLevelIncrease: 10
-  displayPointsWhenKilled: 1
+  displayPointsLocally: 1
 --- !u!114 &114986385336347954
 MonoBehaviour:
   m_ObjectHideFlags: 1

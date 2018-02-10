@@ -10,14 +10,14 @@ public class PlayerCollisionManager : MonoBehaviour {
         player = GetComponent<IKillable>();
     }
     
-    private void CollectPowerUp(GameObject obj)
-    {
-        PowerUpController pu = obj.GetComponent<PowerUpController>();
-        if (pu.powerUpType == PowerUpType.FrontAndBack)
-        {
-            Debug.Log("[PlayerCollisionManager/OnTriggerEnter2D] FrontAndBack Collected");
-        }
-    }
+    //private void CollectPowerUp(GameObject obj)
+    //{
+    //    PowerUpController pu = obj.GetComponent<PowerUpController>();
+    //    if (pu.powerUpType == PowerUpType.FrontAndBack)
+    //    {
+    //        Debug.Log("[PlayerCollisionManager/OnTriggerEnter2D] FrontAndBack Collected");
+    //    }
+    //}
 
 
 
@@ -42,9 +42,9 @@ public class PlayerCollisionManager : MonoBehaviour {
             player.Kill();
         }
 
-        if (objTag == "PowerUp")
-        {
-            CollectPowerUp(collision.gameObject);
-        }
+        //if (objTag == "PowerUp")
+        //{
+        //    CollectPowerUp(collision.gameObject);
+        //}
     }
 }

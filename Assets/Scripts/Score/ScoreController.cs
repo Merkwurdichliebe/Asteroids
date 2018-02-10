@@ -9,7 +9,7 @@ public class ScoreController : MonoBehaviour {
 
     public int basePointValue;
     public int perLevelIncrease;
-    public bool displayPointsWhenKilled;
+    public bool displayPointsLocally;
 
     //
     // Events
@@ -19,7 +19,7 @@ public class ScoreController : MonoBehaviour {
 
     public virtual void ScorePoints()
     {
-        int points = basePointValue + perLevelIncrease * (GameManager.CurrentLevel);
-        if (OnScorePoints != null) { OnScorePoints(this.gameObject, points, displayPointsWhenKilled); }
+        int points = basePointValue + perLevelIncrease * (GameManager.CurrentLevel - 1);
+        if (OnScorePoints != null) { OnScorePoints(this.gameObject, points, displayPointsLocally); }
     }
 }
