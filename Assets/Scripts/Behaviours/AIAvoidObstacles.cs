@@ -1,8 +1,13 @@
 ﻿using UnityEngine;
 
-// For this to work we need to turn off (in Physics2D project settings):
-// Queries Hit Triggers (to avoid turning when firing)
-// Queries Start in Colliders (to avoid always triggering a Raycast hit)
+/// <summary>
+/// This component casts two rays from the front at a defined angle,
+/// and turns right or left in order to avoid the collider
+/// they intersect.
+/// For this to work we need to turn off (in Physics2D project settings):
+/// - Queries Hit Triggers (to avoid reacting to its own firing)
+/// - Queries Start in Colliders (to avois reacting to its own collider)
+/// </summary>
 
 [RequireComponent(typeof(Rigidbody2D))]
 
@@ -28,12 +33,17 @@ public class AIAvoidObstacles : MonoBehaviour {
 
     private void FixedUpdate()
     {
+        // For the purpose of raycasting,
+        // we assume the object is facing the direction it's moving it
         facingDirection = rb.velocity.normalized;
-        // We cast two rays at angle from the front
+
+        // Cast two rays at an angle from the front
         Debug.DrawRay(transform.position, Quaternion.AngleAxis(-detectionAngle, Vector3.forward) * facingDirection * distanceThreshold, Color.white);
         Debug.DrawRay(transform.position, Quaternion.AngleAxis(detectionAngle, Vector3.forward) * facingDirection * distanceThreshold, Color.white);
 
-        // Ray starts from current position, its direction is the direction we're moving in (facingDirection), we rotate it with AngleAxis around the Z axis
+        // Ray starts from current position,
+        // its direction is the direction we're moving in (facingDirection).
+        // We rotate it with AngleAxis around the Z axis.
         if (Physics2D.Raycast(transform.position, Quaternion.AngleAxis(detectionAngle, Vector3.forward) * facingDirection, distanceThreshold, objectsToAvoid))
         {
             moveComponent.TurnRight();

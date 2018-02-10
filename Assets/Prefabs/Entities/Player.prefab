@@ -41,13 +41,13 @@ GameObject:
   - component: {fileID: 114019090253752360}
   - component: {fileID: 114331243683534090}
   - component: {fileID: 114975582913275540}
-  - component: {fileID: 114815654117538412}
   - component: {fileID: 114860798685419980}
   - component: {fileID: 114128046529340278}
   - component: {fileID: 212654405380309986}
   - component: {fileID: 50910934991842274}
   - component: {fileID: 60901639627459678}
   - component: {fileID: 82220649422523526}
+  - component: {fileID: 95218692569256690}
   m_Layer: 9
   m_Name: Player
   m_TagString: Player
@@ -211,6 +211,23 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 0
+--- !u!95 &95218692569256690
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1729157800514620}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: abb93e1853550460c8b090bcde5e88e6, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
 --- !u!114 &114019090253752360
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -301,20 +318,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   anchorMainGun: {fileID: 4031679361654200}
---- !u!114 &114815654117538412
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1729157800514620}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 08752c863dcf145b5a6d82c697f31ae4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerSprite:
-  - {fileID: 21300000, guid: 91aec348427234eddb17760ce31a919e, type: 3}
-  - {fileID: 21300002, guid: 91aec348427234eddb17760ce31a919e, type: 3}
 --- !u!114 &114860798685419980
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -379,7 +382,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 91aec348427234eddb17760ce31a919e, type: 3}
+  m_Sprite: {fileID: 21300002, guid: 91aec348427234eddb17760ce31a919e, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

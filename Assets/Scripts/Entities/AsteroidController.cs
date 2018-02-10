@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+using UnityEngine.Assertions;
 using Random = UnityEngine.Random;
 
 
@@ -9,7 +10,7 @@ public class AsteroidController : Entity, IKillable
     // Inspector fields
     //
     public GameObject explosion;
-    public Sprite[] sprite;
+    public Sprite[] sprites;
 
     //
     // Properties 
@@ -36,6 +37,7 @@ public class AsteroidController : Entity, IKillable
     // Private fields
     //
     private int _phase = 0;
+    //private Sprite[] spriteSheet;
 
     //
     // Static property counting the total number of asteroids in the scene
@@ -55,7 +57,10 @@ public class AsteroidController : Entity, IKillable
         base.Awake();
 
         // Set a random sprite variation.
-        rend.sprite = sprite[Random.Range(0, 3)];
+        // spriteSheet = Resources.Load<Sprite>("Sprites/AsteroidsSheet");
+        // Debug.Log(spriteSheet);
+        // Assert.IsNotNull(sprites);
+        rend.sprite = sprites[Random.Range(0, sprites.Length)];
 
         // Increase static asteroid count with each instantiation.
         Count += 1;
@@ -72,7 +77,7 @@ public class AsteroidController : Entity, IKillable
     {
         if (_phase == 0) 
         {
-            transform.position = new Vector2(Random.Range(-15, 15), Random.Range(3, 6)); 
+            transform.position = new Vector2(Random.Range(-15f, 15f), Random.Range(3f, 6f)); 
         }
     }
 

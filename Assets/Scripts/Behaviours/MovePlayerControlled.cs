@@ -15,6 +15,7 @@ public class MovePlayerControlled : MonoBehaviour, IMove
     private bool isAccelerating;
 
     private Rigidbody2D rb;
+    private Animator an;
 
     //
     //  Events
@@ -29,18 +30,21 @@ public class MovePlayerControlled : MonoBehaviour, IMove
         {
             Debug.LogError("[MovePlayerControlled] Requires Rigidbody2D.");
         }
+       an = GetComponent<Animator>();
     }
 
     public void MoveForward()
     {
         isAccelerating = true;
         if (OnPlayerAccelerating != null) { OnPlayerAccelerating(); }
+        an.SetBool("Accelerating", true);
     }
 
     public void Stop()
     {
         isAccelerating = false;
         if (OnPlayerStopped != null) { OnPlayerStopped(); }
+        an.SetBool("Accelerating", false);
     }
 
     public void TurnLeft()

@@ -5,4 +5,3 @@
     void TurnLeft();
     void TurnRight();
 }
-

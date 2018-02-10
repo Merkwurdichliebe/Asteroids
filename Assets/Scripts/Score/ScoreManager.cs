@@ -64,7 +64,7 @@ public class ScoreManager : MonoBehaviour {
     {
         if (CurrentScore >= lastBonusLifePoints + bonusLifeEveryPoints)
         {
-            gm.player.Lives += 1;
+            gm.Player.Lives += 1;
             lastBonusLifePoints += bonusLifeEveryPoints;
         }
     }

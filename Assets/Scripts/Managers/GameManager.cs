@@ -12,8 +12,8 @@ public class GameManager : MonoBehaviour
 
     // References to prefabs
     [Header("Main game prefabs")]
-    public PlayerController player;
-    public AsteroidController asteroid;
+    public PlayerController playerPrefab;
+    public AsteroidController asteroidPrefab;
 
     [Header("Extra game prefabs")]
     public GameObject spawnSafeZonePrefab;
@@ -39,6 +39,8 @@ public class GameManager : MonoBehaviour
     // Properties
     //
 
+    public PlayerController Player { get; private set; }
+
     public static int CurrentLevel
     {
         get; private set;
@@ -59,8 +61,8 @@ public class GameManager : MonoBehaviour
     void Awake()
     {
         // Check for unconnected prefabs
-        Assert.IsNotNull(asteroid);
-        Assert.IsNotNull(player);
+        Assert.IsNotNull(asteroidPrefab);
+        Assert.IsNotNull(playerPrefab);
         Assert.IsNotNull(spawnSafeZonePrefab);
 
         // Set the level number
@@ -78,8 +80,11 @@ public class GameManager : MonoBehaviour
             Debug.LogWarning("[GameManager/Awake] No Spawner present. Entity spawning disabled.");
         }
 
-        player = Instantiate(player);
-        player.Lives = startWithPlayerLives;
+        if (spawnPlayer)
+        {
+            Player = Instantiate(playerPrefab);
+            Player.Lives = startWithPlayerLives;
+        }
     }
 
 
@@ -142,7 +147,7 @@ public class GameManager : MonoBehaviour
     IEnumerator ReadyNextLevel()
     {
         if (OnGameLevelDisplay != null) { OnGameLevelDisplay(); }
-        player.ActiveInScene = false;
+        if (Player != null) { Player.ActiveInScene = false; }
         UIManager.Instance.DisplayLevelNumber(CurrentLevel);
         Instantiate(cometPrefab);
         yield return new WaitForSeconds(3);
@@ -161,7 +166,7 @@ public class GameManager : MonoBehaviour
             SpawnAsteroids(startWithAsteroids + CurrentLevel - 1);
         }
         if (spawnPlayer) {
-            player.SpawnInSeconds(0);
+            Player.SpawnInSeconds(0);
         }
     }
 
@@ -173,17 +178,21 @@ public class GameManager : MonoBehaviour
         // Spawn asteroids based on level number
         for (int i = 0; i < count; i++)
         {
-            Instantiate(asteroid, Vector2.zero, Quaternion.identity);
+            Instantiate(asteroidPrefab, Vector2.zero, Quaternion.identity);
         }
     }
 
     void CheckLevelCleared()
     {
-        Debug.Log("[GameManager/CheckLevelCleared] Asteroids " +
-                  AsteroidController.Count + " Spawner " + spawner.TotalCount);
-        if (player.Lives != 0) {
-            CurrentLevel += 1;
-            PrepareNextLevel();
+        if (Player != null)
+        {
+            Debug.Log("[GameManager/CheckLevelCleared] Asteroids " +
+                      AsteroidController.Count + " Spawner " + spawner.TotalCount);
+            if (Player.Lives != 0)
+            {
+                CurrentLevel += 1;
+                PrepareNextLevel();
+            }
         }
     }
 

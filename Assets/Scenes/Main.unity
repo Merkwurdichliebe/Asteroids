@@ -640,7 +640,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d012e11c4b33f458ba789a4a1cea55ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  volume: 0.2
+  volume: 0
 --- !u!1 &1795128839
 GameObject:
   m_ObjectHideFlags: 0
@@ -881,8 +881,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e2def2ab3ccac46e589fbe2fc0ddf241, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 114579725366848430, guid: 1cd0fc377425e480f912e5efcaa6121b, type: 2}
-  asteroid: {fileID: 114571590671854378, guid: 165fce1b024b44eb7a9ac1c1ea667665, type: 2}
+  playerPrefab: {fileID: 114579725366848430, guid: 1cd0fc377425e480f912e5efcaa6121b,
+    type: 2}
+  asteroidPrefab: {fileID: 114571590671854378, guid: 165fce1b024b44eb7a9ac1c1ea667665,
+    type: 2}
   spawnSafeZonePrefab: {fileID: 1794067495380198, guid: 403a337438dd9426c938e1581c33ed80,
     type: 2}
   cometPrefab: {fileID: 1661287572815834, guid: 8972d0ae4b3ed4753ae706c86a3f2d2a,

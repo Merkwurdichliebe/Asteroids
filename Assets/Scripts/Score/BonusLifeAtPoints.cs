@@ -27,7 +27,7 @@ public class BonusLifeAtPoints : MonoBehaviour {
     {
         if (sm.CurrentScore >= nextBonusLifePoints)
         {
-            gm.player.Lives += 1;
+            gm.Player.Lives += 1;
             nextBonusLifePoints += bonusLifeEveryPoints;
         }
     }

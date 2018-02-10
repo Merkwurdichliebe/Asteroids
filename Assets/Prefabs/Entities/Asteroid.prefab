@@ -151,11 +151,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   explosion: {fileID: 1269448084349180, guid: 34cba4beb22074a439c9d71b32a6e92a, type: 2}
-  sprite:
-  - {fileID: 21300000, guid: ea37029b2268d417dafb206641f5c858, type: 3}
-  - {fileID: 21300000, guid: cb9b02ab918b44b35bcb09b774b746ec, type: 3}
-  - {fileID: 21300000, guid: 7c7e569596b86428cbdceb002e78e890, type: 3}
-  - {fileID: 21300000, guid: f3314b3f36a15467fb633508737f415c, type: 3}
+  sprites:
+  - {fileID: 21300000, guid: 0c3bcab0de9f54121a885a0dda8df63a, type: 3}
+  - {fileID: 21300002, guid: 0c3bcab0de9f54121a885a0dda8df63a, type: 3}
+  - {fileID: 21300004, guid: 0c3bcab0de9f54121a885a0dda8df63a, type: 3}
+  - {fileID: 21300006, guid: 0c3bcab0de9f54121a885a0dda8df63a, type: 3}
+  - {fileID: 21300008, guid: 0c3bcab0de9f54121a885a0dda8df63a, type: 3}
+  - {fileID: 21300010, guid: 0c3bcab0de9f54121a885a0dda8df63a, type: 3}
+  - {fileID: 21300012, guid: 0c3bcab0de9f54121a885a0dda8df63a, type: 3}
+  - {fileID: 21300014, guid: 0c3bcab0de9f54121a885a0dda8df63a, type: 3}
+  - {fileID: 21300016, guid: 0c3bcab0de9f54121a885a0dda8df63a, type: 3}
+  - {fileID: 21300018, guid: 0c3bcab0de9f54121a885a0dda8df63a, type: 3}
 --- !u!114 &114957409315236638
 MonoBehaviour:
   m_ObjectHideFlags: 1
