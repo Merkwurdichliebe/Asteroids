@@ -1,5 +1,10 @@
 ﻿using UnityEngine;
 
+/// <summary>
+/// This MonoBehaviour instantiate a selectable explosion prefab
+/// at the gameobject's position, optionally destroying it.
+/// </summary>
+
 public class ExplodeWhenKilled : MonoBehaviour, IKillable
 {
     //
@@ -9,11 +14,10 @@ public class ExplodeWhenKilled : MonoBehaviour, IKillable
     public bool destroyObjectOnExplosion;
 
     //
-    // (Required by IKillable)
+    // Implementation of IKillable.
     //
     public void Kill()
     {
-        Debug.Log("[ExplodeWhenKilled/Kill] " + this.gameObject);
         Transform obj = Instantiate(explosionPrefab, transform.position, Quaternion.identity).transform;
         obj.SetParent(transform.parent);
         if (destroyObjectOnExplosion)

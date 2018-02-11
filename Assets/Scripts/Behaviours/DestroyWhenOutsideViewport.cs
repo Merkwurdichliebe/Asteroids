@@ -1,6 +1,9 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+
+/// <summary>
+/// This MonoBehaviour destroys the gameobject if it became invisible
+/// outside the bounds of the viewport (i.e. left the screen). 
+/// </summary>
 
 public class DestroyWhenOutsideViewport : MonoBehaviour {
 

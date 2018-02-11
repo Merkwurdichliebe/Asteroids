@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
 /// <summary>
-/// This component casts two rays from the front at a defined angle,
+/// This MonoBehaviour casts two rays from the front at a defined angle,
 /// and turns right or left in order to avoid the collider
 /// they intersect.
 /// For this to work we need to turn off (in Physics2D project settings):

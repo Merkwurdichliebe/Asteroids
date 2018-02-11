@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class PowerUpPoints : Spawnable {
+public class PowerUpPoints : Entity {
 
     public GameObject pickUpFX;
 

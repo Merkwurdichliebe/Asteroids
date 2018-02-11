@@ -1,6 +1,12 @@
 ﻿using System;
 using UnityEngine;
-using Random = UnityEngine.Random;
+
+/// <summary>
+/// This MonoBehaviour uses a static variable to keep count of
+/// instances of itself and sends a message when zero it reached.
+/// The message passes this class which can then be used to inspect
+/// the gameobject's tag (among other things).
+/// </summary>
 
 public class KeepInstancesCount : MonoBehaviour {
 

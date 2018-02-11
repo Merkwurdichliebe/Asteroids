@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class PowerUpBonusLife : Spawnable {
+public class PowerUpBonusLife : Entity {
 
     public GameObject pickUpFX;
 

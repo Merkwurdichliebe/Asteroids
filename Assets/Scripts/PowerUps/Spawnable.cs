@@ -1,18 +1,12 @@
 ﻿/// <summary>
-/// A base abstract class for UFO and all PowerUp objects.
-/// - A Spawner property (injected by the Spawner when instanced).
-/// - Destroy when leaving the screen.
-/// - Notify Spawner when destroyed.
+/// This MonoBehaviour allows the gameobject to be spawned by Spawner
+/// and to communicate back to it. Prefabs can't be dropped onto Spawner
+/// without this component attached.
 /// </summary>
 
-public abstract class Spawnable : Entity {
+public class Spawnable : Entity {
 
     public Spawner Spawner { get; set; }
-
-    public void OnBecameInvisible()
-    {
-        Destroy(gameObject);
-    }
 
     public void OnDestroy()
     {

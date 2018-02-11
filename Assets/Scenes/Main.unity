@@ -1023,7 +1023,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2104122567}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2e20c42ea76334c96acba6bcb07b188f, type: 3}
   m_Name: 
@@ -1032,13 +1032,13 @@ MonoBehaviour:
   overallSpawnProbability: 1
   spawnableInterfaceIsMandatory: 1
   spawnableObjects:
-  - prefab: {fileID: 0}
+  - prefab: {fileID: 114922881709890478, guid: d34b63115465242f48024485b4dba654, type: 2}
     probabilityWeight: 3
     maxSimultaneousInstances: 1
-  - prefab: {fileID: 114710552218260218, guid: 1d1679504999743b89d4ce54966aba00, type: 2}
+  - prefab: {fileID: 114302397655917790, guid: 1d1679504999743b89d4ce54966aba00, type: 2}
     probabilityWeight: 1
     maxSimultaneousInstances: 1
-  - prefab: {fileID: 114859184589572440, guid: 36283d6135ae640cf9f58b72edb7b64e, type: 2}
+  - prefab: {fileID: 114094937912777754, guid: 36283d6135ae640cf9f58b72edb7b64e, type: 2}
     probabilityWeight: 5
     maxSimultaneousInstances: 2
 --- !u!114 &2104122577

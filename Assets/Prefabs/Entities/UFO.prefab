@@ -19,13 +19,15 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4789366289164972}
-  - component: {fileID: 114789504660979824}
+  - component: {fileID: 114922881709890478}
   - component: {fileID: 114124665907846890}
-  - component: {fileID: 114669014028120842}
   - component: {fileID: 114811995898526576}
   - component: {fileID: 114986385336347954}
   - component: {fileID: 114250491376626882}
   - component: {fileID: 114190891522283650}
+  - component: {fileID: 114532352423665040}
+  - component: {fileID: 114374005573765794}
+  - component: {fileID: 114789504660979824}
   - component: {fileID: 114920467303069440}
   - component: {fileID: 114919254889031874}
   - component: {fileID: 212228801216567472}
@@ -223,18 +225,29 @@ MonoBehaviour:
   hostileTags:
   - Asteroid
   - Player
---- !u!114 &114669014028120842
+--- !u!114 &114374005573765794
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1839108818726510}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1760113ec202a4283bab411b3beeff79, type: 3}
+  m_Script: {fileID: 11500000, guid: 7f810fbb2ad4d4f428977745734f2357, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  discreteKeyInput: 1
+--- !u!114 &114532352423665040
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1839108818726510}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 66420a1e78958419b8698a4f783daff8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pickUpFX: {fileID: 0}
 --- !u!114 &114789504660979824
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -290,6 +303,17 @@ MonoBehaviour:
   basePointValue: 30
   perLevelIncrease: 10
   displayPointsLocally: 1
+--- !u!114 &114922881709890478
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1839108818726510}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c9955c46dd5b741c99b3d2b526319bfc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114986385336347954
 MonoBehaviour:
   m_ObjectHideFlags: 1

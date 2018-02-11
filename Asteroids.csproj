@@ -315,7 +315,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Scripts\Abstract\FireAbstract.cs" />
     <Compile Include="Assets\Scripts\Behaviours\AIAvoidObstacles.cs" />
     <Compile Include="Assets\Scripts\Behaviours\CloneWhenKilled.cs" />
     <Compile Include="Assets\Scripts\Behaviours\DestroyWhenOutsideViewport.cs" />
@@ -353,17 +352,6 @@
     <Compile Include="Assets\Scripts\Score\ScoreController.cs" />
     <Compile Include="Assets\Scripts\Score\ScoreControllerAsteroid.cs" />
     <Compile Include="Assets\Scripts\Score\ScoreManager.cs" />
-    <Compile Include="Assets\Scripts\---TBE\AsteroidCollisionManager.cs" />
-    <Compile Include="Assets\Scripts\---TBE\DelegateTest.cs" />
-    <Compile Include="Assets\Scripts\---TBE\DestroyedByEnemyProjectiles.cs" />
-    <Compile Include="Assets\Scripts\---TBE\DestroyedByPlayerProjectiles.cs" />
-    <Compile Include="Assets\Scripts\---TBE\EnemyCollisionManager.cs" />
-    <Compile Include="Assets\Scripts\---TBE\EventManager.cs" />
-    <Compile Include="Assets\Scripts\---TBE\ICanScorePoints.cs" />
-    <Compile Include="Assets\Scripts\---TBE\OldObjectPool.cs" />
-    <Compile Include="Assets\Scripts\---TBE\PlayerCollisionManager.cs" />
-    <Compile Include="Assets\Scripts\---TBE\SingletonTest.cs" />
-    <Compile Include="Assets\Scripts\---TBE\UFOController.cs" />
     <Compile Include="Assets\Scripts\UI\MenuManager.cs" />
     <Compile Include="Assets\Scripts\UI\UIManager.cs" />
     <Compile Include="Assets\Scripts\Utilities\ApplyTorqueOnStart.cs" />
