@@ -17,6 +17,7 @@ public class MovePlayerControlled : MonoBehaviour, IMove
     private Rigidbody2D rb;
     private Animator an;
 
+    public float CurrentSpeed { get { return rb.velocity.magnitude; } }
     //
     //  Events
     //
@@ -63,7 +64,7 @@ public class MovePlayerControlled : MonoBehaviour, IMove
         {
             rb.AddRelativeForce(Vector2.up * thrustMultiplier, ForceMode2D.Force);
             rb.velocity = Vector2.ClampMagnitude(rb.velocity, 9.9f);
-            if (OnPlayerSpeedChanged != null) { OnPlayerSpeedChanged(rb.velocity.magnitude); }
+            // if (OnPlayerSpeedChanged != null) { OnPlayerSpeedChanged(rb.velocity.magnitude); }
         }
     }
 }

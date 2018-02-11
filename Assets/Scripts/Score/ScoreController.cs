@@ -6,7 +6,6 @@ public class ScoreController : MonoBehaviour {
     //
     // Inspector fields
     //
-
     public int basePointValue;
     public int perLevelIncrease;
     public bool displayPointsLocally;
@@ -14,7 +13,6 @@ public class ScoreController : MonoBehaviour {
     //
     // Events
     //
-
     public static Action<GameObject, int, bool> OnScorePoints;
 
     public virtual void ScorePoints()

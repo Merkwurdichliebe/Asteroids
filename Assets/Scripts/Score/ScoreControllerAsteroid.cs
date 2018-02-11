@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 [RequireComponent(typeof(CloneWhenKilled))]
 
@@ -9,24 +7,22 @@ public class ScoreControllerAsteroid : ScoreController {
     //
     // Private fields
     //
-
-    private CloneWhenKilled ast;
+    private CloneWhenKilled cloneBehaviour;
 
     private void Awake()
     {
-        ast = GetComponent<CloneWhenKilled>();
-        if (ast == null)
+        cloneBehaviour = GetComponent<CloneWhenKilled>();
+        if (cloneBehaviour == null)
         {
-            Debug.LogError("[ScoreConstrollerAsteroid] needs a AsteroidController attached.");
+            Debug.LogError("[ScoreConstrollerAsteroid] needs a CloneWhenKilled attached.");
         }
     }
 
     public override void ScorePoints()
     {
-        if (ast != null && OnScorePoints != null)
+        if (cloneBehaviour != null && OnScorePoints != null)
         {
-            // FIXME where to put this?
-            int points = basePointValue * (ast.Generation + 1);
+            int points = basePointValue * (cloneBehaviour.Generation + 1);
             OnScorePoints(this.gameObject, points, displayPointsLocally);
         }
     }

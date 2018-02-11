@@ -87,7 +87,8 @@ public class GameManager : MonoBehaviour
             Player.Lives = startWithPlayerLives;
         }
 
-        asteroidsParent = new GameObject(name = "Asteroids").transform;
+        asteroidsParent = new GameObject().transform;
+        asteroidsParent.gameObject.name = "Asteroids";
     }
 
 
