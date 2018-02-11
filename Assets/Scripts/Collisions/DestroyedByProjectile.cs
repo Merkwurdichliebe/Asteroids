@@ -5,24 +5,38 @@ using UnityEngine;
 public class DestroyedByProjectile : MonoBehaviour
 {
 
-    private IKillable myself;
+
     public enum ProjectileType { PlayerProjectile, EnemyProjectile }
 
     public ProjectileType projectileType;
-    public bool scorePoints;
+    private ScoreController sc;
+    private IKillable[] killables;
 
+    //
+    // Get references to the IKillable interface
+    // and to the ScoreController component.
+    // If there is no ScoreController component present,
+    // destruction will not score points.
+    //
     private void Awake()
     {
-        myself = gameObject.GetComponent<IKillable>();
+        killables = gameObject.GetComponents<IKillable>();
+        sc = GetComponent<ScoreController>();
     }
 
+    //
+    // Kill this object when it collides with this projectile type.
+    // Score points if there is a ScoreController present.
+    //
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag(projectileType.ToString()))
         {
-            myself.Kill();
-            ScoreController sc = GetComponent<ScoreController>();
-            if (sc != null && scorePoints)
+            foreach (IKillable killable in killables)
+            {
+                killable.Kill();
+            }
+            if (sc != null)
             {
                 sc.ScorePoints();
             }

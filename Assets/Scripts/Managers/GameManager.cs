@@ -13,7 +13,7 @@ public class GameManager : MonoBehaviour
     // References to prefabs
     [Header("Main game prefabs")]
     public PlayerController playerPrefab;
-    public AsteroidController asteroidPrefab;
+    public CloneWhenKilled asteroidPrefab;
 
     [Header("Extra game prefabs")]
     public GameObject spawnSafeZonePrefab;
@@ -34,6 +34,7 @@ public class GameManager : MonoBehaviour
     private int countAsteroids;
     private Spawner spawner;
     private GameObject spawnSafeZone;
+    private Transform asteroidsParent;
 
     // 
     // Properties
@@ -85,13 +86,15 @@ public class GameManager : MonoBehaviour
             Player = Instantiate(playerPrefab);
             Player.Lives = startWithPlayerLives;
         }
+
+        asteroidsParent = new GameObject(name = "Asteroids").transform;
     }
 
 
 
     void OnEnable()
     {
-        AsteroidController.OnAsteroidLastDestroyed += CheckLevelCleared;
+        KeepInstancesCount.OnLastDestroyed += CheckLastDestroyed;
         PlayerController.OnPlayerLivesZero += Cleanup;
         PlayerController.OnPlayerSpawned += DisableSafeZone;
         PlayerController.OnPlayerDestroyed += EnableSafeZone;
@@ -103,7 +106,7 @@ public class GameManager : MonoBehaviour
     void OnDisable()
     {
         PlayerController.OnPlayerLivesZero -= Cleanup;
-        AsteroidController.OnAsteroidLastDestroyed -= CheckLevelCleared;
+        KeepInstancesCount.OnLastDestroyed -= CheckLastDestroyed;
         PlayerController.OnPlayerSpawned -= DisableSafeZone;
         PlayerController.OnPlayerDestroyed -= EnableSafeZone;
         PlayerController.OnPlayerDespawned -= EnableSafeZone;
@@ -178,7 +181,17 @@ public class GameManager : MonoBehaviour
         // Spawn asteroids based on level number
         for (int i = 0; i < count; i++)
         {
-            Instantiate(asteroidPrefab, Vector2.zero, Quaternion.identity);
+            CloneWhenKilled asteroid = Instantiate(asteroidPrefab, Vector2.zero, Quaternion.identity);
+            asteroid.SourcePrefab = asteroidPrefab;
+            asteroid.gameObject.transform.SetParent(asteroidsParent.transform);
+        }
+    }
+
+    public void CheckLastDestroyed(KeepInstancesCount component)
+    {
+        if(component.gameObject.tag.Equals("Asteroid"))
+        {
+            CheckLevelCleared();
         }
     }
 
@@ -186,8 +199,8 @@ public class GameManager : MonoBehaviour
     {
         if (Player != null)
         {
-            Debug.Log("[GameManager/CheckLevelCleared] Asteroids " +
-                      AsteroidController.Count + " Spawner " + spawner.TotalCount);
+            // Debug.Log("[GameManager/CheckLevelCleared] Asteroids " +
+            //         AsteroidController.Count + " Spawner " + spawner.TotalCount);
             if (Player.Lives != 0)
             {
                 CurrentLevel += 1;

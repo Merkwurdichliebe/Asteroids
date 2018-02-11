@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(AsteroidController))]
+[RequireComponent(typeof(CloneWhenKilled))]
 
 public class ScoreControllerAsteroid : ScoreController {
 
@@ -10,11 +10,11 @@ public class ScoreControllerAsteroid : ScoreController {
     // Private fields
     //
 
-    private AsteroidController ast;
+    private CloneWhenKilled ast;
 
     private void Awake()
     {
-        ast = GetComponent<AsteroidController>();
+        ast = GetComponent<CloneWhenKilled>();
         if (ast == null)
         {
             Debug.LogError("[ScoreConstrollerAsteroid] needs a AsteroidController attached.");
@@ -25,7 +25,8 @@ public class ScoreControllerAsteroid : ScoreController {
     {
         if (ast != null && OnScorePoints != null)
         {
-            int points = basePointValue * (ast.Phase + 1);
+            // FIXME where to put this?
+            int points = basePointValue * (ast.Generation + 1);
             OnScorePoints(this.gameObject, points, displayPointsLocally);
         }
     }

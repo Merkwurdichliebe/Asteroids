@@ -20,7 +20,7 @@ public class Spawner : MonoBehaviour, ICanSpawnEntities
     // (cf. struct below)
     // Allows dropping prefabs to spawn
     // and set weight & max values for each
-    [Header("List of prefabs to spawn")]
+    [Header("List of Spawnable prefabs to spawn")]
     public SpawnableObject[] spawnableObjects;
 
     //
@@ -124,14 +124,17 @@ public class Spawner : MonoBehaviour, ICanSpawnEntities
         spawnerEnabled = false;
     }
 
-
+    private bool ShouldSpawn()
+    {
+        return Time.time - timeSinceLastSpawn > secondsBetweenSpawns && spawnerEnabled;
+    }
 
     //
     // Check the spawn timer and call SpawnAnObject when ready.
     //
     private void Update()
     {
-        if (Time.time - timeSinceLastSpawn > secondsBetweenSpawns && spawnerEnabled)
+        if (ShouldSpawn())
         {
             SpawnAnObject();
         }

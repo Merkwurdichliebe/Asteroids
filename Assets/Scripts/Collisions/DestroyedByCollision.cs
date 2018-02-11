@@ -1,26 +1,28 @@
-﻿using UnityEngine;
+﻿// We're using Linq for array.Contains()
+using System.Linq;
+using UnityEngine;
 
 public class DestroyedByCollision : MonoBehaviour
 {
     private IKillable myself;
 
     [Header("List of tags destroying this object")]
-    public string[] tags;
+    public string[] hostileTags;
+    private IKillable[] killables;
 
     private void Awake()
     {
-        myself = gameObject.GetComponent<IKillable>();
+        killables = gameObject.GetComponents<IKillable>();
     }
 
     // Destroy this and other object if colliding with enemy or the player.
     void OnCollisionEnter2D(Collision2D collision)
     {
-        foreach (string item in tags)
+        if (hostileTags.Contains(collision.gameObject.tag))
         {
-            if (collision.gameObject.CompareTag(item))
+            foreach (IKillable killable in killables)
             {
-                myself.Kill();
-                break;
+                killable.Kill();
             }
         }
     }

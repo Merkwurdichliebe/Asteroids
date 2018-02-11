@@ -239,9 +239,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8528d94e846414ce8ba232d5c763890c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tags:
-  - Enemy
+  hostileTags:
   - Asteroid
+  - Enemy
 --- !u!114 &114128046529340278
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -267,7 +267,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   projectileType: 1
-  scorePoints: 0
 --- !u!114 &114416720915243778
 MonoBehaviour:
   m_ObjectHideFlags: 1

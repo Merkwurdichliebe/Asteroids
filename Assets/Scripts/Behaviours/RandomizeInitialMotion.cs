@@ -1,7 +1,5 @@
 ﻿using UnityEngine;
 
-[RequireComponent(typeof(AsteroidController))]
-
 public class RandomizeInitialMotion : MonoBehaviour {
 
     //
@@ -30,7 +28,8 @@ public class RandomizeInitialMotion : MonoBehaviour {
 	void Start () {
         // Set the mass to be proportionate to the asteroid size
         // This makes inter-asteroid collisions more realistic
-        rb.mass = 1 / (GetComponent<AsteroidController>().Phase + 1);
+        // rb.mass = 1 / (GetComponent<AsteroidController>().Phase + 1);
+        // FIXME where should the above go? Into a new component? (very related to Phase)
 
         // Add position and rotation variations
         float x = Random.Range(transform.position.x - randomPositionDelta, transform.position.x + randomPositionDelta);

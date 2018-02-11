@@ -317,19 +317,23 @@
   <ItemGroup>
     <Compile Include="Assets\Scripts\Abstract\FireAbstract.cs" />
     <Compile Include="Assets\Scripts\Behaviours\AIAvoidObstacles.cs" />
+    <Compile Include="Assets\Scripts\Behaviours\CloneWhenKilled.cs" />
+    <Compile Include="Assets\Scripts\Behaviours\DestroyWhenOutsideViewport.cs" />
+    <Compile Include="Assets\Scripts\Behaviours\ExplodeWhenKilled.cs" />
     <Compile Include="Assets\Scripts\Behaviours\FireProjectile.cs" />
     <Compile Include="Assets\Scripts\Behaviours\FireProjectileAtTarget.cs" />
     <Compile Include="Assets\Scripts\Behaviours\InputFromKeyboard.cs" />
+    <Compile Include="Assets\Scripts\Behaviours\KeepInstancesCount.cs" />
     <Compile Include="Assets\Scripts\Behaviours\MoveCrossTheScreenThruCenter.cs" />
     <Compile Include="Assets\Scripts\Behaviours\MovePlayerControlled.cs" />
     <Compile Include="Assets\Scripts\Behaviours\RandomizeInitialMotion.cs" />
+    <Compile Include="Assets\Scripts\Behaviours\SetRandomSpriteOnAwake.cs" />
     <Compile Include="Assets\Scripts\Collisions\DestroyedByCollision.cs" />
     <Compile Include="Assets\Scripts\Collisions\DestroyedByProjectile.cs" />
     <Compile Include="Assets\Scripts\Entities\AsteroidController.cs" />
     <Compile Include="Assets\Scripts\Entities\Entity.cs" />
     <Compile Include="Assets\Scripts\Entities\PlayerController.cs" />
     <Compile Include="Assets\Scripts\Entities\Projectile.cs" />
-    <Compile Include="Assets\Scripts\Entities\UFOController.cs" />
     <Compile Include="Assets\Scripts\Interfaces\ICanSpawnEntities.cs" />
     <Compile Include="Assets\Scripts\Interfaces\IFire.cs" />
     <Compile Include="Assets\Scripts\Interfaces\IKillable.cs" />
@@ -342,7 +346,6 @@
     <Compile Include="Assets\Scripts\Managers\Spawner.cs" />
     <Compile Include="Assets\Scripts\Managers\SpawnSafeZoneManager.cs" />
     <Compile Include="Assets\Scripts\Managers\UFOAudioManager.cs" />
-    <Compile Include="Assets\Scripts\PowerUps\PowerUp.cs" />
     <Compile Include="Assets\Scripts\PowerUps\PowerUpBonusLife.cs" />
     <Compile Include="Assets\Scripts\PowerUps\PowerUpPoints.cs" />
     <Compile Include="Assets\Scripts\PowerUps\Spawnable.cs" />
@@ -360,6 +363,7 @@
     <Compile Include="Assets\Scripts\---TBE\OldObjectPool.cs" />
     <Compile Include="Assets\Scripts\---TBE\PlayerCollisionManager.cs" />
     <Compile Include="Assets\Scripts\---TBE\SingletonTest.cs" />
+    <Compile Include="Assets\Scripts\---TBE\UFOController.cs" />
     <Compile Include="Assets\Scripts\UI\MenuManager.cs" />
     <Compile Include="Assets\Scripts\UI\UIManager.cs" />
     <Compile Include="Assets\Scripts\Utilities\ApplyTorqueOnStart.cs" />

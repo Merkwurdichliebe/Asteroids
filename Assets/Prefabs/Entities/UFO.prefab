@@ -19,7 +19,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4789366289164972}
-  - component: {fileID: 114521301193238800}
+  - component: {fileID: 114789504660979824}
   - component: {fileID: 114124665907846890}
   - component: {fileID: 114669014028120842}
   - component: {fileID: 114811995898526576}
@@ -209,7 +209,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   projectileType: 0
-  scorePoints: 1
 --- !u!114 &114250491376626882
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -221,21 +220,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8528d94e846414ce8ba232d5c763890c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tags:
-  - Player
+  hostileTags:
   - Asteroid
---- !u!114 &114521301193238800
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1839108818726510}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c6cc99729255f4bcdbcc474313d9acea, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  explosion: {fileID: 1567358503014116, guid: 71915c557f2d44ab6aace90312a0c2a3, type: 2}
+  - Player
 --- !u!114 &114669014028120842
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -248,6 +235,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   discreteKeyInput: 1
+--- !u!114 &114789504660979824
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1839108818726510}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9be459abe00244b2680645cbb2f3e437, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  explosionPrefab: {fileID: 1567358503014116, guid: 71915c557f2d44ab6aace90312a0c2a3,
+    type: 2}
+  destroyObjectOnExplosion: 1
 --- !u!114 &114811995898526576
 MonoBehaviour:
   m_ObjectHideFlags: 1
