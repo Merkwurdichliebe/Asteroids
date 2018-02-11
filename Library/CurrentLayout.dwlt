@@ -110,7 +110,7 @@ MonoBehaviour:
   m_MinSize: {x: 713, y: 492}
   m_MaxSize: {x: 18008, y: 14042}
   vertical: 0
-  controlID: 144
+  controlID: 96
 --- !u!114 &6
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -134,7 +134,7 @@ MonoBehaviour:
   m_MinSize: {x: 232, y: 492}
   m_MaxSize: {x: 10002, y: 14042}
   vertical: 1
-  controlID: 145
+  controlID: 52
 --- !u!114 &7
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -208,7 +208,7 @@ MonoBehaviour:
   m_MinSize: {x: 204, y: 342}
   m_MaxSize: {x: 4004, y: 8042}
   vertical: 1
-  controlID: 77
+  controlID: 97
 --- !u!114 &10
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -394,9 +394,9 @@ MonoBehaviour:
   m_PersistentViewDataDictionary: {fileID: 0}
   m_TreeViewState:
     scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: de270000
+    m_SelectedIDs: a0070000
     m_LastClickedID: 0
-    m_ExpandedIDs: 320dffffe427ffffbe56ffffa4f7ffffdcf8ffff9efbffff00000000
+    m_ExpandedIDs: 9efbffff00000000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -458,7 +458,7 @@ MonoBehaviour:
     m_ShowAllHits: 0
     m_SearchArea: 0
     m_Folders:
-    - Assets/Resources
+    - Assets/Scripts/Managers
   m_ViewMode: 0
   m_StartGridSize: 16
   m_LastFolders:
@@ -470,7 +470,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: be270000
     m_LastClickedID: 10174
-    m_ExpandedIDs: 00000000ba270000be270000d8270000da270000f0270000f62700001a2800001e2800002c2800004c2800006e2800008a280000c6280000cc280000ce280000fa280000262900001c2b00001e2b000000ca9a3bffffff7f
+    m_ExpandedIDs: 00000000a2270000a6270000c0270000c2270000d4270000d6270000dc270000f8270000082800002028000026280000482800006028000098280000a8280000ae280000b0280000d8280000fc2800001c2b00001e2b0000202b0000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -498,7 +498,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 00000000ba270000be270000d8270000da270000ee270000f0270000f62700001a2800001e2800002c280000462800004c2800006e2800008a280000aa280000c6280000cc280000ce280000fa280000262900001c2b00001e2b0000
+    m_ExpandedIDs: 00000000a2270000c2270000e82700004828000060280000ae2800001c2b00001e2b0000202b0000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
