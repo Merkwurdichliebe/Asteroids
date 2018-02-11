@@ -316,7 +316,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 41adc19dce85245bfb011edfb768efbe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  anchorMainGun: {fileID: 4031679361654200}
+  projectileOrigin: {fileID: 4031679361654200}
 --- !u!114 &114860798685419980
 MonoBehaviour:
   m_ObjectHideFlags: 1

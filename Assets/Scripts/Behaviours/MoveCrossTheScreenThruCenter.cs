@@ -1,14 +1,29 @@
 using UnityEngine;
 
+/// <summary>
+/// This MonoBehaviour implements IMove in a way which works well for
+/// the UFO and powerups: on start, choose a random position off screen.
+/// "Moving forward" means moving towards the center of the screen.
+/// </summary>
+
 [RequireComponent(typeof(Rigidbody2D))]
 
 public class MoveCrossTheScreenThruCenter : MonoBehaviour, IMove
 {
-    Rigidbody2D rb;
+    //
+    // Inspector fields
+    //
     public float speed = 10;
 
+    //
+    // Private fields
+    //
+    private Rigidbody2D rb;
     private Vector3 lastVector;
 
+    //
+    // Cache a reference to the RigidBody2D 
+    //
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -18,8 +33,9 @@ public class MoveCrossTheScreenThruCenter : MonoBehaviour, IMove
         }
     }
 
-
-
+    //
+    // Set a random position on start 
+    //
 	private void Start()
 	{
         //
@@ -45,8 +61,9 @@ public class MoveCrossTheScreenThruCenter : MonoBehaviour, IMove
         MoveForward();
 	}
 
-
-
+    //
+    // Implement IMove.
+    //
     public void MoveForward()
     {
         //
@@ -61,14 +78,18 @@ public class MoveCrossTheScreenThruCenter : MonoBehaviour, IMove
         rb.AddForce(vector * speed);
     }
 
-
-
     public void Stop()
     {
         rb.velocity = Vector3.zero;
     }
 
-
+    //
+    // Easiest way to calculate a vector pointing right or left
+    // from current movement is to exchange x and y
+    // while inverting the sign of one of them, regardless of magnitude.
+    // This is a bit sloppy, so we normalize the resulting vector
+    // in FixedUpdate.
+    //
 
     public void TurnLeft()
     {
@@ -76,8 +97,6 @@ public class MoveCrossTheScreenThruCenter : MonoBehaviour, IMove
         rb.AddForce(newVector * speed);
         lastVector = newVector;
     }
-
-
 
     public void TurnRight()
     {

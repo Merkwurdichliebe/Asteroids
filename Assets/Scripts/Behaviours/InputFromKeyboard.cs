@@ -1,14 +1,28 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
+
+/// <summary>
+/// This MonoBehaviour gets the Input.GetKey callbacks
+/// and then calls the appropriate methods on another component
+/// which implements IMove or IFire.
+/// </summary>
 
 public class InputFromKeyboard : MonoBehaviour {
 
+    //
+    // Inspector fields 
+    //
     [Header("Leave this unchecked to use continuous key input")]
     public bool discreteKeyInput;
 
+    //
+    // Private fields
+    //
     private IMove moveComponent;
     private IFire fireComponent;
 
+    //
+    // Get component references and log an error if null. 
+    //
     private void Awake()
     {
         moveComponent = GetComponent<IMove>();
@@ -24,6 +38,9 @@ public class InputFromKeyboard : MonoBehaviour {
         }
     }
 
+    //
+    // Call proper input function based on Inspector toggle 
+    //
     private void Update()
     {
         if (discreteKeyInput)
@@ -36,6 +53,9 @@ public class InputFromKeyboard : MonoBehaviour {
         }
     }
 
+    //
+    // Get discrete key inputs
+    //
     private void GetDiscreteKeyInput()
     {
         if (Input.GetKeyDown(KeyCode.UpArrow))
@@ -64,6 +84,9 @@ public class InputFromKeyboard : MonoBehaviour {
         }
     }
 
+    //
+    // Get continuous key inputs
+    //
     private void GetContinuousKeyInput()
     {
         if (Input.GetKeyDown(KeyCode.UpArrow))
