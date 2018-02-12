@@ -890,17 +890,18 @@ MonoBehaviour:
   cometPrefab: {fileID: 1661287572815834, guid: 8972d0ae4b3ed4753ae706c86a3f2d2a,
     type: 2}
   startWithLevel: 1
-  startWithAsteroids: 1
+  startWithAsteroids: 4
   startWithPlayerLives: 10
   spawnAsteroids: 1
-  spawnPlayer: 1
+  spawnPlayer: 0
+  playLevelIntro: 0
 --- !u!82 &2104122571
 AudioSource:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2104122567}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 4dc1a31445a804e10bc4db86adf25ea9, type: 3}
@@ -1023,7 +1024,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2104122567}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2e20c42ea76334c96acba6bcb07b188f, type: 3}
   m_Name: 

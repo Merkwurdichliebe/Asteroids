@@ -61,33 +61,23 @@ public class CloneWhenKilled : MonoBehaviour, IKillable {
         Generation = 0;
     }
 
-    // FIXME this is weird
-    private void Start()
-    {
-        if (Generation == 0)
-        {
-            transform.position = new Vector2(Random.Range(-15f, 15f), Random.Range(3f, 6f));
-        }
-    }
-
     //
     // Implementation of IKillable.
     // Instantiate as many clones as needed.
     //
     public void Kill()
     {
-        if (Generation < generationsMax)
+        if (Generation == generationsMax) return;
+        
+        for (int i = 0; i < numberOfClones; i++)
         {
-            for (int i = 0; i < numberOfClones; i++)
-            {
-                CloneWhenKilled clone = Instantiate(SourcePrefab, Vector2.zero, Quaternion.identity);
-                clone.SourcePrefab = SourcePrefab;
-                clone.gameObject.transform.position = transform.position;
-                clone.gameObject.transform.SetParent(transform.parent);
-                clone.Generation = Generation + 1;
-                newScale = Mathf.Pow(scalingFactor, Generation + 1);
-                clone.transform.localScale = new Vector3(newScale, newScale, 1);
-            }
+            CloneWhenKilled clone = Instantiate(SourcePrefab, Vector2.zero, Quaternion.identity);
+            clone.SourcePrefab = SourcePrefab;
+            clone.gameObject.transform.position = transform.position;
+            clone.gameObject.transform.SetParent(transform.parent);
+            clone.Generation = Generation + 1;
+            newScale = Mathf.Pow(scalingFactor, Generation + 1);
+            clone.transform.localScale = new Vector3(newScale, newScale, 1);
         }
     }
 }

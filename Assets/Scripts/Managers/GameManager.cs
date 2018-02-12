@@ -6,11 +6,9 @@ using Random = UnityEngine.Random;
 
 public class GameManager : MonoBehaviour
 {
-    // -------------------------------------------------------------------------
-    // Inspector variables
-    // -------------------------------------------------------------------------
-
-    // References to prefabs
+    //
+    // Inspector fields
+    //
     [Header("Main game prefabs")]
     public PlayerController playerPrefab;
     public CloneWhenKilled asteroidPrefab;
@@ -26,15 +24,16 @@ public class GameManager : MonoBehaviour
     public int startWithPlayerLives = 3;
     public bool spawnAsteroids;
     public bool spawnPlayer;
+    public bool playLevelIntro;
 
-    // -------------------------------------------------------------------------
-    // Private variables and properties
-    // -------------------------------------------------------------------------
-
+    //
+    // Private fields
+    //
     private int countAsteroids;
     private Spawner spawner;
     private GameObject spawnSafeZone;
     private Transform asteroidsParent;
+    private readonly Vector2 halfUnit = new Vector2(0.5f, 0.5f);
 
     // 
     // Properties
@@ -142,7 +141,14 @@ public class GameManager : MonoBehaviour
     {
         Debug.Log("[GameManager/PrepareNextLevel] " + CurrentLevel);
         StopAllCoroutines();
-        StartCoroutine(ReadyNextLevel());
+        if (playLevelIntro)
+        {
+            StartCoroutine(ReadyNextLevel());    
+        }
+        else {
+            StartNextLevel();
+        }
+
     }
 
     //
@@ -175,16 +181,27 @@ public class GameManager : MonoBehaviour
     }
 
     //
-    // 
+    // Spawn the first asteroids.
+    // Set the SourcePrefab property to point to the asteroidPrefab used here,
+    // so that an asteroid can clone itself.
+    // Get a random vector inside a unit circle,
+    // shift it to the center of the viewport (0.5, 0.5)
+    // and scale it down so that it draws a circle around the player.
     //
     public void SpawnAsteroids(int count)
     {
-        // Spawn asteroids based on level number
         for (int i = 0; i < count; i++)
         {
+            // Instantiate
             CloneWhenKilled asteroid = Instantiate(asteroidPrefab, Vector2.zero, Quaternion.identity);
             asteroid.SourcePrefab = asteroidPrefab;
             asteroid.gameObject.transform.SetParent(asteroidsParent.transform);
+
+            // Set position
+            Vector2 pos = Random.insideUnitCircle.normalized + halfUnit;
+            Vector3 worldPos = Camera.main.ViewportToWorldPoint(pos) / 2;
+            worldPos.z = 0;
+            asteroid.gameObject.transform.position = worldPos;
         }
     }
 

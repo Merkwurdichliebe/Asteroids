@@ -1,13 +1,19 @@
 ﻿<Properties StartupConfiguration="{644F8B3B-773E-06CE-D89F-7ADA47CB3411}|">
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Score/ScoreController.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Utilities/WrapAround.cs">
     <Files>
       <File FileName="Assets/Scripts/Interfaces/ICanSpawnEntities.cs" Line="6" Column="2" />
       <File FileName="Assets/Scripts/Entities/AsteroidController.cs" Line="1" Column="1" />
       <File FileName="Assets/Scripts/Entities/PlayerController.cs" Line="123" Column="1" />
       <File FileName="Assets/Scripts/Behaviours/MovePlayerControlled.cs" Line="22" Column="15" />
-      <File FileName="Assets/Scripts/Managers/GameManager.cs" Line="89" Column="9" />
+      <File FileName="Assets/Scripts/Managers/GameManager.cs" Line="205" Column="1" />
       <File FileName="Assets/Scripts/Score/ScoreControllerAsteroid.cs" Line="5" Column="47" />
       <File FileName="Assets/Scripts/Score/ScoreController.cs" Line="23" Column="2" />
+      <File FileName="Assets/Scripts/Score/BonusLifeAtPoints.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Behaviours/SetRandomSpriteOnAwake.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Behaviours/CloneWhenKilled.cs" Line="69" Column="16" />
+      <File FileName="Assets/Scripts/Behaviours/RandomizeInitialMotion.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Behaviours/AIAvoidObstacles.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Utilities/WrapAround.cs" Line="3" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
