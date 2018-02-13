@@ -23,7 +23,7 @@ GameObject:
   - component: {fileID: 199228156677453376}
   - component: {fileID: 82274171642160552}
   - component: {fileID: 114318654557111472}
-  m_Layer: 0
+  m_Layer: 1
   m_Name: UFO Explosion
   m_TagString: Untagged
   m_Icon: {fileID: 0}

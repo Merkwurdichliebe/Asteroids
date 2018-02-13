@@ -22,6 +22,7 @@ public class SafeZone : MonoBehaviour {
     // Inspector fields
     //
     public float checkInterval = 0.5f;
+    public float maximumIdleTime = 3.0f;
 
     //
     // Private fields
@@ -30,8 +31,6 @@ public class SafeZone : MonoBehaviour {
     private bool isClearThisCheck;
     private bool isClearLastCheck;
     private float lastCheckTime;
-
-    private float maximumIdleTime = 0.1f;
     private float timeAtEnabled;
 
     //
@@ -69,8 +68,16 @@ public class SafeZone : MonoBehaviour {
             }
             isClearThisCheck = true;
             lastCheckTime = Time.time;
+
+            // Try to position the zone somewhere else if occupied for too long
+            if (Time.time > timeAtEnabled + maximumIdleTime)
+            {
+                float _posX = Random.Range(-4f, 4f);
+                float _posY = Random.Range(-3f, 3f);
+                gameObject.transform.position = new Vector2(_posX, _posY);
+            }
         }
-}
+    }
 
     private void OnTriggerStay2D(Collider2D collision)
     {
@@ -81,13 +88,7 @@ public class SafeZone : MonoBehaviour {
             isClearLastCheck = false;
             if (OnSafeZoneClear != null) { OnSafeZoneClear(false, transform.position); }
         }
-        if (Time.time > timeAtEnabled + maximumIdleTime)
-        {
-            float _posX = Random.Range(-3f, 3f);
-            float _posY = Random.Range(-3f, 3f);
-            gameObject.transform.position = new Vector2(_posX, _posY);
-            timeAtEnabled = Time.time;
-        }
+
     }
 
     //

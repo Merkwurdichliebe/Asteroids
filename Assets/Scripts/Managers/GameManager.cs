@@ -157,6 +157,7 @@ public class GameManager : MonoBehaviour
     {
         if (OnGameLevelDisplay != null) { OnGameLevelDisplay(); }
         if (Player != null) { Player.ActiveInScene = false; }
+        spawnSafeZone.SetActive(false); // needs to come after player or it will reactivate
         UIManager.Instance.DisplayLevelNumber(CurrentLevel);
         Instantiate(cometPrefab);
         yield return new WaitForSeconds(3);
@@ -171,6 +172,7 @@ public class GameManager : MonoBehaviour
     //
     void StartNextLevel()
     {
+        spawnSafeZone.SetActive(true);
         if (spawnAsteroids) {
             SpawnAsteroids(startWithAsteroids + CurrentLevel - 1);
         }
