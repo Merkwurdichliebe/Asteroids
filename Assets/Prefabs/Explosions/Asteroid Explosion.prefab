@@ -149,6 +149,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   randomizePitch: 0.25
   randomizeVolume: 0.25
+  audioComponent: {fileID: 82882139321878708}
 --- !u!198 &198242693788955808
 ParticleSystem:
   m_ObjectHideFlags: 1

@@ -14,6 +14,9 @@ public class PlayerController : Entity, IKillable
     [Range(1, 10)]
     public int livesAtStart;
 
+    [Header("Child Modules")]
+    public GameObject engine;
+
     //
     // Private fields
     //
@@ -44,6 +47,7 @@ public class PlayerController : Entity, IKillable
             rb.isKinematic = !value;
             // moveComponent.enabled = value;
             fireComponent.FiringEnabled = value;
+            engine.SetActive(value);
             if (value)
             {
                 if (OnPlayerSpawned != null) { OnPlayerSpawned(); }

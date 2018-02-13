@@ -76,7 +76,9 @@ public class Spawner : MonoBehaviour
         {
             // First check if the prefab is actually set,
             // because array size allows the prefab slot to be empty.
-            if (obj.prefab != null)
+            // Also check if the weight isn't zero, in which case
+            // the prefab won't be included in the list at all.
+            if (obj.prefab != null && obj.probabilityWeight >0)
             {
                 // Loop through the weight value
                 for (int i = 0; i < obj.probabilityWeight; i++)
@@ -174,9 +176,7 @@ public class Spawner : MonoBehaviour
             }
             else
             {
-                Debug.Log("[Spawner/SpawnAnObject] "
-                          + obj.prefab.name + " already at maximum ("
-                          + obj.maxSimultaneousInstances + ")");
+                Debug.Log("[Spawner/SpawnAnObject] " + obj.prefab.name + " already at maximum (" + obj.maxSimultaneousInstances + ")");
             }
             timeSinceLastSpawn = Time.time;
         }
@@ -200,7 +200,7 @@ public struct SpawnableObject
 {
     public Spawnable prefab;
 
-    [Range(1, 10)]
+    [Range(0, 10)]
     public int probabilityWeight;
     public int maxSimultaneousInstances;
 }

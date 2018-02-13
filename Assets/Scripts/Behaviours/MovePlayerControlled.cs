@@ -15,6 +15,7 @@ public class MovePlayerControlled : MonoBehaviour, IMove
     //
     public float rotationMultiplier = 5.0f;
     public float thrustMultiplier = 0.5f;
+    public float maximumVelocity = 7;
 
     //
     // Private fields
@@ -42,7 +43,9 @@ public class MovePlayerControlled : MonoBehaviour, IMove
     {
         rb = GetComponent<Rigidbody2D>();
         an = GetComponent<Animator>();
-        if (rb == null) { Debug.LogError("[MovePlayerControlled] Requires Rigidbody2D."); }
+        if (rb == null) {
+            Debug.LogError("[MovePlayerControlled] Requires Rigidbody2D.");
+        }
     }
 
     //
@@ -53,7 +56,7 @@ public class MovePlayerControlled : MonoBehaviour, IMove
         if (isAccelerating)
         {
             rb.AddRelativeForce(Vector2.up * thrustMultiplier, ForceMode2D.Force);
-            rb.velocity = Vector2.ClampMagnitude(rb.velocity, 9.9f);
+            rb.velocity = Vector2.ClampMagnitude(rb.velocity, maximumVelocity);
         }
     }
 

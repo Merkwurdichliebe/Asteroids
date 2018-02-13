@@ -13,11 +13,11 @@ public class RandomizeAudioPitchAndVolume : MonoBehaviour {
     public float randomizePitch;
     [Range(0, 1f)]
     public float randomizeVolume;
+    public AudioSource audioComponent;
 
     private void Awake()
     {
-        AudioSource au = GetComponent<AudioSource>();
-        au.pitch = Random.Range(au.pitch - randomizePitch, au.pitch + randomizePitch);
-        au.volume = Random.Range(au.volume - randomizeVolume, au.volume + randomizeVolume);
+        audioComponent.pitch = Random.Range(audioComponent.pitch - randomizePitch, audioComponent.pitch + randomizePitch);
+        audioComponent.volume = Random.Range(audioComponent.volume - randomizeVolume, audioComponent.volume + randomizeVolume);
     }
 }

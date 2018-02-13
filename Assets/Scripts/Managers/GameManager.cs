@@ -145,13 +145,9 @@ public class GameManager : MonoBehaviour
         Debug.Log("[GameManager/PrepareNextLevel] " + CurrentLevel);
         StopAllCoroutines();
         if (playLevelIntro)
-        {
             StartCoroutine(ReadyNextLevel());    
-        }
-        else {
+        else
             StartNextLevel();
-        }
-
     }
 
     //
