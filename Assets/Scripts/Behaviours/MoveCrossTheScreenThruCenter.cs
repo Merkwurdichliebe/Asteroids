@@ -90,6 +90,7 @@ public class MoveCrossTheScreenThruCenter : MonoBehaviour, IMove
     // This is a bit sloppy, so we normalize the resulting vector
     // in FixedUpdate.
     //
+    // FIXME make the UFO turn gradually
 
     public void TurnLeft()
     {

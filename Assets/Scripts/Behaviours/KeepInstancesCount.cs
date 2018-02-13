@@ -22,12 +22,17 @@ public class KeepInstancesCount : MonoBehaviour {
     //
     public static Action<KeepInstancesCount> OnLastDestroyed;
 
+    //
+    // Increment count on Awake. 
+    //
     private void Awake()
     {
         Count += 1;
     }
 
-
+    //
+    // Decrement count on Destroy. Fire event if zero. 
+    //
     private void OnDestroy()
     {
         Count -= 1;

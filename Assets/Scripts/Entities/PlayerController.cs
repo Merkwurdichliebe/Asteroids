@@ -96,12 +96,12 @@ public class PlayerController : Entity, IKillable
     //
     void OnEnable()
     {
-        SpawnSafeZoneManager.OnSpawnSafeZoneCleared += HandleCenterIsClear;
+        SafeZone.OnSafeZoneClear += HandleCenterIsClear;
     }
 
     void OnDisable()
     {
-        SpawnSafeZoneManager.OnSpawnSafeZoneCleared -= HandleCenterIsClear;
+        SafeZone.OnSafeZoneClear -= HandleCenterIsClear;
     }
 
     //

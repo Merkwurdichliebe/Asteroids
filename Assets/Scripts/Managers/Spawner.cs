@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Spawner : MonoBehaviour, ICanSpawnEntities
+public class Spawner : MonoBehaviour
 {
     //
     // Inspector fields
@@ -184,7 +184,7 @@ public class Spawner : MonoBehaviour, ICanSpawnEntities
 
     // This method gets called by spawned objects when they are destroyed
     // and decreases the count value in the Dictionary.
-    // At least one script on the spawned object should implement ISpawnable.
+    // At least one script on the spawned object should inherit from Spawnable.
     public void NotifyDestroyed(GameObject obj)
     {
         Debug.Log("[Spawner/NotifyDestroyed] " + obj.name);

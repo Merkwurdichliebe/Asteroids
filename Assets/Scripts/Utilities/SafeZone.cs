@@ -1,7 +1,21 @@
 ﻿using System;
 using UnityEngine;
 
-public class SpawnSafeZoneManager : MonoBehaviour {
+/// <summary>
+/// This MonoBehaviour checks for collisions with an attached trigger collider.
+/// It only sends one message at a time, "clear" or "occupied", and works
+/// also when an object is destroyed while touching the trigger or when
+/// the SafeZone gameobject is enabled while an object is already
+/// touching it. The interval between checks can be set in the Inspector.
+/// 
+/// This couldn't be achieved solely with OnTriggerEnter and OnTriggerExit.
+/// 
+/// Purpose: create a safe zone for player spawning.
+/// </summary>
+
+[RequireComponent(typeof(Collider2D))]
+
+public class SafeZone : MonoBehaviour {
 
     //
     // Inspector fields
@@ -14,31 +28,37 @@ public class SpawnSafeZoneManager : MonoBehaviour {
     private Collider2D col;
     private bool isClearThisCheck;
     private bool isClearLastCheck;
-    private float timeSinceLastCheck;
+    private float lastCheckTime;
 
     //
     //  Events
     //
-    public static Action<bool> OnSpawnSafeZoneCleared;
+    public static Action<bool> OnSafeZoneClear;
    
+    //
+    // Initialisation 
+    //
     void Awake()
     {
         col = GetComponent<Collider2D>();
         isClearLastCheck = true;
     }
 
+    //
+    // FixedUpdate and OnTriggerStay2D work in tandem. 
+    //
     private void FixedUpdate()
     {
-        if (Time.time > timeSinceLastCheck + checkInterval)
+        if (Time.time > lastCheckTime + checkInterval)
         {
             if (isClearThisCheck && !isClearLastCheck)
             {
                 Debug.Log("[SpawnSafeZoneManager] Zone is clear");
                 isClearLastCheck = true;
-                if (OnSpawnSafeZoneCleared != null) { OnSpawnSafeZoneCleared(true); }
+                if (OnSafeZoneClear != null) { OnSafeZoneClear(true); }
             }
             isClearThisCheck = true;
-            timeSinceLastCheck = Time.time;
+            lastCheckTime = Time.time;
         }
     }
 
@@ -49,7 +69,7 @@ public class SpawnSafeZoneManager : MonoBehaviour {
         {
             Debug.Log("[SpawnSafeZoneManager] Zone is occupied");
             isClearLastCheck = false;
-            if (OnSpawnSafeZoneCleared != null) { OnSpawnSafeZoneCleared(false); }
+            if (OnSafeZoneClear != null) { OnSafeZoneClear(false); }
         }
     }
 
@@ -61,5 +81,4 @@ public class SpawnSafeZoneManager : MonoBehaviour {
         Gizmos.color = Color.green;
         Gizmos.DrawWireSphere(transform.position, col.GetComponentInChildren<CircleCollider2D>().radius);
     }
-
 }

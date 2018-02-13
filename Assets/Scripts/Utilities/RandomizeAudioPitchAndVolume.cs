@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
 
-//
-// This component adds some randomness to the pitch and volume
-// of the Audiosource component, defined by two sliders in the Inspector
-//
+/// <summary>
+/// This MonoBehaviour adds some randomness to the pitch and volume
+/// of an Audiosource component, defined by two sliders in the Inspector.
+/// </summary>
 
 [RequireComponent(typeof(AudioSource))]
 

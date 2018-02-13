@@ -23,8 +23,9 @@ GameObject:
   - component: {fileID: 199228156677453376}
   - component: {fileID: 82274171642160552}
   - component: {fileID: 114318654557111472}
+  - component: {fileID: 114949619633567434}
   m_Layer: 0
-  m_Name: ExplosionUFO
+  m_Name: Enemy Projectile Explosion
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -52,10 +53,10 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 9cb92918df09f429e94f4da6c22ebc75, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 8966452973455485d959a818ceea7be2, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.4
-  m_Pitch: 0.2
+  m_Volume: 0.2
+  m_Pitch: 0.7
   Loop: 0
   Mute: 0
   Spatialize: 0
@@ -134,7 +135,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16e4e74c798004319b8ba3ea23b5e9df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  secondsBeforeDestroyed: 3
+  secondsBeforeDestroyed: 2
+--- !u!114 &114949619633567434
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1567358503014116}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fa1aee73ceb704a088e61e7b7955dabb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  randomizePitch: 0.2
+  randomizeVolume: 0.2
 --- !u!198 &198150496320683528
 ParticleSystem:
   m_ObjectHideFlags: 1
@@ -142,7 +156,7 @@ ParticleSystem:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1567358503014116}
   serializedVersion: 5
-  lengthInSec: 1.5
+  lengthInSec: 3
   simulationSpeed: 1
   stopAction: 0
   looping: 0
@@ -202,8 +216,8 @@ ParticleSystem:
     startLifetime:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 1.5
-      minScalar: 0.1
+      scalar: 0.2
+      minScalar: 3
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -243,8 +257,8 @@ ParticleSystem:
     startSpeed:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 10
-      minScalar: 0
+      scalar: 5
+      minScalar: 1
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -348,7 +362,7 @@ ParticleSystem:
       serializedVersion: 2
       minMaxState: 3
       scalar: 0.1
-      minScalar: 0.01
+      minScalar: 0.1
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -591,7 +605,7 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
     randomizeRotationDirection: 0
-    maxNumParticles: 500
+    maxNumParticles: 10
     size3D: 0
     rotation3D: 0
     gravityModifier:
@@ -660,7 +674,7 @@ ParticleSystem:
     sphericalDirectionAmount: 0
     randomPositionAmount: 0
     radius:
-      value: 0.5
+      value: 0.01
       mode: 0
       spread: 0
       speed:
@@ -841,7 +855,7 @@ ParticleSystem:
       countCurve:
         serializedVersion: 2
         minMaxState: 0
-        scalar: 500
+        scalar: 10
         minScalar: 0
         maxCurve:
           serializedVersion: 2
@@ -1295,7 +1309,7 @@ ParticleSystem:
     sprites:
     - sprite: {fileID: 0}
   VelocityModule:
-    enabled: 1
+    enabled: 0
     x:
       serializedVersion: 2
       minMaxState: 3
@@ -1462,7 +1476,7 @@ ParticleSystem:
         m_RotationOrder: 4
     inWorldSpace: 1
   InheritVelocityModule:
-    enabled: 1
+    enabled: 0
     m_Mode: 0
     m_Curve:
       serializedVersion: 2
@@ -1848,7 +1862,7 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
   NoiseModule:
-    enabled: 1
+    enabled: 0
     strength:
       serializedVersion: 2
       minMaxState: 0

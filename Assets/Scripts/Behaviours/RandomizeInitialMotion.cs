@@ -1,5 +1,12 @@
 ﻿using UnityEngine;
 
+/// <summary>
+/// This MonoBehaviour applies a user-definable variation
+/// to the gameobject's initial position and rotation,
+/// and optionally applies a random force and torque
+/// to the rigidbody (if one is attached).
+/// </summary>
+
 public class RandomizeInitialMotion : MonoBehaviour {
 
     //
@@ -21,12 +28,18 @@ public class RandomizeInitialMotion : MonoBehaviour {
     private Rigidbody2D rb;
     private Vector3 currentPos;
 
+    //
+    // Initialisation
+    //
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
     }
 
-	void Start () {
+    //
+    // Set transform, apply forces.
+    //
+	private void Start () {
 
         // Add position and rotation variations
         currentPos = transform.position;
@@ -40,7 +53,7 @@ public class RandomizeInitialMotion : MonoBehaviour {
         transform.Rotate(new Vector3(0, 0, rot));
 
         // Give the asteroid random force and torque
-        if (addRandomForce)
+        if (addRandomForce && rb != null)
         {
             float dirX = Random.Range(-1f, 1f);
             float dirY = Random.Range(-1f, 1f);
@@ -49,7 +62,7 @@ public class RandomizeInitialMotion : MonoBehaviour {
             rb.AddRelativeForce(randomVector, ForceMode2D.Impulse);
         }
 
-        if (addRandomTorque)
+        if (addRandomTorque && rb != null)
         {
             rb.AddTorque(Random.Range(-1 * rb.mass, 1 * rb.mass), ForceMode2D.Impulse);
         }

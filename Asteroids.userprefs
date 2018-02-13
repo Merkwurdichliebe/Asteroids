@@ -1,18 +1,5 @@
 ﻿<Properties StartupConfiguration="{644F8B3B-773E-06CE-D89F-7ADA47CB3411}|">
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Behaviours/CloneWhenKilled.cs">
-    <Files>
-      <File FileName="Assets/Scripts/Behaviours/FireProjectile.cs" Line="22" Column="17" />
-      <File FileName="Assets/Scripts/Utilities/ObjectPool.cs" Line="26" Column="14" />
-      <File FileName="Assets/Scripts/Behaviours/InputFromKeyboard.cs" Line="81" Column="9" />
-      <File FileName="Assets/Scripts/Managers/GameManager.cs" Line="42" Column="12" />
-      <File FileName="Assets/Scripts/Behaviours/FireProjectileAtTarget.cs" Line="6" Column="72" />
-      <File FileName="Assets/Scripts/Score/ScoreManager.cs" Line="67" Column="1" />
-      <File FileName="Assets/Scripts/Managers/Spawner.cs" Line="5" Column="14" />
-      <File FileName="Assets/Scripts/Entities/PlayerController.cs" Line="46" Column="27" />
-      <File FileName="Assets/Scripts/Behaviours/RandomizeInitialMotion.cs" Line="21" Column="28" />
-      <File FileName="Assets/Scripts/Behaviours/CloneWhenKilled.cs" Line="25" Column="14" />
-    </Files>
-  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.Workbench />
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />

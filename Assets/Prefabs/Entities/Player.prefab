@@ -40,7 +40,6 @@ GameObject:
   - component: {fileID: 114747288095868216}
   - component: {fileID: 114019090253752360}
   - component: {fileID: 114331243683534090}
-  - component: {fileID: 114975582913275540}
   - component: {fileID: 114860798685419980}
   - component: {fileID: 114128046529340278}
   - component: {fileID: 212654405380309986}
@@ -328,23 +327,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89e5f8616328a43bca5a09dc4ceac894, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &114975582913275540
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1729157800514620}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 03ce3f6790eb54f118f9f552e61b311e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  fragmentPrefab: {fileID: 1368028903164024, guid: 7a759a6485db44e5ba2ffd383754148f,
-    type: 2}
-  fragmentSprites:
-  - {fileID: 21300000, guid: 75d8098e8f9814f53a510973673d8aaa, type: 3}
-  - {fileID: 21300000, guid: 41ff65812447a489791a547e3a57d928, type: 3}
-  - {fileID: 21300000, guid: 88d44c91dfb134b9dabba822c602eda3, type: 3}
 --- !u!212 &212654405380309986
 SpriteRenderer:
   m_ObjectHideFlags: 1

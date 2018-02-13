@@ -37,18 +37,16 @@ public class AIAvoidObstacles : MonoBehaviour {
         // we assume the object is facing the direction it's moving it
         facingDirection = rb.velocity.normalized;
 
-        // Cast two rays at an angle from the front
-        Debug.DrawRay(transform.position, Quaternion.AngleAxis(-detectionAngle, Vector3.forward) * facingDirection * distanceThreshold, Color.white);
-        Debug.DrawRay(transform.position, Quaternion.AngleAxis(detectionAngle, Vector3.forward) * facingDirection * distanceThreshold, Color.white);
-
         // Ray starts from current position,
         // its direction is the direction we're moving in (facingDirection).
         // We rotate it with AngleAxis around the Z axis.
-        if (Physics2D.Raycast(transform.position, Quaternion.AngleAxis(detectionAngle, Vector3.forward) * facingDirection, distanceThreshold, objectsToAvoid))
+        if (Physics2D.Raycast(transform.position, Quaternion.AngleAxis(detectionAngle, Vector3.forward)
+                              * facingDirection, distanceThreshold, objectsToAvoid))
         {
             moveComponent.TurnRight();
         }
-        if (Physics2D.Raycast(transform.position, Quaternion.AngleAxis(-detectionAngle, Vector3.forward) * facingDirection, distanceThreshold, objectsToAvoid))
+        if (Physics2D.Raycast(transform.position, Quaternion.AngleAxis(-detectionAngle, Vector3.forward)
+                              * facingDirection, distanceThreshold, objectsToAvoid))
         {
             moveComponent.TurnLeft();
         }

@@ -19,8 +19,8 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4779557291629498}
+  - component: {fileID: 114125116713938542}
   - component: {fileID: 58210952312669162}
-  - component: {fileID: 114567339472088624}
   m_Layer: 10
   m_Name: SpawnSafeZone
   m_TagString: Untagged
@@ -56,7 +56,7 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 2
---- !u!114 &114567339472088624
+--- !u!114 &114125116713938542
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}

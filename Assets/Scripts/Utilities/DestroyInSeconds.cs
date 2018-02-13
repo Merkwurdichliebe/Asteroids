@@ -1,6 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+
+/// <summary>
+/// This MonoBehaviour destroys a gameobject after a set number of seconds.
+/// </summary>
 
 public class DestroyInSeconds : MonoBehaviour {
 
