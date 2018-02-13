@@ -20,6 +20,7 @@ public class MoveCrossTheScreenThruCenter : MonoBehaviour, IMove
     //
     private Rigidbody2D rb;
     private Vector3 lastVector;
+    private Camera cam;
 
     //
     // Cache a reference to the RigidBody2D 
@@ -31,6 +32,8 @@ public class MoveCrossTheScreenThruCenter : MonoBehaviour, IMove
         {
             Debug.LogError("[MoveCrossTheScreenThruCenter] Requires Rigidbody2D.");
         }
+
+        cam = Camera.main;
     }
 
     //
@@ -54,8 +57,8 @@ public class MoveCrossTheScreenThruCenter : MonoBehaviour, IMove
         // Set z to the negative value of the Camera z position
         // (default Camera is at z = -10)
         //
-        transform.position = Camera.main.ViewportToWorldPoint(
-            new Vector3(x, y, -Camera.main.transform.position.z));
+        transform.position = cam.ViewportToWorldPoint(
+            new Vector3(x, y, -cam.transform.position.z));
         transform.rotation = Quaternion.identity;
 
         MoveForward();

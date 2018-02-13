@@ -15,10 +15,13 @@ public class UIManager : MonoBehaviour {
 
     public static UIManager Instance;
 
+    private Camera cam;
+
     void Awake()
     {
         Instance = this;
         EnableGameUI(false);
+        cam = Camera.main;
     }
 
     void Start()
@@ -80,7 +83,7 @@ void UpdateSpeed(float velocity)
     {
         Text t = Instantiate(textRoaming);
         t.transform.SetParent(canvas.transform, false);
-        t.transform.position = Camera.main.WorldToScreenPoint(obj.transform.position);
+        t.transform.position = cam.WorldToScreenPoint(obj.transform.position);
         t.text = text;
         Destroy(t.gameObject, 1.0f);
     }

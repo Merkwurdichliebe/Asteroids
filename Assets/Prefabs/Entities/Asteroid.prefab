@@ -122,9 +122,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a319a316a56764e21890e2395849dd79, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  randomPositionDelta: 0.3
+  randomizeTransform: 1
+  delta: 0.5
   addRandomForce: 1
+  forceDelta: 1
   addRandomTorque: 1
+  torqueDelta: 1
   levelMultiplier: 0.25
 --- !u!114 &114515587741498028
 MonoBehaviour:

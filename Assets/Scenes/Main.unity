@@ -1034,7 +1034,7 @@ MonoBehaviour:
   spawnableInterfaceIsMandatory: 1
   spawnableObjects:
   - prefab: {fileID: 114922881709890478, guid: d34b63115465242f48024485b4dba654, type: 2}
-    probabilityWeight: 10
+    probabilityWeight: 1
     maxSimultaneousInstances: 1
   - prefab: {fileID: 114302397655917790, guid: 1d1679504999743b89d4ce54966aba00, type: 2}
     probabilityWeight: 1

@@ -34,6 +34,7 @@ public class GameManager : MonoBehaviour
     private GameObject spawnSafeZone;
     private Transform asteroidsParent;
     private readonly Vector2 halfUnit = new Vector2(0.5f, 0.5f);
+    private Camera cam;
 
     // 
     // Properties
@@ -88,6 +89,8 @@ public class GameManager : MonoBehaviour
 
         asteroidsParent = new GameObject().transform;
         asteroidsParent.gameObject.name = "Asteroids";
+
+        cam = Camera.main;
     }
 
 
@@ -199,7 +202,7 @@ public class GameManager : MonoBehaviour
 
             // Set position
             Vector2 pos = Random.insideUnitCircle.normalized + halfUnit;
-            Vector3 worldPos = Camera.main.ViewportToWorldPoint(pos) / 2;
+            Vector3 worldPos = cam.ViewportToWorldPoint(pos) / 2;
             worldPos.z = 0;
             asteroid.gameObject.transform.position = worldPos;
         }

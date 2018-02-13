@@ -1,5 +1,13 @@
 ﻿<Properties StartupConfiguration="{644F8B3B-773E-06CE-D89F-7ADA47CB3411}|">
-  <MonoDevelop.Ide.Workbench />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Behaviours/RandomizeInitialMotion.cs">
+    <Files>
+      <File FileName="Assets/Scripts/Behaviours/DestroyWhenOutsideViewport.cs" Line="14" Column="9" />
+      <File FileName="Assets/Scripts/Managers/GameManager.cs" Line="204" Column="42" />
+      <File FileName="Assets/Scripts/Behaviours/MoveCrossTheScreenThruCenter.cs" Line="61" Column="59" />
+      <File FileName="Assets/Scripts/UI/UIManager.cs" Line="24" Column="27" />
+      <File FileName="Assets/Scripts/Behaviours/RandomizeInitialMotion.cs" Line="7" Column="43" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
