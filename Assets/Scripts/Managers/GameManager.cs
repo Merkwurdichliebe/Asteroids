@@ -232,6 +232,3 @@ public class GameManager : MonoBehaviour
         StopAllCoroutines();
     }
 }
-
-// TODO: powerups
-// TODO: more asteroids sprite variations

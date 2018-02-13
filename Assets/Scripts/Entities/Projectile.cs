@@ -62,7 +62,7 @@ public class Projectile : MonoBehaviour {
     //
     private void OnBecameVisible()
     {
-        Debug.Log("[Projectile/OnBecameVisible]");
+        //** Debug.Log("[Projectile/OnBecameVisible]");
         shouldExplode = explodeOnHit;
     }
 
@@ -71,7 +71,7 @@ public class Projectile : MonoBehaviour {
     //
     private void OnBecameInvisible()
     {
-        Debug.Log("[Projectile/OnBecameInvisible]");
+        //** Debug.Log("[Projectile/OnBecameInvisible]");
         shouldExplode = false;
     }
 

@@ -78,6 +78,8 @@ public class InputFromKeyboard : MonoBehaviour {
             moveComponent.TurnRight();
         }
 
+        // FIXME move fire to child transform and split move and fire controls
+
         if (Input.GetKeyDown(KeyCode.Space))
         {
             fireComponent.Fire();

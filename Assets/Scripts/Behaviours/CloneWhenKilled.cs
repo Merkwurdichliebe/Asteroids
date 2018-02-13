@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using Random = UnityEngine.Random;
 
 /// <summary>
 /// This MonoBehaviour instantiates copies of the gameobject its attached to.
@@ -37,6 +36,7 @@ public class CloneWhenKilled : MonoBehaviour, IKillable {
     //
     private float newScale;
     private int _generation;
+    private Rigidbody2D rb;
 
     //
     // Properties
@@ -47,6 +47,11 @@ public class CloneWhenKilled : MonoBehaviour, IKillable {
         {
             _generation = value;
             gameObject.name = "Asteroid (Generation " + Generation + ")";
+
+            // Make rigidbody mass proportional to the generation.
+            // Smaller asteroids should be less heavy.
+            if (rb != null)
+                rb.mass = 1 / (Generation + 1);
         }
     }
 
@@ -59,6 +64,7 @@ public class CloneWhenKilled : MonoBehaviour, IKillable {
     private void Awake()
     {
         Generation = 0;
+        rb = GetComponent<Rigidbody2D>();
     }
 
     //

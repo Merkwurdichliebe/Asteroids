@@ -5,8 +5,8 @@ public class RandomizeInitialMotion : MonoBehaviour {
     //
     // Inspector fields
     //
-    [Header("Position variations when split")]
-    public float randomPositionDelta = 0.5f;
+    [Header("Position variations when instantiated")]
+    public float delta = 0.5f;
 
     [Header("Forces applied when spawning")]
     public bool addRandomForce = true;
@@ -19,6 +19,7 @@ public class RandomizeInitialMotion : MonoBehaviour {
     // Private fields
     //
     private Rigidbody2D rb;
+    private Vector3 currentPos;
 
     private void Awake()
     {
@@ -26,19 +27,17 @@ public class RandomizeInitialMotion : MonoBehaviour {
     }
 
 	void Start () {
-        // Set the mass to be proportionate to the asteroid size
-        // This makes inter-asteroid collisions more realistic
-        // rb.mass = 1 / (GetComponent<AsteroidController>().Phase + 1);
-        // FIXME where should the above go? Into a new component? (very related to Phase)
 
         // Add position and rotation variations
-        float x = Random.Range(transform.position.x - randomPositionDelta, transform.position.x + randomPositionDelta);
-        float y = Random.Range(transform.position.y - randomPositionDelta, transform.position.y + randomPositionDelta);
+        currentPos = transform.position;
+        float posOffset = Random.Range(-delta, delta);
         float rot = Random.Range(0f, 1f);
 
-        // Set the transform
-        transform.position = new Vector2(x, y);
-        transform.Rotate(new Vector3(0, 0, rot)); // FIXME should look at EulerAngles for transform
+        // Set the transform position to the random delta value
+        transform.position = new Vector2(currentPos.x + posOffset, currentPos.y + posOffset);
+
+        // Rotate the transform by the random rot value around the z axis
+        transform.Rotate(new Vector3(0, 0, rot));
 
         // Give the asteroid random force and torque
         if (addRandomForce)
@@ -55,5 +54,4 @@ public class RandomizeInitialMotion : MonoBehaviour {
             rb.AddTorque(Random.Range(-1 * rb.mass, 1 * rb.mass), ForceMode2D.Impulse);
         }
 	}
-
 }

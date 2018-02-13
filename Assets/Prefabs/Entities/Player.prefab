@@ -20,7 +20,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4031679361654200}
   m_Layer: 9
-  m_Name: AnchorMainGun
+  m_Name: Main Gun
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -328,8 +328,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89e5f8616328a43bca5a09dc4ceac894, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  xRange: 9
-  yRange: 5
 --- !u!114 &114975582913275540
 MonoBehaviour:
   m_ObjectHideFlags: 1
