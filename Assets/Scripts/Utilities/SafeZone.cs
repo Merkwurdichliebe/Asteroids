@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 /// <summary>
 /// This MonoBehaviour checks for collisions with an attached trigger collider.
@@ -30,10 +31,13 @@ public class SafeZone : MonoBehaviour {
     private bool isClearLastCheck;
     private float lastCheckTime;
 
+    private float maximumIdleTime = 0.1f;
+    private float timeAtEnabled;
+
     //
     //  Events
     //
-    public static Action<bool> OnSafeZoneClear;
+    public static Action<bool, Vector2> OnSafeZoneClear;
    
     //
     // Initialisation 
@@ -42,6 +46,12 @@ public class SafeZone : MonoBehaviour {
     {
         col = GetComponent<Collider2D>();
         isClearLastCheck = true;
+    }
+
+    private void OnEnable()
+    {
+        timeAtEnabled = Time.time;
+        transform.position = Vector2.zero;
     }
 
     //
@@ -55,12 +65,12 @@ public class SafeZone : MonoBehaviour {
             {
                 Debug.Log("[SpawnSafeZoneManager] Zone is clear");
                 isClearLastCheck = true;
-                if (OnSafeZoneClear != null) { OnSafeZoneClear(true); }
+                if (OnSafeZoneClear != null) { OnSafeZoneClear(true, transform.position); }
             }
             isClearThisCheck = true;
             lastCheckTime = Time.time;
         }
-    }
+}
 
     private void OnTriggerStay2D(Collider2D collision)
     {
@@ -69,7 +79,14 @@ public class SafeZone : MonoBehaviour {
         {
             Debug.Log("[SpawnSafeZoneManager] Zone is occupied");
             isClearLastCheck = false;
-            if (OnSafeZoneClear != null) { OnSafeZoneClear(false); }
+            if (OnSafeZoneClear != null) { OnSafeZoneClear(false, transform.position); }
+        }
+        if (Time.time > timeAtEnabled + maximumIdleTime)
+        {
+            float _posX = Random.Range(-3f, 3f);
+            float _posY = Random.Range(-3f, 3f);
+            gameObject.transform.position = new Vector2(_posX, _posY);
+            timeAtEnabled = Time.time;
         }
     }
 

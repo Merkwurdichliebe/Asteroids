@@ -25,6 +25,7 @@ public class PlayerController : Entity, IKillable
     private bool _activeInScene;
     private IMove moveComponent;
     private IFire fireComponent;
+    private Vector2 spawnPosition;
 
     //
     // Property: Player active in scene.
@@ -93,6 +94,7 @@ public class PlayerController : Entity, IKillable
         moveComponent = GetComponent<IMove>();
         fireComponent = GetComponent<IFire>();
         centerIsClear = true;
+        spawnPosition = Vector2.zero;
     }
 
     //
@@ -111,7 +113,11 @@ public class PlayerController : Entity, IKillable
     //
     // Event handler for when the center spawn safe zone is clear.
     //
-    void HandleCenterIsClear(bool clear) { centerIsClear = clear; }
+    void HandleCenterIsClear(bool clear, Vector2 zonePosition)
+    {
+        centerIsClear = clear;
+        spawnPosition = zonePosition;
+    }
 
 
     //
@@ -172,7 +178,7 @@ public class PlayerController : Entity, IKillable
     public void Spawn()
     {
         ActiveInScene = true;
-        transform.position = new Vector2(0, 0);
+        transform.position = spawnPosition;
         transform.rotation = Quaternion.identity;
         rb.velocity = Vector2.zero;
     }

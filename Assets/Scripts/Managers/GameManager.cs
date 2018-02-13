@@ -70,7 +70,7 @@ public class GameManager : MonoBehaviour
         CurrentLevel = startWithLevel;
 
         // Create the Player spawn safe zone
-        spawnSafeZone = Instantiate(spawnSafeZonePrefab, Vector2.zero, Quaternion.identity);
+        spawnSafeZone = Instantiate(spawnSafeZonePrefab);
         UIManager ui = GetComponent<UIManager>();
         if (ui != null) ui.enabled = true;
 
