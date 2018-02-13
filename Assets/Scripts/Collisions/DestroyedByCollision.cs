@@ -18,11 +18,12 @@ public class DestroyedByCollision : MonoBehaviour
     // Destroy this and other object if colliding with enemy or the player.
     void OnCollisionEnter2D(Collision2D collision)
     {
+        // FIXME do this without Contains
         if (hostileTags.Contains(collision.gameObject.tag))
         {
-            foreach (IKillable killable in killables)
+            for (int i = 0; i < killables.Length; i++)
             {
-                killable.Kill();
+                killables[i].Kill();
             }
         }
     }

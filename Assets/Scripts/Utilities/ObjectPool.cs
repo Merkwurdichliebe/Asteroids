@@ -50,8 +50,7 @@ public class ObjectPool : MonoBehaviour {
         {
             for (int i = 0; i < item.amountToPool; i++)
             {
-                GameObject obj = (GameObject)Instantiate(item.objectToPool);
-                obj.transform.SetParent(parent);
+                GameObject obj = (GameObject)Instantiate(item.objectToPool, parent);
                 obj.SetActive(false);
                 pooledObjects.Add(obj);
             }

@@ -6,7 +6,7 @@ public class PowerUpBonusLife : Entity {
 
     void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.tag == "Player")
+        if (collision.gameObject.CompareTag("Player"))
         {
             Instantiate(pickUpFX, transform.position, Quaternion.identity);
             collision.GetComponent<PlayerController>().Lives += 1;

@@ -77,10 +77,9 @@ public class CloneWhenKilled : MonoBehaviour, IKillable {
         
         for (int i = 0; i < numberOfClones; i++)
         {
-            CloneWhenKilled clone = Instantiate(SourcePrefab, Vector2.zero, Quaternion.identity);
+            CloneWhenKilled clone = Instantiate(SourcePrefab, Vector2.zero, Quaternion.identity, transform.parent);
             clone.SourcePrefab = SourcePrefab;
             clone.gameObject.transform.position = transform.position;
-            clone.gameObject.transform.SetParent(transform.parent);
             clone.Generation = Generation + 1;
             newScale = Mathf.Pow(scalingFactor, Generation + 1);
             clone.transform.localScale = new Vector3(newScale, newScale, 1);

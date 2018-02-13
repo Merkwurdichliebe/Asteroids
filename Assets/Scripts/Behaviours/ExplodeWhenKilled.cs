@@ -18,8 +18,7 @@ public class ExplodeWhenKilled : MonoBehaviour, IKillable
     //
     public void Kill()
     {
-        Transform obj = Instantiate(explosionPrefab, transform.position, Quaternion.identity).transform;
-        obj.SetParent(transform.parent);
+        Instantiate(explosionPrefab, transform.position, Quaternion.identity, transform.parent);
         if (destroyObjectOnExplosion)
         {
             Destroy(gameObject);

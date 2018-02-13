@@ -196,9 +196,8 @@ public class GameManager : MonoBehaviour
         for (int i = 0; i < count; i++)
         {
             // Instantiate
-            CloneWhenKilled asteroid = Instantiate(asteroidPrefab, Vector2.zero, Quaternion.identity);
+            CloneWhenKilled asteroid = Instantiate(asteroidPrefab, Vector2.zero, Quaternion.identity, asteroidsParent.transform);
             asteroid.SourcePrefab = asteroidPrefab;
-            asteroid.gameObject.transform.SetParent(asteroidsParent.transform);
 
             // Set position
             Vector2 pos = Random.insideUnitCircle.normalized + halfUnit;
