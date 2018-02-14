@@ -168,6 +168,9 @@ MonoBehaviour:
   hostileTags:
   - Enemy
   - Player
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 8960
 --- !u!114 &114533033923400928
 MonoBehaviour:
   m_ObjectHideFlags: 1

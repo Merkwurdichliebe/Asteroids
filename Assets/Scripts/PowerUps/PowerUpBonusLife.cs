@@ -1,16 +1,7 @@
-﻿using UnityEngine;
+﻿public class PowerUpBonusLife : PowerUp {
 
-public class PowerUpBonusLife : Entity {
-
-    public GameObject pickUpFX;
-
-    void OnTriggerEnter2D(Collider2D collision)
+    protected override void ApplyEffect()
     {
-        if (collision.gameObject.CompareTag("Player"))
-        {
-            Instantiate(pickUpFX, transform.position, Quaternion.identity);
-            collision.GetComponent<PlayerController>().Lives += 1;
-            Destroy(gameObject);
-        }
+        recipient.GetComponent<PlayerController>().Lives += 1;
     }
 }

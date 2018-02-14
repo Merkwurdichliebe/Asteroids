@@ -35,6 +35,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4295787746578802}
   - component: {fileID: 114579725366848430}
+  - component: {fileID: 114481387612254186}
   - component: {fileID: 114450025990637772}
   - component: {fileID: 114416720915243778}
   - component: {fileID: 114747288095868216}
@@ -302,6 +303,9 @@ MonoBehaviour:
   hostileTags:
   - Asteroid
   - Enemy
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 6400
 --- !u!114 &114128046529340278
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -353,6 +357,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   discreteKeyInput: 0
+--- !u!114 &114481387612254186
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1729157800514620}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67ca9d39620d54e9e97ca1ab2aab1904, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  forward: 273
+  left: 276
+  right: 275
+  fire: 32
 --- !u!114 &114579725366848430
 MonoBehaviour:
   m_ObjectHideFlags: 1

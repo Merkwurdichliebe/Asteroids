@@ -894,14 +894,14 @@ MonoBehaviour:
   startWithPlayerLives: 10
   spawnAsteroids: 1
   spawnPlayer: 1
-  playLevelIntro: 1
+  playLevelIntro: 0
 --- !u!82 &2104122571
 AudioSource:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2104122567}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 4dc1a31445a804e10bc4db86adf25ea9, type: 3}
@@ -1034,13 +1034,13 @@ MonoBehaviour:
   spawnableInterfaceIsMandatory: 1
   spawnableObjects:
   - prefab: {fileID: 114922881709890478, guid: d34b63115465242f48024485b4dba654, type: 2}
-    probabilityWeight: 4
+    probabilityWeight: 6
     maxSimultaneousInstances: 1
-  - prefab: {fileID: 114302397655917790, guid: 1d1679504999743b89d4ce54966aba00, type: 2}
+  - prefab: {fileID: 114710552218260218, guid: 1d1679504999743b89d4ce54966aba00, type: 2}
     probabilityWeight: 1
     maxSimultaneousInstances: 1
-  - prefab: {fileID: 114094937912777754, guid: 36283d6135ae640cf9f58b72edb7b64e, type: 2}
-    probabilityWeight: 4
+  - prefab: {fileID: 114859184589572440, guid: 36283d6135ae640cf9f58b72edb7b64e, type: 2}
+    probabilityWeight: 2
     maxSimultaneousInstances: 1
 --- !u!114 &2104122577
 MonoBehaviour:

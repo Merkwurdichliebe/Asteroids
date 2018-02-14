@@ -7,12 +7,12 @@ public class ScoreControllerAsteroid : ScoreController {
     //
     // Private fields
     //
-    private CloneWhenKilled cloneBehaviour;
+    private CloneWhenKilled clone;
 
     private void Awake()
     {
-        cloneBehaviour = GetComponent<CloneWhenKilled>();
-        if (cloneBehaviour == null)
+        clone = GetComponent<CloneWhenKilled>();
+        if (clone == null)
         {
             Debug.LogError("[ScoreConstrollerAsteroid] needs a CloneWhenKilled attached.");
         }
@@ -20,9 +20,9 @@ public class ScoreControllerAsteroid : ScoreController {
 
     public override void ScorePoints()
     {
-        if (cloneBehaviour != null && OnScorePoints != null)
+        if (clone != null && OnScorePoints != null)
         {
-            int points = basePointValue * (cloneBehaviour.Generation + 1);
+            int points = basePointValue * (clone.Generation + 1);
             OnScorePoints(this.gameObject, points, displayPointsLocally);
         }
     }

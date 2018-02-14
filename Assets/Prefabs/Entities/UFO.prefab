@@ -225,6 +225,9 @@ MonoBehaviour:
   hostileTags:
   - Asteroid
   - Player
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 10240
 --- !u!114 &114374005573765794
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -326,7 +329,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   firingInterval: 3
-  firingIntervalLevelMultiplier: 1.5
 --- !u!212 &212228801216567472
 SpriteRenderer:
   m_ObjectHideFlags: 1

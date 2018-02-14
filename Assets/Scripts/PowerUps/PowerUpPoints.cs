@@ -1,16 +1,7 @@
-﻿using UnityEngine;
-
-public class PowerUpPoints : Entity {
-
-    public GameObject pickUpFX;
-
-    void OnTriggerEnter2D(Collider2D collision)
+﻿public class PowerUpPoints : PowerUp {
+    
+    protected override void ApplyEffect()
     {
-        if (collision.gameObject.CompareTag("Player"))
-        {
-            Instantiate(pickUpFX, transform.position, Quaternion.identity);
-            GetComponent<ScoreController>().ScorePoints();
-            Destroy(gameObject);
-        }
+        GetComponent<ScoreController>().ScorePoints();
     }
 }

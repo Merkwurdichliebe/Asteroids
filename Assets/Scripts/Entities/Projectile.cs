@@ -19,6 +19,7 @@ public class Projectile : MonoBehaviour {
     //
     private Rigidbody2D rb;
     private bool shouldExplode;
+    private float timeAtStart;
 
     //
     // Initialisation 
@@ -33,27 +34,24 @@ public class Projectile : MonoBehaviour {
     }
 
     //
-    // Launch the projectile immediately after it's instantiated and enabled. 
+    // Launch the projectile.
+    // We do this in OnEnable because projectiles are pooled.
     //
     void OnEnable()
     {
-        StartCoroutine(Launch());
+        timeAtStart = Time.time;
+        rb.AddRelativeForce(Vector2.up * speed / 10, ForceMode2D.Impulse);
     }
 
     //
     // Deactivate the projectile when its lifespan has been reached.
-    // Instantiate an explosion if necessary. Then deactivate the object
-    // so that it can be reused by ObjectPool.
     //
-    IEnumerator Launch()
+    private void Update()
     {
-        rb.AddRelativeForce(Vector2.up * speed / 10, ForceMode2D.Impulse);
-        yield return new WaitForSeconds(lifespan);
-        if (shouldExplode)
+        if (Time.time - timeAtStart > lifespan)
         {
-            Instantiate(explosion, transform.position, Quaternion.identity);
+            Destroy();
         }
-        gameObject.SetActive(false);
     }
 
     //
@@ -62,7 +60,6 @@ public class Projectile : MonoBehaviour {
     //
     private void OnBecameVisible()
     {
-        //** Debug.Log("[Projectile/OnBecameVisible]");
         shouldExplode = explodeOnHit;
     }
 
@@ -71,7 +68,6 @@ public class Projectile : MonoBehaviour {
     //
     private void OnBecameInvisible()
     {
-        //** Debug.Log("[Projectile/OnBecameInvisible]");
         shouldExplode = false;
     }
 
@@ -80,7 +76,16 @@ public class Projectile : MonoBehaviour {
     // check if it should explode and deactivate it
     // so that it can be reused by ObjectPool.
     //
-    void OnTriggerEnter2D(Collider2D collision)
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        Destroy();
+    }
+
+    //
+    // Instantiate an explosion if necessary. Then deactivate the object
+    // so that it can be reused by ObjectPool.
+    //
+    private void Destroy()
     {
         if (shouldExplode)
         {

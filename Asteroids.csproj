@@ -315,6 +315,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Scripts\_Tests\Command.cs" />
+    <Compile Include="Assets\Scripts\_Tests\CommandFire.cs" />
+    <Compile Include="Assets\Scripts\_Tests\UserInput.cs" />
     <Compile Include="Assets\Scripts\Behaviours\AIAvoidObstacles.cs" />
     <Compile Include="Assets\Scripts\Behaviours\CloneWhenKilled.cs" />
     <Compile Include="Assets\Scripts\Behaviours\DestroyWhenOutsideViewport.cs" />
@@ -341,6 +344,7 @@
     <Compile Include="Assets\Scripts\Managers\PlayerAudioManager.cs" />
     <Compile Include="Assets\Scripts\Managers\Spawner.cs" />
     <Compile Include="Assets\Scripts\Managers\UFOAudioManager.cs" />
+    <Compile Include="Assets\Scripts\PowerUps\PowerUp.cs" />
     <Compile Include="Assets\Scripts\PowerUps\PowerUpBonusLife.cs" />
     <Compile Include="Assets\Scripts\PowerUps\PowerUpPoints.cs" />
     <Compile Include="Assets\Scripts\PowerUps\Spawnable.cs" />

@@ -98,7 +98,6 @@ public class GameManager : MonoBehaviour
     void OnEnable()
     {
         KeepInstancesCount.OnLastDestroyed += CheckLastDestroyed;
-        PlayerController.OnPlayerLivesZero += Cleanup;
         PlayerController.OnPlayerSpawned += DisableSafeZone;
         PlayerController.OnPlayerDestroyed += EnableSafeZone;
         PlayerController.OnPlayerDespawned += EnableSafeZone;
@@ -108,7 +107,6 @@ public class GameManager : MonoBehaviour
 
     void OnDisable()
     {
-        PlayerController.OnPlayerLivesZero -= Cleanup;
         KeepInstancesCount.OnLastDestroyed -= CheckLastDestroyed;
         PlayerController.OnPlayerSpawned -= DisableSafeZone;
         PlayerController.OnPlayerDestroyed -= EnableSafeZone;
@@ -162,7 +160,6 @@ public class GameManager : MonoBehaviour
         Instantiate(cometPrefab);
         yield return new WaitForSeconds(3);
         if (OnGameLevelStart != null) { OnGameLevelStart(); }
-        UIManager.Instance.DisplayGameUI();
         StartNextLevel();
     }
 
@@ -172,6 +169,7 @@ public class GameManager : MonoBehaviour
     //
     void StartNextLevel()
     {
+        UIManager.Instance.DisplayGameUI();
         spawnSafeZone.SetActive(true);
         if (spawnAsteroids) {
             SpawnAsteroids(startWithAsteroids + CurrentLevel - 1);
@@ -227,8 +225,5 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    void Cleanup()
-    {
-        StopAllCoroutines();
-    }
+
 }
