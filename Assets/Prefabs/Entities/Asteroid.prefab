@@ -22,10 +22,9 @@ GameObject:
   - component: {fileID: 114533033923400928}
   - component: {fileID: 114518750635051772}
   - component: {fileID: 114351796837842282}
-  - component: {fileID: 114691825597835066}
   - component: {fileID: 114100902338733286}
   - component: {fileID: 114522971740998954}
-  - component: {fileID: 114957409315236638}
+  - component: {fileID: 114691825597835066}
   - component: {fileID: 114515587741498028}
   - component: {fileID: 114200468601164074}
   - component: {fileID: 212291358676762358}
@@ -165,12 +164,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8528d94e846414ce8ba232d5c763890c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hostileTags:
-  - Enemy
-  - Player
-  layerMask:
+  isDestroyedBy:
     serializedVersion: 2
     m_Bits: 8960
+  scoresPointsIfDestroyedBy:
+    serializedVersion: 2
+    m_Bits: 8192
 --- !u!114 &114533033923400928
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -207,18 +206,6 @@ MonoBehaviour:
   numberOfClones: 2
   generationsMax: 2
   scalingFactor: 0.6
---- !u!114 &114957409315236638
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1675515984352900}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0375e813909a548f1b21e72005088221, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  projectileType: 0
 --- !u!212 &212291358676762358
 SpriteRenderer:
   m_ObjectHideFlags: 1

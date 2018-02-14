@@ -320,6 +320,7 @@
     <Compile Include="Assets\Scripts\_Tests\UserInput.cs" />
     <Compile Include="Assets\Scripts\Behaviours\AIAvoidObstacles.cs" />
     <Compile Include="Assets\Scripts\Behaviours\CloneWhenKilled.cs" />
+    <Compile Include="Assets\Scripts\Behaviours\DestroyedByCollision.cs" />
     <Compile Include="Assets\Scripts\Behaviours\DestroyWhenOutsideViewport.cs" />
     <Compile Include="Assets\Scripts\Behaviours\ExplodeWhenKilled.cs" />
     <Compile Include="Assets\Scripts\Behaviours\FireProjectile.cs" />
@@ -330,8 +331,6 @@
     <Compile Include="Assets\Scripts\Behaviours\MovePlayerControlled.cs" />
     <Compile Include="Assets\Scripts\Behaviours\RandomizeInitialMotion.cs" />
     <Compile Include="Assets\Scripts\Behaviours\SetRandomSpriteOnAwake.cs" />
-    <Compile Include="Assets\Scripts\Collisions\DestroyedByCollision.cs" />
-    <Compile Include="Assets\Scripts\Collisions\DestroyedByProjectile.cs" />
     <Compile Include="Assets\Scripts\Entities\Entity.cs" />
     <Compile Include="Assets\Scripts\Entities\PlayerController.cs" />
     <Compile Include="Assets\Scripts\Entities\Projectile.cs" />

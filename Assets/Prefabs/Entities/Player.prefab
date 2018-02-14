@@ -40,7 +40,6 @@ GameObject:
   - component: {fileID: 114416720915243778}
   - component: {fileID: 114747288095868216}
   - component: {fileID: 114019090253752360}
-  - component: {fileID: 114331243683534090}
   - component: {fileID: 114860798685419980}
   - component: {fileID: 114128046529340278}
   - component: {fileID: 212654405380309986}
@@ -300,12 +299,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8528d94e846414ce8ba232d5c763890c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hostileTags:
-  - Asteroid
-  - Enemy
-  layerMask:
+  isDestroyedBy:
     serializedVersion: 2
     m_Bits: 6400
+  scoresPointsIfDestroyedBy:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!114 &114128046529340278
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -319,18 +318,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   destroyed: {fileID: 8300000, guid: f96550c7e73a74f4db42faa9d351b6c2, type: 3}
   engine: {fileID: 8300000, guid: 1480f96f6d60a448b8d19eecf51a32e4, type: 3}
---- !u!114 &114331243683534090
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1729157800514620}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0375e813909a548f1b21e72005088221, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  projectileType: 1
 --- !u!114 &114416720915243778
 MonoBehaviour:
   m_ObjectHideFlags: 1

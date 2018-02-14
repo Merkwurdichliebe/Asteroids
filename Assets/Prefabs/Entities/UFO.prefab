@@ -24,7 +24,6 @@ GameObject:
   - component: {fileID: 114811995898526576}
   - component: {fileID: 114986385336347954}
   - component: {fileID: 114250491376626882}
-  - component: {fileID: 114190891522283650}
   - component: {fileID: 114532352423665040}
   - component: {fileID: 114374005573765794}
   - component: {fileID: 114789504660979824}
@@ -199,18 +198,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 2
---- !u!114 &114190891522283650
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1839108818726510}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0375e813909a548f1b21e72005088221, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  projectileType: 0
 --- !u!114 &114250491376626882
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -222,12 +209,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8528d94e846414ce8ba232d5c763890c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hostileTags:
-  - Asteroid
-  - Player
-  layerMask:
+  isDestroyedBy:
     serializedVersion: 2
-    m_Bits: 10240
+    m_Bits: 10752
+  scoresPointsIfDestroyedBy:
+    serializedVersion: 2
+    m_Bits: 8704
 --- !u!114 &114374005573765794
 MonoBehaviour:
   m_ObjectHideFlags: 1

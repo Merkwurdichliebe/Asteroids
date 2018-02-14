@@ -1,8 +1,10 @@
 ﻿<Properties StartupConfiguration="{644F8B3B-773E-06CE-D89F-7ADA47CB3411}|">
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Score/ScoreControllerAsteroid.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Collisions/DestroyedByProjectile.cs">
     <Files>
-      <File FileName="Assets/Scripts/Score/ScoreControllerAsteroid.cs" Line="5" Column="48" />
-      <File FileName="Assets/Scripts/Score/ScoreController.cs" Line="4" Column="14" />
+      <File FileName="Assets/Scripts/Score/ScoreControllerAsteroid.cs" Line="10" Column="35" />
+      <File FileName="Assets/Scripts/Score/ScoreController.cs" Line="12" Column="1" />
+      <File FileName="Assets/Scripts/Entities/Projectile.cs" Line="79" Column="48" />
+      <File FileName="Assets/Scripts/Collisions/DestroyedByProjectile.cs" Line="11" Column="35" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />

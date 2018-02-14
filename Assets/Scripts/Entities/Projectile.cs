@@ -76,7 +76,7 @@ public class Projectile : MonoBehaviour {
     // check if it should explode and deactivate it
     // so that it can be reused by ObjectPool.
     //
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void OnCollisionEnter2D(Collision2D collision)
     {
         Destroy();
     }
