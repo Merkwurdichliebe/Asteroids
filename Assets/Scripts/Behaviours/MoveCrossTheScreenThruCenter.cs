@@ -63,7 +63,7 @@
             lastVector = vector;
 
             // Move towards center of screen
-            rb.AddForce(vector * speed);
+            rb.velocity = vector * speed;
         }
 
         public void Stop()
@@ -83,19 +83,14 @@
         public void TurnLeft()
         {
             Vector3 newVector = new Vector3(-lastVector.y, lastVector.x);
-            rb.AddForce(newVector * speed);
+            rb.velocity = newVector * speed;
             lastVector = newVector;
         }
 
         public void TurnRight()
         {
             Vector3 newVector = new Vector3(lastVector.y, -lastVector.x);
-            rb.AddForce(newVector * speed);
+            rb.velocity = newVector * speed;
             lastVector = newVector;
-        }
-
-        private void FixedUpdate()
-        {
-            rb.velocity = lastVector.normalized * speed;
         }
     }
