@@ -890,11 +890,11 @@ MonoBehaviour:
   cometPrefab: {fileID: 1661287572815834, guid: 8972d0ae4b3ed4753ae706c86a3f2d2a,
     type: 2}
   startWithLevel: 1
-  startWithAsteroids: 10
+  startWithAsteroids: 4
   startWithPlayerLives: 10
   spawnAsteroids: 1
-  spawnPlayer: 0
-  playLevelIntro: 0
+  spawnPlayer: 1
+  playLevelIntro: 1
 --- !u!82 &2104122571
 AudioSource:
   m_ObjectHideFlags: 0
@@ -1034,14 +1034,14 @@ MonoBehaviour:
   spawnableInterfaceIsMandatory: 1
   spawnableObjects:
   - prefab: {fileID: 114922881709890478, guid: d34b63115465242f48024485b4dba654, type: 2}
-    probabilityWeight: 8
+    probabilityWeight: 1
     maxSimultaneousInstances: 1
   - prefab: {fileID: 114710552218260218, guid: 1d1679504999743b89d4ce54966aba00, type: 2}
     probabilityWeight: 1
-    maxSimultaneousInstances: 1
+    maxSimultaneousInstances: 2
   - prefab: {fileID: 114859184589572440, guid: 36283d6135ae640cf9f58b72edb7b64e, type: 2}
     probabilityWeight: 1
-    maxSimultaneousInstances: 1
+    maxSimultaneousInstances: 2
 --- !u!114 &2104122577
 MonoBehaviour:
   m_ObjectHideFlags: 0

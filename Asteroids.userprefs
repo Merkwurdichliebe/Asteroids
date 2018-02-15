@@ -1,7 +1,7 @@
 ﻿<Properties StartupConfiguration="{644F8B3B-773E-06CE-D89F-7ADA47CB3411}|">
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Managers/GameOverManager.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Behaviours/MoveCrossTheScreenThruCenter.cs">
     <Files>
-      <File FileName="Assets/Scripts/Behaviours/MoveCrossTheScreenThruCenter.cs" Line="19" Column="26" />
+      <File FileName="Assets/Scripts/Behaviours/MoveCrossTheScreenThruCenter.cs" Line="63" Column="36" />
       <File FileName="Assets/Scripts/Behaviours/AIAvoidObstacles.cs" Line="1" Column="1" />
       <File FileName="Assets/Scripts/_Tests/Command.cs" Line="7" Column="1" />
       <File FileName="Assets/Scripts/_Tests/CommandFire.cs" Line="9" Column="2" />
