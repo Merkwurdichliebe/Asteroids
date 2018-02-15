@@ -1,10 +1,15 @@
 ﻿<Properties StartupConfiguration="{644F8B3B-773E-06CE-D89F-7ADA47CB3411}|">
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Collisions/DestroyedByProjectile.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Managers/GameOverManager.cs">
     <Files>
-      <File FileName="Assets/Scripts/Score/ScoreControllerAsteroid.cs" Line="10" Column="35" />
-      <File FileName="Assets/Scripts/Score/ScoreController.cs" Line="12" Column="1" />
-      <File FileName="Assets/Scripts/Entities/Projectile.cs" Line="79" Column="48" />
-      <File FileName="Assets/Scripts/Collisions/DestroyedByProjectile.cs" Line="11" Column="35" />
+      <File FileName="Assets/Scripts/Behaviours/MoveCrossTheScreenThruCenter.cs" Line="19" Column="26" />
+      <File FileName="Assets/Scripts/Behaviours/AIAvoidObstacles.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/_Tests/Command.cs" Line="7" Column="1" />
+      <File FileName="Assets/Scripts/_Tests/CommandFire.cs" Line="9" Column="2" />
+      <File FileName="Assets/Scripts/_Tests/UserInput.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Managers/GameOverManager.cs" Line="12" Column="9" />
+      <File FileName="Assets/Scripts/Managers/GameManager.cs" Line="151" Column="70" />
+      <File FileName="Assets/Scripts/Score/BonusLifeAtPoints.cs" Line="34" Column="2" />
+      <File FileName="Assets/Scripts/Managers/UFOAudioManager.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />

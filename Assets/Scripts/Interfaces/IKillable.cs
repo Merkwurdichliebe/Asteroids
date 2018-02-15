@@ -2,7 +2,7 @@
 
 public interface IKillable {
 
-    GameObject gameObject { get; }
+    // FIXME do we need this?
+    // GameObject gameObject { get; }
     void Kill();
-
 }

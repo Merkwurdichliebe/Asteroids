@@ -98,6 +98,8 @@ public class Spawner : MonoBehaviour
         {
             Debug.LogError("[Spawner] Contains no prefabs.");
         }
+
+        EnableSpawner();
     }
 
     //

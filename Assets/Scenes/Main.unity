@@ -390,7 +390,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Announce
+  m_Text: 
 --- !u!222 &845520243
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1030,17 +1030,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   secondsBetweenSpawns: 4
-  overallSpawnProbability: 0.5
+  overallSpawnProbability: 1
   spawnableInterfaceIsMandatory: 1
   spawnableObjects:
   - prefab: {fileID: 114922881709890478, guid: d34b63115465242f48024485b4dba654, type: 2}
-    probabilityWeight: 6
+    probabilityWeight: 1
     maxSimultaneousInstances: 1
   - prefab: {fileID: 114710552218260218, guid: 1d1679504999743b89d4ce54966aba00, type: 2}
     probabilityWeight: 1
     maxSimultaneousInstances: 1
   - prefab: {fileID: 114859184589572440, guid: 36283d6135ae640cf9f58b72edb7b64e, type: 2}
-    probabilityWeight: 2
+    probabilityWeight: 1
     maxSimultaneousInstances: 1
 --- !u!114 &2104122577
 MonoBehaviour:

@@ -148,7 +148,7 @@ public class GameManager : MonoBehaviour
             StartNextLevel();
     }
 
-    //
+    // FIXME go to next level when asteroids zero even when no player
     // 
     //
     IEnumerator ReadyNextLevel()
@@ -215,8 +215,6 @@ public class GameManager : MonoBehaviour
     {
         if (Player != null)
         {
-            // Debug.Log("[GameManager/CheckLevelCleared] Asteroids " +
-            //         AsteroidController.Count + " Spawner " + spawner.TotalCount);
             if (Player.Lives != 0)
             {
                 CurrentLevel += 1;
@@ -224,6 +222,4 @@ public class GameManager : MonoBehaviour
             }
         }
     }
-
-
 }
