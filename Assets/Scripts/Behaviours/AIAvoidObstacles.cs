@@ -45,10 +45,18 @@ public class AIAvoidObstacles : MonoBehaviour {
         {
             moveComponent.TurnRight();
         }
-        if (Physics2D.Raycast(transform.position, Quaternion.AngleAxis(-detectionAngle, Vector3.forward)
+        else if (Physics2D.Raycast(transform.position, Quaternion.AngleAxis(-detectionAngle, Vector3.forward)
                               * facingDirection, distanceThreshold, objectsToAvoid))
         {
             moveComponent.TurnLeft();
         }
+        else if (Physics2D.Raycast(transform.position, facingDirection, distanceThreshold, objectsToAvoid))
+        {
+            moveComponent.TurnLeft(); // FIXME turning left when something straight ahead is silly
+        }
+        //else
+        //{
+        //    moveComponent.MoveForward();
+        //}
     }
 }

@@ -6,6 +6,8 @@
 /// "Moving forward" means moving towards the center of the screen.
 /// </summary>
 
+public enum State { MovingForward, Turning, Stopped }
+
 [RequireComponent(typeof(Rigidbody2D))]
 
 public class MoveCrossTheScreenThruCenter : MonoBehaviour, IMove
@@ -19,8 +21,9 @@ public class MoveCrossTheScreenThruCenter : MonoBehaviour, IMove
     // Private fields
     //
     private Rigidbody2D rb;
-    private Vector3 newVector;
+    private Vector2 newVector;
     private Camera cam;
+    private State currentState;
 
     //
     // Initialisation
@@ -46,9 +49,12 @@ public class MoveCrossTheScreenThruCenter : MonoBehaviour, IMove
         // Set the transform
         // Set z to the negative value of the Camera z position
         // (default Camera is at z = -10)
-        transform.position = cam.ViewportToWorldPoint(
-            new Vector3(x, y, -cam.transform.position.z));
+        transform.position = cam.ViewportToWorldPoint(new Vector3(x, y, -cam.transform.position.z));
         transform.rotation = Quaternion.identity;
+
+        // Calculate vector to World center.
+        Vector3 vector = (Vector3.zero - transform.position).normalized;
+        newVector = vector * speed;
 
         MoveForward();
 	}
@@ -58,40 +64,53 @@ public class MoveCrossTheScreenThruCenter : MonoBehaviour, IMove
     //
     public void MoveForward()
     {
-        // Calculate vector to World center.
-        Vector3 vector = (Vector3.zero - transform.position).normalized;
-        newVector = vector * speed;
-
         // Move towards center of screen
-        rb.velocity = vector;
+        rb.velocity = newVector;
+
+        currentState = State.MovingForward;
+        //Debug.Log(string.Format("Moving Forward, new vector: {0}", newVector));
     }
 
     public void Stop()
     {
         rb.velocity = Vector3.zero;
+        currentState = State.Stopped;
     }
 
     //
     // Easiest way to calculate a vector pointing right or left
     // from current movement is to exchange x and y
     // while inverting the sign of one of them, regardless of magnitude.
-    // This is a bit sloppy, so we normalize the resulting vector
-    // in FixedUpdate.
     //
-    // FIXME make the UFO turn gradually
 
     public void TurnLeft()
     {
-        newVector = new Vector3(-rb.velocity.y, rb.velocity.x) * speed;
+        newVector = new Vector3(-rb.velocity.y, rb.velocity.x);
+        currentState = State.Turning;
+        //Debug.Log(string.Format("Turning Left, new vector: {0}", newVector));
     }
 
     public void TurnRight()
     {
-        newVector = new Vector3(rb.velocity.y, -rb.velocity.x) * speed;
+        newVector = new Vector3(rb.velocity.y, -rb.velocity.x);
+        currentState = State.Turning;
     }
 
     public void FixedUpdate()
     {
-        rb.velocity = Vector3.Lerp(rb.velocity, newVector, Time.deltaTime);
+        if (currentState == State.Turning)
+        {
+            // This is essentially the same as Vector3.Slerp but instead
+            // the function will ensure that the angular speed
+            // and change of magnitude never exceeds maxRadiansDelta
+            // and maxMagnitudeDelta.
+            rb.velocity = Vector3.RotateTowards(rb.velocity, newVector, 0.05f, 0f);
+            if (rb.velocity == newVector)
+            {
+                currentState = State.MovingForward;
+            }
+        }
     }
 }
+
+// FIXME clean the state machine business
