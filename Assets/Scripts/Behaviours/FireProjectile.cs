@@ -18,7 +18,7 @@ public class FireProjectile : MonoBehaviour, IFire {
 
     //
     // Properties
-    //
+    // 
     public bool FiringEnabled { get; set; }
 
     //

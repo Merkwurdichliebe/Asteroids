@@ -263,8 +263,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5778ad202432432ba6d61b2a6df62ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  distanceThreshold: 1.5
-  detectionAngle: 15
+  distanceThreshold: 2
+  detectionAngle: 30
   objectsToAvoid:
     serializedVersion: 2
     m_Bits: 2816

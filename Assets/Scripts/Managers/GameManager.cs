@@ -65,7 +65,7 @@ public class GameManager : MonoBehaviour
         Assert.IsNotNull(asteroidPrefab);
         Assert.IsNotNull(playerPrefab);
         Assert.IsNotNull(spawnSafeZonePrefab);
-
+        
         // Set the level number
         CurrentLevel = startWithLevel;
 
@@ -148,6 +148,8 @@ public class GameManager : MonoBehaviour
             StartNextLevel();
     }
 
+
+
     // FIXME go to next level when asteroids zero even when no player
     // 
     //
@@ -162,7 +164,6 @@ public class GameManager : MonoBehaviour
         if (OnGameLevelStart != null) { OnGameLevelStart(); }
         StartNextLevel();
     }
-
 
     //
     // 
