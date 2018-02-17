@@ -150,7 +150,7 @@ public class GameManager : MonoBehaviour
 
 
 
-    // FIXME go to next level when asteroids zero even when no player
+    // FIXME: go to next level when asteroids zero even when no player
     // 
     //
     IEnumerator ReadyNextLevel()

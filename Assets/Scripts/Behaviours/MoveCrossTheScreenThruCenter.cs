@@ -113,4 +113,4 @@ public class MoveCrossTheScreenThruCenter : MonoBehaviour, IMove
     }
 }
 
-// FIXME clean the state machine business
+// FIXME: clean the state machine business

@@ -40,19 +40,17 @@ public class AIAvoidObstacles : MonoBehaviour {
         // Ray starts from current position,
         // its direction is the direction we're moving in (facingDirection).
         // We rotate it with AngleAxis around the Z axis.
-        if (Physics2D.Raycast(transform.position, Quaternion.AngleAxis(detectionAngle, Vector3.forward)
-                              * facingDirection, distanceThreshold, objectsToAvoid))
+        if (Physics2D.Raycast(transform.position, Quaternion.AngleAxis(detectionAngle, Vector3.forward) * facingDirection, distanceThreshold, objectsToAvoid))
         {
             moveComponent.TurnRight();
         }
-        else if (Physics2D.Raycast(transform.position, Quaternion.AngleAxis(-detectionAngle, Vector3.forward)
-                              * facingDirection, distanceThreshold, objectsToAvoid))
+        else if (Physics2D.Raycast(transform.position, Quaternion.AngleAxis(-detectionAngle, Vector3.forward) * facingDirection, distanceThreshold, objectsToAvoid))
         {
             moveComponent.TurnLeft();
         }
         else if (Physics2D.Raycast(transform.position, facingDirection, distanceThreshold, objectsToAvoid))
         {
-            moveComponent.TurnLeft(); // FIXME turning left when something straight ahead is silly
+            moveComponent.TurnLeft(); // FIXME: turning left when something straight ahead is silly
         }
         //else
         //{
