@@ -32,6 +32,7 @@ public class GameManager : MonoBehaviour
     private Spawner spawner;
     private GameObject spawnSafeZone;
     private AsteroidSpawner asteroidSpawner;
+    // This comment is in the new branch
 
     // 
     // Properties
