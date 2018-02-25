@@ -51,7 +51,7 @@ public class GameManager : MonoBehaviour
     //  Events
     //
 
-    public static Action OnGameLevelDisplay;
+    public static Action OnGameLevelReady;
     public static Action OnGameLevelStart;
 
     // -------------------------------------------------------------------------
@@ -140,7 +140,6 @@ public class GameManager : MonoBehaviour
     //
     void PrepareNextLevel()
     {
-        Debug.Log("[GameManager/PrepareNextLevel] " + CurrentLevel);
         StopAllCoroutines();
         if (playLevelIntro)
             StartCoroutine(ReadyNextLevel());    
@@ -155,13 +154,13 @@ public class GameManager : MonoBehaviour
     //
     IEnumerator ReadyNextLevel()
     {
-        if (OnGameLevelDisplay != null) { OnGameLevelDisplay(); }
-        if (Player != null) { Player.ActiveInScene = false; }
+        if (OnGameLevelReady != null) { OnGameLevelReady(); }
+        if (Player != null) 
+            Player.ActiveInScene = false;
         spawnSafeZone.SetActive(false); // needs to come after player or it will reactivate
-        UIManager.Instance.DisplayLevelNumber(CurrentLevel);
+        // UIManager.Instance.DisplayLevelNumber(CurrentLevel);
         Instantiate(cometPrefab);
         yield return new WaitForSeconds(3);
-        if (OnGameLevelStart != null) { OnGameLevelStart(); }
         StartNextLevel();
     }
 
@@ -170,14 +169,15 @@ public class GameManager : MonoBehaviour
     //
     void StartNextLevel()
     {
-        UIManager.Instance.DisplayGameUI();
+        if (OnGameLevelStart != null) { OnGameLevelStart(); }
+        // UIManager.Instance.DisplayGameUI();
         spawnSafeZone.SetActive(true);
-        if (spawnAsteroids) {
+        
+        if (spawnAsteroids)
             SpawnAsteroids(startWithAsteroids + CurrentLevel - 1);
-        }
-        if (spawnPlayer) {
+    
+        if (spawnPlayer)
             Player.SpawnInSeconds(0);
-        }
     }
 
     //
