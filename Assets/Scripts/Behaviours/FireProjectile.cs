@@ -1,13 +1,18 @@
 ﻿using UnityEngine;
 
-[RequireComponent(typeof(InputFromKeyboard))]
-
 public class FireProjectile : MonoBehaviour, IFire
 {
     //
     // Inspector fields 
     //
-    public Transform projectileOrigin;
+    // projectilePrefab is only used for passing the gameobject.name to ObjectPool
+    [Header("Prefab used for name only")]
+    public GameObject projectilePrefab;
+    
+    [Header("Projectile settings")]
+    public float speed;
+    public float lifespan;
+
 
     //
     // Private fields 
@@ -31,21 +36,28 @@ public class FireProjectile : MonoBehaviour, IFire
         }
     }
 
+    // TODO: Apply same logic to fire projectile at target (gun bays)
+
     //
     // Implement IFire interface.
     // We will get a null reference error if we try to get an object
     // from ObjectPool without making sure it exists.
+    // We set the layer of the projectile to the layer of the
+    // gun itself. This allows assigning different projectile types
+    // without limiting them to player-only or enemy-only.
     //
     public void Fire()
     {
         if (objectPoolExists && FiringEnabled)
         {
-            // FIXME: the string should be generalized
-            GameObject projectile = ObjectPool.Instance.GetPooledObject("PlayerProjectile");
+            GameObject projectile = ObjectPool.Instance.GetPooledObject(projectilePrefab.name);
             if (projectile != null)
             {
-                projectile.transform.position = projectileOrigin.position;
+                projectile.transform.position = transform.position;
                 projectile.transform.rotation = transform.rotation;
+                projectile.GetComponent<Projectile>().Speed = speed;
+                projectile.GetComponent<Projectile>().Lifespan = lifespan;
+                projectile.gameObject.layer = gameObject.layer;
                 projectile.SetActive(true);
             }
         }

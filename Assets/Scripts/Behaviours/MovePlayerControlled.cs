@@ -32,7 +32,7 @@ public class MovePlayerControlled : MonoBehaviour, IMove
     //
     // Events
     //
-    public static Action OnPlayerAccelerating;
+    public static Action<float> OnPlayerAccelerating;
     public static Action OnPlayerStopped;
     public static Action<float> OnPlayerSpeedChanged; 
 
@@ -57,6 +57,7 @@ public class MovePlayerControlled : MonoBehaviour, IMove
         {
             rb.AddRelativeForce(Vector2.up * thrustMultiplier, ForceMode2D.Force);
             rb.velocity = Vector2.ClampMagnitude(rb.velocity, maximumVelocity);
+            if (OnPlayerAccelerating != null) { OnPlayerAccelerating(rb.velocity.sqrMagnitude); }
         }
     }
 
@@ -66,7 +67,6 @@ public class MovePlayerControlled : MonoBehaviour, IMove
     public void MoveForward()
     {
         isAccelerating = true;
-        if (OnPlayerAccelerating != null) { OnPlayerAccelerating(); }
         an.SetBool("Accelerating", true);
     }
 

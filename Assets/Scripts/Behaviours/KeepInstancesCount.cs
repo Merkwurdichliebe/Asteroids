@@ -28,7 +28,6 @@ public class KeepInstancesCount : MonoBehaviour {
     private void Awake()
     {
         Count += 1;
-        // Debug.Log("[KeepInstancesCount/Awake] " + this.gameObject.name + " " + Count);
     }
 
     //
@@ -37,7 +36,6 @@ public class KeepInstancesCount : MonoBehaviour {
     private void OnDestroy()
     {
         Count -= 1;
-        // Debug.Log("[KeepInstancesCount/OnDestroy] " + this.gameObject.name + " " + Count);
         if (Count == 0)
         {
             if (OnLastDestroyed != null) { OnLastDestroyed(this); }

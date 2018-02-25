@@ -49,7 +49,12 @@ public class UIManager : MonoBehaviour {
         labelScore.gameObject.SetActive(state);
     }
 
-void UpdateSpeed(float velocity)
+    void DisplayLevelNumber()
+    {
+        UpdateAnnounceMessage("LEVEL " + GameManager.CurrentLevel.ToString(), 3.0f);
+    }
+
+    void UpdateSpeed(float velocity)
     {
         textSpeed.text = string.Format("SPEED: {0:0.0}", velocity);
     }
@@ -91,13 +96,17 @@ void UpdateSpeed(float velocity)
     {
         PlayerController.OnPlayerLivesChanged += UpdateLives;
         PlayerController.OnPlayerLivesZero += HandleGameOver;
-        MovePlayerControlled.OnPlayerSpeedChanged += UpdateSpeed;
+        MovePlayerControlled.OnPlayerAccelerating += UpdateSpeed;
+        GameManager.OnGameLevelReady += DisplayLevelNumber;
+        GameManager.OnGameLevelStart += DisplayGameUI;
     }
 
     private void OnDisable()
     {
         PlayerController.OnPlayerLivesChanged -= UpdateLives;
         PlayerController.OnPlayerLivesZero -= HandleGameOver;
-        MovePlayerControlled.OnPlayerSpeedChanged -= UpdateSpeed;
+        MovePlayerControlled.OnPlayerAccelerating -= UpdateSpeed;
+        GameManager.OnGameLevelReady -= DisplayLevelNumber;
+        GameManager.OnGameLevelStart -= DisplayGameUI;
     }
 }

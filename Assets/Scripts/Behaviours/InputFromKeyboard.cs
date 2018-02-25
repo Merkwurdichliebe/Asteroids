@@ -18,7 +18,7 @@ public class InputFromKeyboard : MonoBehaviour {
     // Private fields
     //
     private IMove moveComponent;
-    private IFire fireComponent;
+    private IFire[] fireComponents;
 
     //
     // Get component references and log an error if null. 
@@ -31,8 +31,8 @@ public class InputFromKeyboard : MonoBehaviour {
             Debug.LogError("InputFromKeyboard needs a Component implementing IMove on: " + gameObject);
         }
 
-        fireComponent = GetComponent<IFire>();
-        if (fireComponent == null)
+        fireComponents = GetComponentsInChildren<IFire>();
+        if (fireComponents == null)
         {
             Debug.LogError("InputFromKeyboard needs a Component implementing IFire on: " + gameObject);
         }
@@ -82,7 +82,10 @@ public class InputFromKeyboard : MonoBehaviour {
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            fireComponent.Fire();
+            foreach (IFire i in fireComponents)
+            {
+                i.Fire();
+            }
         }
     }
 
@@ -113,7 +116,10 @@ public class InputFromKeyboard : MonoBehaviour {
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            fireComponent.Fire();
+            foreach (IFire i in fireComponents)
+            {
+                i.Fire();
+            }
         }
     }
 }

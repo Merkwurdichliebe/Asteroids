@@ -11,6 +11,9 @@ public class FireProjectileAtTarget : MonoBehaviour, IFire
     //
     // Inspector fields
     //
+
+    // projectilePrefab is only used for passing the gameobject.name to ObjectPool
+    public GameObject projectilePrefab;
     public float firingInterval;
 
     //
@@ -92,7 +95,7 @@ public class FireProjectileAtTarget : MonoBehaviour, IFire
             Quaternion rotation = Quaternion.AngleAxis(angle, Vector3.forward);
 
             // Get the projectile from the ObjectPool.
-            GameObject projectile = ObjectPool.Instance.GetPooledObject("EnemyProjectile");
+            GameObject projectile = ObjectPool.Instance.GetPooledObject(projectilePrefab.name);
 
             // ObjectPoll will return null if no objects left,
             // so we check before firing.

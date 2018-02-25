@@ -9,6 +9,7 @@
 /// - Queries Start in Colliders (to avois reacting to its own collider)
 /// </summary>
 
+
 [RequireComponent(typeof(Rigidbody2D))]
 
 public class AIAvoidObstacles : MonoBehaviour {

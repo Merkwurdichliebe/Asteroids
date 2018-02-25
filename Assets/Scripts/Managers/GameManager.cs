@@ -11,7 +11,6 @@ public class GameManager : MonoBehaviour
     //
     [Header("Main game prefabs")]
     public PlayerController playerPrefab;
-    public CloneWhenKilled asteroidPrefab;
 
     [Header("Extra game prefabs")]
     public GameObject spawnSafeZonePrefab;
@@ -32,14 +31,11 @@ public class GameManager : MonoBehaviour
     private int countAsteroids;
     private Spawner spawner;
     private GameObject spawnSafeZone;
-    private Transform asteroidsParent;
-    private readonly Vector2 halfUnit = new Vector2(0.5f, 0.5f);
-    private Camera cam;
+    private AsteroidSpawner asteroidSpawner;
 
     // 
     // Properties
     //
-
     public PlayerController Player { get; private set; }
 
     public static int CurrentLevel
@@ -50,19 +46,15 @@ public class GameManager : MonoBehaviour
     //
     //  Events
     //
-
-    public static Action OnGameLevelDisplay;
+    public static Action OnGameLevelReady;
     public static Action OnGameLevelStart;
 
-    // -------------------------------------------------------------------------
-    // Setup
-    // -------------------------------------------------------------------------
-
-
+    //
+    // Initialisation
+    //
     void Awake()
     {
         // Check for unconnected prefabs
-        Assert.IsNotNull(asteroidPrefab);
         Assert.IsNotNull(playerPrefab);
         Assert.IsNotNull(spawnSafeZonePrefab);
         
@@ -71,59 +63,119 @@ public class GameManager : MonoBehaviour
 
         // Create the Player spawn safe zone
         spawnSafeZone = Instantiate(spawnSafeZonePrefab);
-        UIManager ui = GetComponent<UIManager>();
-        if (ui != null) ui.enabled = true;
 
-        // Get a reference to the Spawner
+        // Get a reference to the spawners
         spawner = GetComponent<Spawner>();
-        if (spawner == null)
-        {
-            Debug.LogWarning("[GameManager/Awake] No Spawner present. Entity spawning disabled.");
-        }
+        asteroidSpawner = GetComponent<AsteroidSpawner>();
 
+        // Spawn the player
         if (spawnPlayer)
         {
             Player = Instantiate(playerPrefab);
             Player.Lives = startWithPlayerLives;
-        }
-
-        asteroidsParent = new GameObject().transform;
-        asteroidsParent.gameObject.name = "Asteroids";
-
-        cam = Camera.main;
+        }   
     }
 
-
-
-    void OnEnable()
-    {
-        KeepInstancesCount.OnLastDestroyed += CheckLastDestroyed;
-        PlayerController.OnPlayerSpawned += DisableSafeZone;
-        PlayerController.OnPlayerDestroyed += EnableSafeZone;
-        PlayerController.OnPlayerDespawned += EnableSafeZone;
-    }
-
-
-
-    void OnDisable()
-    {
-        KeepInstancesCount.OnLastDestroyed -= CheckLastDestroyed;
-        PlayerController.OnPlayerSpawned -= DisableSafeZone;
-        PlayerController.OnPlayerDestroyed -= EnableSafeZone;
-        PlayerController.OnPlayerDespawned -= EnableSafeZone;
-    }
-
-    // -----------------------------------------------------------------------------
-    // Methods
-    // -----------------------------------------------------------------------------
-
+    //
+    // Start the game sequence
+    //
     void Start()
     {
         PrepareNextLevel();
     }
 
     //
-    // 
+    // Do the level intro sequence if needed,
+    // otherwise start the level directly.
+    //
+    void PrepareNextLevel()
+    {
+        StopAllCoroutines();
+
+        if (playLevelIntro)
+            StartCoroutine(ReadyNextLevel());    
+        else
+            StartNextLevel();
+    }
+
+    // Level into sequence
+    //
+    IEnumerator ReadyNextLevel()
+    {
+        // Send message
+        if (OnGameLevelReady != null) { OnGameLevelReady(); }
+
+        // Deactivate the player & safe zone
+        if (Player != null) 
+            Player.ActiveInScene = false;
+
+        // This needs to come after player deactivation or it will reactivate
+        spawnSafeZone.SetActive(false);
+
+        // Animate the comet effect, wait for 3 seconds and start the level
+        Instantiate(cometPrefab);
+        yield return new WaitForSeconds(3);
+        StartNextLevel();
+    }
+
+    //
+    // Start the level
+    //
+    void StartNextLevel()
+    {
+        // Send message
+        if (OnGameLevelStart != null) { OnGameLevelStart(); }
+
+        // Activate the safe zone
+        spawnSafeZone.SetActive(true);
+        
+        // Spawn asteroids
+        if (spawnAsteroids)
+            asteroidSpawner.Spawn(startWithAsteroids + CurrentLevel - 1);
+    
+        // Spawn the player
+        if (spawnPlayer)
+            Player.SpawnInSeconds(0);
+    }
+
+    //
+    // The KeepInstancesCount component will trigger this
+    // if its own instance count is zero.
+    // We check to see if the object to which this component
+    // is attached is an asteroid. If so, the level ends.
+    //
+    public void CheckLastDestroyed(KeepInstancesCount component)
+    {
+        if(component.gameObject.tag.Equals("Asteroid"))
+        {
+            CheckLevelCleared();
+        }
+    }
+
+    //
+    // Check the player for null.
+    // If it still has lives left, increment the level number
+    // and start a new one.
+    void CheckLevelCleared()
+    {
+        // FIXME: go to next level when asteroids zero even when no player
+        // Not easy : game ends when lives = 0, levels ends when asteroids = 0
+        if (Player != null)
+        {
+            if (Player.Lives != 0)
+            {
+                CurrentLevel += 1;
+                PrepareNextLevel();
+            }
+        }
+    }
+
+    //
+    // These are called when the different "OnPlayer" events
+    // subscribed to in OnEnable() are received.
+    // We use this to enable and disable the safe zone
+    // depending on whether the player has spawned
+    // or despawned.
     //
     void DisableSafeZone()
     {
@@ -136,91 +188,21 @@ public class GameManager : MonoBehaviour
     }
 
     //
-    // 
+    // Event subscriptions
     //
-    void PrepareNextLevel()
+    void OnEnable()
     {
-        Debug.Log("[GameManager/PrepareNextLevel] " + CurrentLevel);
-        StopAllCoroutines();
-        if (playLevelIntro)
-            StartCoroutine(ReadyNextLevel());    
-        else
-            StartNextLevel();
+        KeepInstancesCount.OnLastDestroyed += CheckLastDestroyed;
+        PlayerController.OnPlayerSpawned += DisableSafeZone;
+        PlayerController.OnPlayerDestroyed += EnableSafeZone;
+        PlayerController.OnPlayerDespawned += EnableSafeZone;
     }
 
-
-
-    // FIXME: go to next level when asteroids zero even when no player
-    // 
-    //
-    IEnumerator ReadyNextLevel()
+    void OnDisable()
     {
-        if (OnGameLevelDisplay != null) { OnGameLevelDisplay(); }
-        if (Player != null) { Player.ActiveInScene = false; }
-        spawnSafeZone.SetActive(false); // needs to come after player or it will reactivate
-        UIManager.Instance.DisplayLevelNumber(CurrentLevel);
-        Instantiate(cometPrefab);
-        yield return new WaitForSeconds(3);
-        if (OnGameLevelStart != null) { OnGameLevelStart(); }
-        StartNextLevel();
-    }
-
-    //
-    // 
-    //
-    void StartNextLevel()
-    {
-        UIManager.Instance.DisplayGameUI();
-        spawnSafeZone.SetActive(true);
-        if (spawnAsteroids) {
-            SpawnAsteroids(startWithAsteroids + CurrentLevel - 1);
-        }
-        if (spawnPlayer) {
-            Player.SpawnInSeconds(0);
-        }
-    }
-
-    //
-    // Spawn the first asteroids.
-    // Set the SourcePrefab property to point to the asteroidPrefab used here,
-    // so that an asteroid can clone itself.
-    // Get a random vector inside a unit circle,
-    // shift it to the center of the viewport (0.5, 0.5)
-    // and scale it down so that it draws a circle around the player.
-    //
-    public void SpawnAsteroids(int count)
-    {
-        for (int i = 0; i < count; i++)
-        {
-            // Instantiate
-            CloneWhenKilled asteroid = Instantiate(asteroidPrefab, Vector2.zero, Quaternion.identity, asteroidsParent.transform);
-            asteroid.SourcePrefab = asteroidPrefab;
-
-            // Set position
-            Vector2 pos = Random.insideUnitCircle.normalized + halfUnit;
-            Vector3 worldPos = cam.ViewportToWorldPoint(pos) / 2;
-            worldPos.z = 0;
-            asteroid.gameObject.transform.position = worldPos;
-        }
-    }
-
-    public void CheckLastDestroyed(KeepInstancesCount component)
-    {
-        if(component.gameObject.tag.Equals("Asteroid"))
-        {
-            CheckLevelCleared();
-        }
-    }
-
-    void CheckLevelCleared()
-    {
-        if (Player != null)
-        {
-            if (Player.Lives != 0)
-            {
-                CurrentLevel += 1;
-                PrepareNextLevel();
-            }
-        }
+        KeepInstancesCount.OnLastDestroyed -= CheckLastDestroyed;
+        PlayerController.OnPlayerSpawned -= DisableSafeZone;
+        PlayerController.OnPlayerDestroyed -= EnableSafeZone;
+        PlayerController.OnPlayerDespawned -= EnableSafeZone;
     }
 }
