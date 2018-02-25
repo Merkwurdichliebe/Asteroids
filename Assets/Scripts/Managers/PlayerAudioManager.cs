@@ -35,7 +35,7 @@ public class PlayerAudioManager : MonoBehaviour {
         audioSource.volume = 1f;
     }
 
-    void PlayAccelerate()
+    void PlayAccelerate(float speed)
     {
         audioSource.Play();
     }

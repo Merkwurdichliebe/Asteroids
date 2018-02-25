@@ -96,7 +96,7 @@ public class UIManager : MonoBehaviour {
     {
         PlayerController.OnPlayerLivesChanged += UpdateLives;
         PlayerController.OnPlayerLivesZero += HandleGameOver;
-        MovePlayerControlled.OnPlayerSpeedChanged += UpdateSpeed;
+        MovePlayerControlled.OnPlayerAccelerating += UpdateSpeed;
         GameManager.OnGameLevelReady += DisplayLevelNumber;
         GameManager.OnGameLevelStart += DisplayGameUI;
     }
@@ -105,6 +105,8 @@ public class UIManager : MonoBehaviour {
     {
         PlayerController.OnPlayerLivesChanged -= UpdateLives;
         PlayerController.OnPlayerLivesZero -= HandleGameOver;
-        MovePlayerControlled.OnPlayerSpeedChanged -= UpdateSpeed;
+        MovePlayerControlled.OnPlayerAccelerating -= UpdateSpeed;
+        GameManager.OnGameLevelReady -= DisplayLevelNumber;
+        GameManager.OnGameLevelStart -= DisplayGameUI;
     }
 }
