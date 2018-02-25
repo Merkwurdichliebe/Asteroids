@@ -24,7 +24,7 @@ public class PlayerController : Entity, IKillable
     private bool centerIsClear;
     private bool _activeInScene;
     private IMove moveComponent;
-    private IFire fireComponent;
+    private IFire[] fireComponents;
     private Vector2 spawnPosition;
 
     //
@@ -47,7 +47,10 @@ public class PlayerController : Entity, IKillable
             col.enabled = value;
             rb.isKinematic = !value;
             // moveComponent.enabled = value;
-            fireComponent.FiringEnabled = value;
+            foreach (IFire i in fireComponents)
+            {
+                i.FiringEnabled = value;
+            }
             engine.SetActive(value);
             if (value)
             {
@@ -92,7 +95,7 @@ public class PlayerController : Entity, IKillable
         gameObject.name = "Player";
         Lives = livesAtStart;
         moveComponent = GetComponent<IMove>();
-        fireComponent = GetComponent<IFire>();
+        fireComponents = GetComponentsInChildren<IFire>();
         centerIsClear = true;
         spawnPosition = Vector2.zero;
     }

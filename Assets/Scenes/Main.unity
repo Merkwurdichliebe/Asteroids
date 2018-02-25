@@ -824,6 +824,7 @@ GameObject:
   - component: {fileID: 2104122569}
   - component: {fileID: 2104122570}
   - component: {fileID: 2104122577}
+  - component: {fileID: 2104122575}
   - component: {fileID: 2104122576}
   - component: {fileID: 2104122574}
   - component: {fileID: 2104122572}
@@ -883,8 +884,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerPrefab: {fileID: 114579725366848430, guid: 1cd0fc377425e480f912e5efcaa6121b,
     type: 2}
-  asteroidPrefab: {fileID: 114691825597835066, guid: 165fce1b024b44eb7a9ac1c1ea667665,
-    type: 2}
   spawnSafeZonePrefab: {fileID: 1794067495380198, guid: 403a337438dd9426c938e1581c33ed80,
     type: 2}
   cometPrefab: {fileID: 1661287572815834, guid: 8972d0ae4b3ed4753ae706c86a3f2d2a,
@@ -894,7 +893,7 @@ MonoBehaviour:
   startWithPlayerLives: 3
   spawnAsteroids: 1
   spawnPlayer: 1
-  playLevelIntro: 1
+  playLevelIntro: 0
 --- !u!82 &2104122571
 AudioSource:
   m_ObjectHideFlags: 0
@@ -1018,13 +1017,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d4b48a27236ea4114b49e0aeeb968f7d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &2104122576
+--- !u!114 &2104122575
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2104122567}
   m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c72a4b11b6735461e9bbdd8136897614, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  asteroidPrefab: {fileID: 114691825597835066, guid: 165fce1b024b44eb7a9ac1c1ea667665,
+    type: 2}
+--- !u!114 &2104122576
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2104122567}
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2e20c42ea76334c96acba6bcb07b188f, type: 3}
   m_Name: 

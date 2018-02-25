@@ -1,13 +1,11 @@
 ﻿using UnityEngine;
 
-[RequireComponent(typeof(InputFromKeyboard))]
-
 public class FireProjectile : MonoBehaviour, IFire
 {
     //
     // Inspector fields 
     //
-    public Transform projectileOrigin;
+    public GameObject projectilePrefab;
 
     //
     // Private fields 
@@ -41,10 +39,10 @@ public class FireProjectile : MonoBehaviour, IFire
         if (objectPoolExists && FiringEnabled)
         {
             // FIXME: the string should be generalized
-            GameObject projectile = ObjectPool.Instance.GetPooledObject("PlayerProjectile");
+            GameObject projectile = ObjectPool.Instance.GetPooledObject(projectilePrefab.name);
             if (projectile != null)
             {
-                projectile.transform.position = projectileOrigin.position;
+                projectile.transform.position = transform.position;
                 projectile.transform.rotation = transform.rotation;
                 projectile.SetActive(true);
             }

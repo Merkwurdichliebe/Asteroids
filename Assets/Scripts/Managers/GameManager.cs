@@ -153,6 +153,10 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    //
+    // Check the player for null.
+    // If it still has lives left, increment the level number
+    // and start a new one.
     void CheckLevelCleared()
     {
         if (Player != null)
