@@ -20,13 +20,13 @@ GameObject:
   m_Component:
   - component: {fileID: 4031679361654200}
   - component: {fileID: 114646520927679738}
-  m_Layer: 9
+  m_Layer: 13
   m_Name: Rear Gun
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &1655642292656258
 GameObject:
   m_ObjectHideFlags: 0
@@ -36,7 +36,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4093856202256676}
   - component: {fileID: 114592214505537936}
-  m_Layer: 9
+  m_Layer: 13
   m_Name: Main Gun
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -416,6 +416,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   projectilePrefab: {fileID: 1708459439725374, guid: 831000a8a9e9b4d39b5a27a5e801bcd3,
     type: 2}
+  speed: 0.1
+  lifespan: 5
 --- !u!114 &114646520927679738
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -427,8 +429,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 41adc19dce85245bfb011edfb768efbe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  projectilePrefab: {fileID: 1708459439725374, guid: 831000a8a9e9b4d39b5a27a5e801bcd3,
+  projectilePrefab: {fileID: 1153547247518906, guid: 4e7ed8f7a34c547e1bb874136671ebcc,
     type: 2}
+  speed: 0.5
+  lifespan: 1
 --- !u!114 &114860798685419980
 MonoBehaviour:
   m_ObjectHideFlags: 1
