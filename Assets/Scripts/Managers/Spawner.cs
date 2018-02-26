@@ -112,7 +112,7 @@ public class Spawner : MonoBehaviour
     private void OnDisable()
     {
         EntitySpawnController.OnPlayerSpawned -= EnableSpawner;
-        EntitySpawnController.OnPlayerDespawned += DisableSpawner;
+        EntitySpawnController.OnPlayerDespawned -= DisableSpawner;
     }
 
     private void EnableSpawner()

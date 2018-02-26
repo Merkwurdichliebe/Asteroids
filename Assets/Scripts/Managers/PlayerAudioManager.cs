@@ -17,7 +17,6 @@ public class PlayerAudioManager : MonoBehaviour {
     {
         MovePlayerControlled.OnPlayerAccelerating += PlayAccelerate;
         MovePlayerControlled.OnPlayerStopped += PlayStop;
-
         PlayerController.OnPlayerDestroyed += HandlePlayerDestroyed;
     }
 
@@ -25,7 +24,6 @@ public class PlayerAudioManager : MonoBehaviour {
     {
         MovePlayerControlled.OnPlayerAccelerating -= PlayAccelerate;
         MovePlayerControlled.OnPlayerStopped -= PlayStop;
-
         PlayerController.OnPlayerDestroyed -= HandlePlayerDestroyed;
     }
 

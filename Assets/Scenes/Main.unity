@@ -890,7 +890,7 @@ MonoBehaviour:
     type: 2}
   startWithLevel: 1
   startWithAsteroids: 4
-  startWithPlayerLives: 3
+  startWithPlayerLives: 1
   spawnAsteroids: 1
   spawnPlayer: 1
   playLevelIntro: 1
@@ -1046,20 +1046,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   secondsBetweenSpawns: 4
-  overallSpawnProbability: 1
-  spawnableInterfaceIsMandatory: 1
+  overallSpawnProbability: 0.25
   spawnableObjects:
   - prefab: {fileID: 114922881709890478, guid: d34b63115465242f48024485b4dba654, type: 2}
-    probabilityWeight: 8
+    probabilityWeight: 3
     maxSimultaneousInstances: 1
   - prefab: {fileID: 114710552218260218, guid: 1d1679504999743b89d4ce54966aba00, type: 2}
-    probabilityWeight: 1
+    probabilityWeight: 3
     maxSimultaneousInstances: 1
   - prefab: {fileID: 114859184589572440, guid: 36283d6135ae640cf9f58b72edb7b64e, type: 2}
     probabilityWeight: 3
     maxSimultaneousInstances: 2
   - prefab: {fileID: 114645765304585602, guid: 91a355074792b4a1eae272de087d1f0a, type: 2}
-    probabilityWeight: 1
+    probabilityWeight: 2
     maxSimultaneousInstances: 1
 --- !u!114 &2104122577
 MonoBehaviour:
@@ -1072,4 +1071,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e397d6304e8aa4d5e87259193cec3ce3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bonusLifeEveryPoints: 200
+  bonusLifeEveryPoints: 1000

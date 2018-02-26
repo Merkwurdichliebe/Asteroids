@@ -7,14 +7,9 @@ public class GameOverManager : MonoBehaviour
 {
     public static Action OnGameOver;
 
-    private void OnEnable()
-    {
-        PlayerController.OnPlayerLivesZero += GameOver;
-    }
-
     void GameOver()
     {
-        Debug.Log("[GameOverManager/GameOver]");
+        // Debug.Log("[GameOverManager/GameOver]");
 
         // Handle high score if necessary
         int highscore = PlayerPrefs.GetInt("highscore");
@@ -35,4 +30,14 @@ public class GameOverManager : MonoBehaviour
         if (OnGameOver != null) { OnGameOver(); }
         SceneManager.LoadScene("Menu");
     } 
+
+    private void OnEnable()
+    {
+        PlayerController.OnPlayerLivesZero += GameOver;
+    }
+
+    private void OnDisable()
+    {
+        PlayerController.OnPlayerLivesZero -= GameOver;
+    }
 }
