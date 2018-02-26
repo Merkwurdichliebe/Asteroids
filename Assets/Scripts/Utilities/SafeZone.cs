@@ -62,7 +62,7 @@ public class SafeZone : MonoBehaviour {
         {
             if (isClearThisCheck && !isClearLastCheck)
             {
-                Debug.Log("[SpawnSafeZoneManager] Zone is clear");
+                // Debug.Log("[SpawnSafeZoneManager] Zone is clear");
                 isClearLastCheck = true;
                 if (OnSafeZoneClear != null) { OnSafeZoneClear(true, transform.position); }
             }
@@ -84,7 +84,7 @@ public class SafeZone : MonoBehaviour {
         isClearThisCheck = false;
         if (isClearLastCheck)
         {
-            Debug.Log("[SpawnSafeZoneManager] Zone is occupied");
+            // Debug.Log("[SpawnSafeZoneManager] Zone is occupied");
             isClearLastCheck = false;
             if (OnSafeZoneClear != null) { OnSafeZoneClear(false, transform.position); }
         }

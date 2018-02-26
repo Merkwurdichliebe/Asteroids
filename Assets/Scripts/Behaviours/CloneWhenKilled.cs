@@ -51,7 +51,7 @@ public class CloneWhenKilled : MonoBehaviour, IKillable {
             // Make rigidbody mass proportional to the generation.
             // Smaller asteroids should be less heavy.
             if (rb != null)
-                rb.mass = 1 / (Generation + 1);
+                rb.mass = rb.mass * 0.5f;
         }
     }
 

@@ -29,7 +29,6 @@ public class GameManager : MonoBehaviour
     // Private fields
     //
     private int countAsteroids;
-    private Spawner spawner;
     private GameObject spawnSafeZone;
     private AsteroidSpawner asteroidSpawner;
     // This comment is in the new branch
@@ -66,7 +65,6 @@ public class GameManager : MonoBehaviour
         spawnSafeZone = Instantiate(spawnSafeZonePrefab);
 
         // Get a reference to the spawners
-        spawner = GetComponent<Spawner>();
         asteroidSpawner = GetComponent<AsteroidSpawner>();
 
         // Spawn the player

@@ -78,8 +78,6 @@ public class InputFromKeyboard : MonoBehaviour {
             moveComponent.TurnRight();
         }
 
-        // TODO: move fire to child transform and split move and fire controls
-
         if (Input.GetKeyDown(KeyCode.Space))
         {
             foreach (IFire i in fireComponents)

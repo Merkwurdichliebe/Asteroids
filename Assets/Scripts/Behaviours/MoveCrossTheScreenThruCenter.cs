@@ -4,6 +4,9 @@
 /// This MonoBehaviour implements IMove in a way which works well for
 /// the UFO and powerups: on start, choose a random position off screen.
 /// "Moving forward" means moving towards the center of the screen.
+/// It uses states rather than firing events like the player's
+/// MovePlayerControlled component because we don't need anybody
+/// knowing about the AI movements (no sound changes or UI updates).
 /// </summary>
 
 public enum State { MovingForward, Turning, Stopped }
@@ -66,9 +69,7 @@ public class MoveCrossTheScreenThruCenter : MonoBehaviour, IMove
     {
         // Move towards center of screen
         rb.velocity = newVector;
-
         currentState = State.MovingForward;
-        //Debug.Log(string.Format("Moving Forward, new vector: {0}", newVector));
     }
 
     public void Stop()
@@ -87,7 +88,6 @@ public class MoveCrossTheScreenThruCenter : MonoBehaviour, IMove
     {
         newVector = new Vector3(-rb.velocity.y, rb.velocity.x);
         currentState = State.Turning;
-        //Debug.Log(string.Format("Turning Left, new vector: {0}", newVector));
     }
 
     public void TurnRight()
@@ -112,5 +112,3 @@ public class MoveCrossTheScreenThruCenter : MonoBehaviour, IMove
         }
     }
 }
-
-// TODO: clean the state machine business

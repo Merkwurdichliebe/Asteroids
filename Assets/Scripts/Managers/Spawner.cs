@@ -13,9 +13,6 @@ public class Spawner : MonoBehaviour
     [Range(0, 1)]
     public float overallSpawnProbability = 1;
 
-    [Header("Only allow prefabs which implement ISpawnable")]
-    public bool spawnableInterfaceIsMandatory;
-
     // An list of SpawnableObject objects
     // (cf. struct below)
     // Allows dropping prefabs to spawn
@@ -174,11 +171,11 @@ public class Spawner : MonoBehaviour
                 // and in the public property.
                 spawnedCount[obj.prefab.name]++;
                 TotalCount++;
-                Debug.Log("[Spawner/SpawnAnObject] " + obj.prefab.name + " spawned");
+                // Debug.Log("[Spawner/SpawnAnObject] " + obj.prefab.name + " spawned");
             }
             else
             {
-                Debug.Log("[Spawner/SpawnAnObject] " + obj.prefab.name + " already at maximum (" + obj.maxSimultaneousInstances + ")");
+                // Debug.Log("[Spawner/SpawnAnObject] " + obj.prefab.name + " already at maximum (" + obj.maxSimultaneousInstances + ")");
             }
             timeSinceLastSpawn = Time.time;
         }
@@ -189,7 +186,7 @@ public class Spawner : MonoBehaviour
     // At least one script on the spawned object should inherit from Spawnable.
     public void NotifyDestroyed(GameObject obj)
     {
-        Debug.Log("[Spawner/NotifyDestroyed] " + obj.name);
+        // Debug.Log("[Spawner/NotifyDestroyed] " + obj.name);
         spawnedCount[obj.name]--;
         TotalCount--;
     }

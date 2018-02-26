@@ -64,7 +64,7 @@ public class EntitySpawnController : Entity {
             {
                 if (OnPlayerDespawned != null) { OnPlayerDespawned(); }
             }
-            Debug.Log("[PlayerController/PropertyActiveInScene] " + gameObject.name + " : " + value);
+            // Debug.Log("[PlayerController/PropertyActiveInScene] " + gameObject.name + " : " + value);
         }
     }
 
