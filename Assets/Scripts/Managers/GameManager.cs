@@ -108,8 +108,8 @@ public class GameManager : MonoBehaviour
 
         // Deactivate the player & safe zone
         if (Player != null) 
-            Player.ActiveInScene = false;
-
+            Player.GetComponent<EntitySpawnController>().ActiveInScene = false;
+        
         // This needs to come after player deactivation or it will reactivate
         spawnSafeZone.SetActive(false);
 
@@ -194,16 +194,16 @@ public class GameManager : MonoBehaviour
     void OnEnable()
     {
         KeepInstancesCount.OnLastDestroyed += CheckLastDestroyed;
-        PlayerController.OnPlayerSpawned += DisableSafeZone;
+        EntitySpawnController.OnPlayerSpawned += DisableSafeZone;
+        EntitySpawnController.OnPlayerDespawned += EnableSafeZone;
         PlayerController.OnPlayerDestroyed += EnableSafeZone;
-        PlayerController.OnPlayerDespawned += EnableSafeZone;
     }
 
     void OnDisable()
     {
         KeepInstancesCount.OnLastDestroyed -= CheckLastDestroyed;
-        PlayerController.OnPlayerSpawned -= DisableSafeZone;
+        EntitySpawnController.OnPlayerSpawned -= DisableSafeZone;
+        EntitySpawnController.OnPlayerDespawned -= EnableSafeZone;
         PlayerController.OnPlayerDestroyed -= EnableSafeZone;
-        PlayerController.OnPlayerDespawned -= EnableSafeZone;
     }
 }

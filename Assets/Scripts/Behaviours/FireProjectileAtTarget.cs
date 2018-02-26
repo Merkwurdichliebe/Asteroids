@@ -111,14 +111,14 @@ public class FireProjectileAtTarget : MonoBehaviour, IFire
     //
     private void OnEnable()
     {
-        PlayerController.OnPlayerSpawned += EnableFire;
-        PlayerController.OnPlayerDespawned += DisableFire;
+        EntitySpawnController.OnPlayerSpawned += EnableFire;
+        EntitySpawnController.OnPlayerDespawned += DisableFire;
     }
 
     private void OnDisable()
     {
-        PlayerController.OnPlayerSpawned -= EnableFire;
-        PlayerController.OnPlayerDespawned -= DisableFire;
+        EntitySpawnController.OnPlayerSpawned -= EnableFire;
+        EntitySpawnController.OnPlayerDespawned -= DisableFire;
     }
 
     //

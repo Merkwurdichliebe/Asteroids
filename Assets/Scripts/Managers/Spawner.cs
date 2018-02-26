@@ -108,14 +108,14 @@ public class Spawner : MonoBehaviour
     private void OnEnable()
     {
         timeSinceLastSpawn = Time.time;
-        PlayerController.OnPlayerSpawned += EnableSpawner;
-        PlayerController.OnPlayerDespawned += DisableSpawner;
+        EntitySpawnController.OnPlayerSpawned += EnableSpawner;
+        EntitySpawnController.OnPlayerDespawned += DisableSpawner;
     }
 
     private void OnDisable()
     {
-        PlayerController.OnPlayerSpawned -= EnableSpawner;
-        PlayerController.OnPlayerDespawned += DisableSpawner;
+        EntitySpawnController.OnPlayerSpawned -= EnableSpawner;
+        EntitySpawnController.OnPlayerDespawned += DisableSpawner;
     }
 
     private void EnableSpawner()

@@ -11,71 +11,13 @@ public class PlayerController : Entity, IKillable
     [Header("When destroyed")]
     public GameObject explosion;
 
-    [Header("Starting stats")]
-    [Range(1, 10)]
-    public int livesAtStart;
-
-    [Header("Child Modules")]
-    public GameObject engine;
-
     //
     // Private fields
     //
     private int _livesLeft;
     private bool centerIsClear;
-    private bool _activeInScene;
-    private IMove moveComponent;
-    private IFire[] fireComponents;
     private Vector2 spawnPosition;
-
-    //
-    // Property: Player active in scene.
-    // The player is the only entity which doesn't get OnDestroy
-    // when it is killed or hit. Instead, we hide it and disable its
-    // rigidbody & collider here. This is because the Player handles its own
-    // respawning checks and lives count, so we need to keep it alive.
-    //
-    public bool ActiveInScene
-    {
-        get
-        {
-            return _activeInScene;
-        }
-        set
-        {
-            // Enable/disable physics components
-            _activeInScene = value;
-            rend.enabled = value;
-            col.enabled = value;
-            rb.isKinematic = !value;
-            
-            // Enable/disable all child objects which have
-            // IFire components attached
-            foreach (IFire i in fireComponents)
-            {
-                ((Component)i).gameObject.SetActive(value);
-            }
-
-            // Enable/disable attached the IMove component
-            // (this needs to be done through MonoBehaviour)
-            ((MonoBehaviour)moveComponent).enabled = value;
-
-            // Enable/disable the engine child object
-            // (hide smoke when unspawned)
-            engine.SetActive(value);
-
-            // Fire event
-            if (value)
-            {
-                if (OnPlayerSpawned != null) { OnPlayerSpawned(); }
-            }
-            else
-            {
-                if (OnPlayerDespawned != null) { OnPlayerDespawned(); }
-            }
-            Debug.Log("[PlayerController/PropertyActiveInScene] " + gameObject.name + " : " + value);
-        }
-    }
+    private EntitySpawnController player;
 
     //
     // Property: Player lives count
@@ -99,8 +41,6 @@ public class PlayerController : Entity, IKillable
     // 
     // Events
     //
-    public static Action OnPlayerSpawned;
-    public static Action OnPlayerDespawned;
     public static Action OnPlayerDestroyed;
     public static Action<int> OnPlayerLivesChanged;
     public static Action OnPlayerLivesZero;
@@ -112,11 +52,9 @@ public class PlayerController : Entity, IKillable
     {
         base.Awake();
         gameObject.name = "Player";
-        Lives = livesAtStart;
-        moveComponent = GetComponentInChildren<IMove>();
-        fireComponents = GetComponentsInChildren<IFire>();
         centerIsClear = true;
         spawnPosition = Vector2.zero;
+        player = GetComponent<EntitySpawnController>();
 
         // Build a list of all child gameobjects tagged with "Weapon"
         Weapons = new List<GameObject>();
@@ -166,7 +104,7 @@ public class PlayerController : Entity, IKillable
 
         // Stop and hide the player, disable its collider & keyboard input
         rb.velocity = Vector2.zero;
-        ActiveInScene = false;
+        player.ActiveInScene = false;
 
         // Reduce one life
         Lives -= 1;
@@ -180,7 +118,7 @@ public class PlayerController : Entity, IKillable
             }
         }
 
-        // Fire events
+        // Fire event
         if (OnPlayerDestroyed != null) { OnPlayerDestroyed(); }
 
         // Check if we should respawn.
@@ -221,7 +159,7 @@ public class PlayerController : Entity, IKillable
     // Reactivate the player and reset its transform and velocity to zero.
     public void Spawn()
     {
-        ActiveInScene = true;
+        player.ActiveInScene = true;
         transform.position = spawnPosition;
         transform.rotation = Quaternion.identity;
         rb.velocity = Vector2.zero;
