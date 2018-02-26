@@ -16,10 +16,16 @@ public class DestroyWhenOutsideViewport : MonoBehaviour {
 
     public void OnBecameInvisible()
     {
-        Vector3 pos = cam.WorldToViewportPoint(transform.position);
-        if (pos.x > 1.0 || pos.x < 0 || pos.y > 1.0 || pos.y < 0)
+        // Without the Camera null check we get frequent
+        // MissingReferenceException when switching scenes
+        // (after Game Over). Couldn't find the reason for it.
+        if (cam != null)
         {
-            Destroy(gameObject);
+            Vector3 pos = cam.WorldToViewportPoint(transform.position);
+            if (pos.x > 1.0 || pos.x < 0 || pos.y > 1.0 || pos.y < 0)
+            {
+                Destroy(gameObject);
+            }
         }
     }
 }

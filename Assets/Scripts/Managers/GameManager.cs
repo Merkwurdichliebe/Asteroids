@@ -72,7 +72,7 @@ public class GameManager : MonoBehaviour
         {
             Player = Instantiate(playerPrefab);
             Player.Lives = startWithPlayerLives;
-        }   
+        }
     }
 
     //
