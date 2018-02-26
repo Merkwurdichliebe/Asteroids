@@ -27,7 +27,6 @@ public class PlayerController : Entity, IKillable
     private IMove moveComponent;
     private IFire[] fireComponents;
     private Vector2 spawnPosition;
-    private List<GameObject> weapons;
 
     //
     // Property: Player active in scene.
@@ -79,6 +78,8 @@ public class PlayerController : Entity, IKillable
         }
     }
 
+    public List<GameObject> Weapons { get; private set; }
+
     // 
     // Events
     //
@@ -101,13 +102,14 @@ public class PlayerController : Entity, IKillable
         centerIsClear = true;
         spawnPosition = Vector2.zero;
 
-        // Build a list of all weapons attached as child objects
+        // Build a list of all child gameobjects tagged with "Weapon"
+        Weapons = new List<GameObject>();
         for (int i = 0; i < transform.childCount; i++)
         {
             GameObject child = transform.GetChild(i).gameObject;
             if (child.tag == "Weapon")
             {
-                weapons.Add(child);
+                Weapons.Add(child);
             }
         }
     }
@@ -150,6 +152,15 @@ public class PlayerController : Entity, IKillable
 
         // Reduce one life
         Lives -= 1;
+
+        // Disable all weapons except for the Main Gun
+        foreach (GameObject weapon in Weapons)
+        {
+            if (weapon.name != "Main Gun")
+            {
+                weapon.GetComponent<IFire>().IsEnabled = false;
+            }
+        }
 
         // Fire events
         if (OnPlayerDestroyed != null) { OnPlayerDestroyed(); }

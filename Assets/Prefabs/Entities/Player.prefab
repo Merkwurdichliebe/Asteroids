@@ -414,6 +414,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 41adc19dce85245bfb011edfb768efbe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enabledAtStart: 1
   projectilePrefab: {fileID: 1708459439725374, guid: 831000a8a9e9b4d39b5a27a5e801bcd3,
     type: 2}
   speed: 2
@@ -429,6 +430,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 41adc19dce85245bfb011edfb768efbe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enabledAtStart: 0
   projectilePrefab: {fileID: 1153547247518906, guid: 4e7ed8f7a34c547e1bb874136671ebcc,
     type: 2}
   speed: 0.5
