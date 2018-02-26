@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerController : Entity, IKillable
@@ -26,6 +27,7 @@ public class PlayerController : Entity, IKillable
     private IMove moveComponent;
     private IFire[] fireComponents;
     private Vector2 spawnPosition;
+    private List<GameObject> weapons;
 
     //
     // Property: Player active in scene.
@@ -98,6 +100,16 @@ public class PlayerController : Entity, IKillable
         fireComponents = GetComponentsInChildren<IFire>();
         centerIsClear = true;
         spawnPosition = Vector2.zero;
+
+        // Build a list of all weapons attached as child objects
+        for (int i = 0; i < transform.childCount; i++)
+        {
+            GameObject child = transform.GetChild(i).gameObject;
+            if (child.tag == "Weapon")
+            {
+                weapons.Add(child);
+            }
+        }
     }
 
     //

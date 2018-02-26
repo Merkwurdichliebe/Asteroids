@@ -22,7 +22,7 @@ GameObject:
   - component: {fileID: 114646520927679738}
   m_Layer: 13
   m_Name: Rear Gun
-  m_TagString: Untagged
+  m_TagString: Weapon
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -38,7 +38,7 @@ GameObject:
   - component: {fileID: 114592214505537936}
   m_Layer: 13
   m_Name: Main Gun
-  m_TagString: Untagged
+  m_TagString: Weapon
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -416,8 +416,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   projectilePrefab: {fileID: 1708459439725374, guid: 831000a8a9e9b4d39b5a27a5e801bcd3,
     type: 2}
-  speed: 0.1
-  lifespan: 5
+  speed: 2
+  lifespan: 0.3
 --- !u!114 &114646520927679738
 MonoBehaviour:
   m_ObjectHideFlags: 1

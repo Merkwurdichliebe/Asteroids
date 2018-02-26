@@ -5,7 +5,11 @@ public class FireProjectile : MonoBehaviour, IFire
     //
     // Inspector fields 
     //
+    [Space]
+    public bool enabledAtStart;
+
     // projectilePrefab is only used for passing the gameobject.name to ObjectPool
+    [Space]
     [Header("Prefab used for name only")]
     public GameObject projectilePrefab;
     
@@ -20,8 +24,21 @@ public class FireProjectile : MonoBehaviour, IFire
     private bool objectPoolExists = true;
 
     //
+    // Properties
+    //
+    public bool IsEnabled { get; set; }
+
+    //
+    // Initialisation
+    //
+    private void Awake()
+    {
+        IsEnabled = enabledAtStart;    
+    }
+
+    //
     // Check if the object pool exists and if not display a warning.
-    // TODO: how to refer to object pool properly while still not instantiating it every time
+    //
     private void Start()
     {
         if (ObjectPool.Instance == null || !ObjectPool.Instance.enabled)
@@ -30,8 +47,6 @@ public class FireProjectile : MonoBehaviour, IFire
             Debug.LogWarning("[FireProjectile] needs an enabled ObjectPool. Firing is disabled.");
         }
     }
-
-    // TODO: Apply same logic to fire projectile at target (gun bays)
 
     //
     // Implement IFire interface.
@@ -43,7 +58,7 @@ public class FireProjectile : MonoBehaviour, IFire
     //
     public void Fire()
     {
-        if (objectPoolExists && gameObject.activeSelf)
+        if (objectPoolExists && gameObject.activeSelf && IsEnabled)
         {
             GameObject projectile = ObjectPool.Instance.GetPooledObject(projectilePrefab.name);
             if (projectile != null)

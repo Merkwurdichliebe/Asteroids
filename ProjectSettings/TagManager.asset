@@ -10,6 +10,7 @@ TagManager:
   - EnemyProjectile
   - PowerUp
   - FX
+  - Weapon
   layers:
   - Default
   - TransparentFX

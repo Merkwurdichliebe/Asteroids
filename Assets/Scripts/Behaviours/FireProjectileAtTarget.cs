@@ -24,6 +24,11 @@ public class FireProjectileAtTarget : MonoBehaviour, IFire
     private Coroutine fireCoroutine;
 
     //
+    // Properties
+    //
+    public bool IsEnabled { get; set; }
+
+    //
     // Initialisation 
     //
     private void Awake()
