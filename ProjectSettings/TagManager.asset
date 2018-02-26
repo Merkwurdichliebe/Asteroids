@@ -11,6 +11,7 @@ TagManager:
   - PowerUp
   - FX
   - Weapon
+  - BombProjectile
   layers:
   - Default
   - TransparentFX

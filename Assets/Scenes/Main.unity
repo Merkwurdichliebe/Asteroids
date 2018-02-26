@@ -889,18 +889,18 @@ MonoBehaviour:
   cometPrefab: {fileID: 1661287572815834, guid: 8972d0ae4b3ed4753ae706c86a3f2d2a,
     type: 2}
   startWithLevel: 1
-  startWithAsteroids: 1
-  startWithPlayerLives: 1
-  spawnAsteroids: 0
+  startWithAsteroids: 4
+  startWithPlayerLives: 3
+  spawnAsteroids: 1
   spawnPlayer: 1
-  playLevelIntro: 0
+  playLevelIntro: 1
 --- !u!82 &2104122571
 AudioSource:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2104122567}
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 4dc1a31445a804e10bc4db86adf25ea9, type: 3}
@@ -994,6 +994,10 @@ MonoBehaviour:
       type: 2}
     amountToPool: 10
     shouldExpand: 0
+  - objectToPool: {fileID: 1708459439725374, guid: 311a2bb20302841fd86c8b97880faa54,
+      type: 2}
+    amountToPool: 10
+    shouldExpand: 0
   pooledObjects: []
 --- !u!114 &2104122573
 MonoBehaviour:
@@ -1046,14 +1050,17 @@ MonoBehaviour:
   spawnableInterfaceIsMandatory: 1
   spawnableObjects:
   - prefab: {fileID: 114922881709890478, guid: d34b63115465242f48024485b4dba654, type: 2}
-    probabilityWeight: 4
+    probabilityWeight: 8
     maxSimultaneousInstances: 1
   - prefab: {fileID: 114710552218260218, guid: 1d1679504999743b89d4ce54966aba00, type: 2}
-    probabilityWeight: 0
-    maxSimultaneousInstances: 2
+    probabilityWeight: 1
+    maxSimultaneousInstances: 1
   - prefab: {fileID: 114859184589572440, guid: 36283d6135ae640cf9f58b72edb7b64e, type: 2}
-    probabilityWeight: 0
+    probabilityWeight: 3
     maxSimultaneousInstances: 2
+  - prefab: {fileID: 114645765304585602, guid: 91a355074792b4a1eae272de087d1f0a, type: 2}
+    probabilityWeight: 1
+    maxSimultaneousInstances: 1
 --- !u!114 &2104122577
 MonoBehaviour:
   m_ObjectHideFlags: 0

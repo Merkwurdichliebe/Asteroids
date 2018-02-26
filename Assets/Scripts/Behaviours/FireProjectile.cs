@@ -16,12 +16,14 @@ public class FireProjectile : MonoBehaviour, IFire
     [Header("Projectile settings")]
     public float speed;
     public float lifespan;
+    public float minInterval;
 
 
     //
     // Private fields 
     //
     private bool objectPoolExists = true;
+    private float lastShortFired;
 
     //
     // Properties
@@ -58,9 +60,10 @@ public class FireProjectile : MonoBehaviour, IFire
     //
     public void Fire()
     {
-        if (objectPoolExists && gameObject.activeSelf && IsEnabled)
+        if (objectPoolExists && gameObject.activeSelf && IsEnabled && (Time.time - lastShortFired) > minInterval)
         {
             GameObject projectile = ObjectPool.Instance.GetPooledObject(projectilePrefab.name);
+            // Debug.Log(projectile.name);
             if (projectile != null)
             {
                 projectile.transform.position = transform.position;
@@ -69,6 +72,7 @@ public class FireProjectile : MonoBehaviour, IFire
                 projectile.GetComponent<Projectile>().lifespan = lifespan;
                 projectile.gameObject.layer = gameObject.layer;
                 projectile.SetActive(true);
+                lastShortFired = Time.time;
             }
         }
     }
