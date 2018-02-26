@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System;
 
 /// <summary>
 /// This Spawnable:Entity:MonoBehaviour abstract class is the parent
@@ -17,6 +18,11 @@ public abstract class PowerUp : Spawnable {
     //
     protected GameObject recipient;
     protected abstract void ApplyEffect();
+
+    //
+    // Event (for displaying text when grabbed)
+    //
+    public static Action<GameObject, string> OnPowerUpGrabbed;
 
     void OnTriggerEnter2D(Collider2D collision)
     {

@@ -99,6 +99,7 @@ public class UIManager : MonoBehaviour {
         MovePlayerControlled.OnPlayerAccelerating += UpdateSpeed;
         GameManager.OnGameLevelReady += DisplayLevelNumber;
         GameManager.OnGameLevelStart += DisplayGameUI;
+        PowerUp.OnPowerUpGrabbed += ShowTextAtScreenPosition;
     }
 
     private void OnDisable()
@@ -108,5 +109,6 @@ public class UIManager : MonoBehaviour {
         MovePlayerControlled.OnPlayerAccelerating -= UpdateSpeed;
         GameManager.OnGameLevelReady -= DisplayLevelNumber;
         GameManager.OnGameLevelStart -= DisplayGameUI;
+        PowerUp.OnPowerUpGrabbed -= ShowTextAtScreenPosition;
     }
 }

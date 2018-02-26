@@ -14,6 +14,7 @@ public class PowerUpEnableRearGun : PowerUp {
             {
                 weapon.GetComponent<IFire>().IsEnabled = true;
                 weapon.SetActive(true);
+                OnPowerUpGrabbed(gameObject, "BOMBS");
             }
         }
     }
