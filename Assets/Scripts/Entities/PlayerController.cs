@@ -43,16 +43,28 @@ public class PlayerController : Entity, IKillable
         }
         set
         {
+            // Enable/disable physics components
             _activeInScene = value;
             rend.enabled = value;
             col.enabled = value;
             rb.isKinematic = !value;
-            // ((Component)moveComponent).gameObject.SetActive(value);
+            
+            // Enable/disable all child objects which have
+            // IFire components attached
             foreach (IFire i in fireComponents)
             {
                 ((Component)i).gameObject.SetActive(value);
             }
+
+            // Enable/disable attached the IMove component
+            // (this needs to be done through MonoBehaviour)
+            ((MonoBehaviour)moveComponent).enabled = value;
+
+            // Enable/disable the engine child object
+            // (hide smoke when unspawned)
             engine.SetActive(value);
+
+            // Fire event
             if (value)
             {
                 if (OnPlayerSpawned != null) { OnPlayerSpawned(); }
@@ -78,6 +90,10 @@ public class PlayerController : Entity, IKillable
         }
     }
 
+    //
+    // List which holds all the child objects of the player
+    // which are tagged with "Weapon".
+    //
     public List<GameObject> Weapons { get; private set; }
 
     // 
@@ -129,6 +145,8 @@ public class PlayerController : Entity, IKillable
 
     //
     // Event handler for when the center spawn safe zone is clear.
+    // It repositions the player at the position where the safe zone
+    // has repositioned itself and checked it is clear of hostiles.
     //
     void HandleCenterIsClear(bool clear, Vector2 zonePosition)
     {
@@ -153,7 +171,7 @@ public class PlayerController : Entity, IKillable
         // Reduce one life
         Lives -= 1;
 
-        // Disable all weapons except for the Main Gun
+        // Reset all weapons except for the Main Gun
         foreach (GameObject weapon in Weapons)
         {
             if (weapon.name != "Main Gun")

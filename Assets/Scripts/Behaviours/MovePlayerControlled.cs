@@ -52,7 +52,7 @@ public class MovePlayerControlled : MonoBehaviour, IMove
     //
     private void FixedUpdate()
     {
-        if (isAccelerating)
+        if (this.enabled && isAccelerating)
         {
             rb.AddRelativeForce(Vector2.up * thrustMultiplier, ForceMode2D.Force);
             rb.velocity = Vector2.ClampMagnitude(rb.velocity, maximumVelocity);

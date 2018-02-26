@@ -37,7 +37,10 @@ public class PlayerAudioManager : MonoBehaviour {
 
     void PlayAccelerate(float speed)
     {
-        audioSource.Play();
+        if (!audioSource.isPlaying)
+        {
+            audioSource.Play();
+        }
     }
 
     void PlayStop()
