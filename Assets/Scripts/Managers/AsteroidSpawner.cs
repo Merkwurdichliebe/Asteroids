@@ -10,9 +10,14 @@ public class AsteroidSpawner : MonoBehaviour {
 	private Transform asteroidsParent;
 	private Camera cam;
 
+    //
+    // Initialization
+    //
 	private void Awake()
 	{
 		cam = Camera.main;
+        asteroidsParent = new GameObject().transform;
+        asteroidsParent.gameObject.name = "Asteroids";
 	}
 
 	//
@@ -25,9 +30,6 @@ public class AsteroidSpawner : MonoBehaviour {
     //
     public void Spawn(int count)
     {
-		asteroidsParent = new GameObject().transform;
-        asteroidsParent.gameObject.name = "Asteroids";
-
         for (int i = 0; i < count; i++)
         {
             // Instantiate
