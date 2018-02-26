@@ -21,7 +21,7 @@ public class FireProjectile : MonoBehaviour, IFire
 
     //
     // Check if the object pool exists and if not display a warning.
-    // FIXME: how to refer to object pool properly while still not instantiating it every time
+    // TODO: how to refer to object pool properly while still not instantiating it every time
     private void Start()
     {
         if (ObjectPool.Instance == null || !ObjectPool.Instance.enabled)

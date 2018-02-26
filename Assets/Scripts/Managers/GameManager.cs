@@ -159,7 +159,7 @@ public class GameManager : MonoBehaviour
     // and start a new one.
     void CheckLevelCleared()
     {
-        // FIXME: go to next level when asteroids zero even when no player
+        // TODO: go to next level when asteroids zero even when no player
         // Not easy : game ends when lives = 0, levels ends when asteroids = 0
         if (Player != null)
         {
