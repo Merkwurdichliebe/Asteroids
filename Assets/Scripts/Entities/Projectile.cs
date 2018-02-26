@@ -23,12 +23,6 @@ public class Projectile : MonoBehaviour {
     private float timeAtStart;
 
     //
-    // Properties
-    //
-    public float Speed { get; set; }
-    public float Lifespan { get; set; }
-
-    //
     // Initialisation 
     //
     void Awake()
@@ -47,8 +41,7 @@ public class Projectile : MonoBehaviour {
     void OnEnable()
     {
         timeAtStart = Time.time;
-        rb.AddRelativeForce(Vector2.up * Speed / 10, ForceMode2D.Impulse);
-        Debug.Log(Speed);
+        rb.AddRelativeForce(Vector2.up * speed / 10, ForceMode2D.Impulse);
     }
 
     //
@@ -56,7 +49,7 @@ public class Projectile : MonoBehaviour {
     //
     private void Update()
     {
-        if (Time.time - timeAtStart > Lifespan)
+        if (Time.time - timeAtStart > lifespan)
         {
             Destroy();
         }

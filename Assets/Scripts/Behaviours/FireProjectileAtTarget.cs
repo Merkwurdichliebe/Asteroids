@@ -22,25 +22,14 @@ public class FireProjectileAtTarget : MonoBehaviour, IFire
     private GameObject target;
     private Vector3 firingPrecision;
     private Coroutine fireCoroutine;
-    private int currentLevel;
-
-    //
-    // Properties
-    //
-    public bool FiringEnabled { get; set; }
 
     //
     // Initialisation 
     //
     private void Awake()
     {
-        // Caching this for later. It might help with cleanup
-        // when the app quits, in case GameManager is destroyed
-        // before this instance.
-        currentLevel = GameManager.CurrentLevel;
-
         // Shorten the firing interval at each level.
-        firingInterval = Mathf.Clamp(firingInterval / currentLevel, 0.2f, 3.0f);
+        firingInterval = Mathf.Clamp(firingInterval / GameManager.CurrentLevel, 0.2f, 3.0f);
 
         // Find the Player
         target = GameObject.FindWithTag("Player");
@@ -55,7 +44,7 @@ public class FireProjectileAtTarget : MonoBehaviour, IFire
     //
     void SetFiringStats()
     {
-        float _precision = Random.Range(0, Mathf.Clamp(1 - currentLevel / 10, 0, 1.0f));
+        float _precision = Random.Range(0, Mathf.Clamp(1 - GameManager.CurrentLevel / 10, 0, 1.0f));
         firingPrecision.x = _precision;
         firingPrecision.y = _precision;
     }
@@ -103,6 +92,7 @@ public class FireProjectileAtTarget : MonoBehaviour, IFire
             {
                 projectile.transform.position = transform.position;
                 projectile.transform.rotation = rotation;
+                projectile.gameObject.layer = gameObject.layer;
                 projectile.SetActive(true);
             }
                
@@ -130,12 +120,12 @@ public class FireProjectileAtTarget : MonoBehaviour, IFire
     // We start and stop firing based on the events above.
     //
     private void EnableFire() {
-        FiringEnabled = true;
+        gameObject.SetActive(true);
         Fire();
     }
 
     private void DisableFire() {
-        FiringEnabled = false;
+        gameObject.SetActive(false);
         StopCoroutine(fireCoroutine);
     }
 }

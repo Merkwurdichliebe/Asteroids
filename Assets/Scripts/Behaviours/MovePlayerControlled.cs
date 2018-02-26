@@ -6,7 +6,6 @@ using UnityEngine;
 /// </summary>
 
 [RequireComponent(typeof(Rigidbody2D))]
-[RequireComponent(typeof(InputFromKeyboard))]
 
 public class MovePlayerControlled : MonoBehaviour, IMove
 {

@@ -20,11 +20,6 @@ public class FireProjectile : MonoBehaviour, IFire
     private bool objectPoolExists = true;
 
     //
-    // Properties
-    // 
-    public bool FiringEnabled { get; set; }
-
-    //
     // Check if the object pool exists and if not display a warning.
     // FIXME: how to refer to object pool properly while still not instantiating it every time
     private void Start()
@@ -48,15 +43,15 @@ public class FireProjectile : MonoBehaviour, IFire
     //
     public void Fire()
     {
-        if (objectPoolExists && FiringEnabled)
+        if (objectPoolExists && gameObject.activeSelf)
         {
             GameObject projectile = ObjectPool.Instance.GetPooledObject(projectilePrefab.name);
             if (projectile != null)
             {
                 projectile.transform.position = transform.position;
                 projectile.transform.rotation = transform.rotation;
-                projectile.GetComponent<Projectile>().Speed = speed;
-                projectile.GetComponent<Projectile>().Lifespan = lifespan;
+                projectile.GetComponent<Projectile>().speed = speed;
+                projectile.GetComponent<Projectile>().lifespan = lifespan;
                 projectile.gameObject.layer = gameObject.layer;
                 projectile.SetActive(true);
             }

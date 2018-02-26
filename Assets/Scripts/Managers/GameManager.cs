@@ -99,7 +99,7 @@ public class GameManager : MonoBehaviour
             StartNextLevel();
     }
 
-    // Level into sequence
+    // Level intro sequence
     //
     IEnumerator ReadyNextLevel()
     {

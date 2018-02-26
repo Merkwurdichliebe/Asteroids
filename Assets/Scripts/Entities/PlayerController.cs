@@ -46,10 +46,10 @@ public class PlayerController : Entity, IKillable
             rend.enabled = value;
             col.enabled = value;
             rb.isKinematic = !value;
-            // moveComponent.enabled = value;
+            // ((Component)moveComponent).gameObject.SetActive(value);
             foreach (IFire i in fireComponents)
             {
-                i.FiringEnabled = value;
+                ((Component)i).gameObject.SetActive(value);
             }
             engine.SetActive(value);
             if (value)
@@ -94,7 +94,7 @@ public class PlayerController : Entity, IKillable
         base.Awake();
         gameObject.name = "Player";
         Lives = livesAtStart;
-        moveComponent = GetComponent<IMove>();
+        moveComponent = GetComponentInChildren<IMove>();
         fireComponents = GetComponentsInChildren<IFire>();
         centerIsClear = true;
         spawnPosition = Vector2.zero;
