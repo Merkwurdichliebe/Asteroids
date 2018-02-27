@@ -22,14 +22,5 @@ public abstract class Entity : MonoBehaviour {
         rb = GetComponent<Rigidbody2D>();
         rend = GetComponentInChildren<SpriteRenderer>();
         col = GetComponent<Collider2D>();
-        // SceneManager.sceneUnloaded += OnSceneUnloaded;
     }
-
-    // FIXME: how to unload properly?
-
-    // private void OnSceneUnloaded(Scene arg0)
-    // {
-    //     if (gameObject != null)
-    //         Destroy(gameObject);
-    // }
 }
