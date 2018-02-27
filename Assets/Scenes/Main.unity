@@ -1055,6 +1055,9 @@ MonoBehaviour:
   - prefab: {fileID: 114645765304585602, guid: 91a355074792b4a1eae272de087d1f0a, type: 2}
     chanceToSpawn: 0.1
     limit: 1
+  - prefab: {fileID: 114747743705783574, guid: 5f600e3df2dee4c1287afa4d14ed48f0, type: 2}
+    chanceToSpawn: 0.1
+    limit: 1
 --- !u!114 &2104122577
 MonoBehaviour:
   m_ObjectHideFlags: 0

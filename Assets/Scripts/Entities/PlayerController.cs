@@ -18,6 +18,8 @@ public class PlayerController : Entity, IKillable
     private bool centerIsClear;
     private Vector2 spawnPosition;
     private EntitySpawnController player;
+    
+    public ShieldController shield;
 
     //
     // Property: Player lives count
@@ -92,12 +94,17 @@ public class PlayerController : Entity, IKillable
         spawnPosition = zonePosition;
     }
 
+    public void Kill()
+    {
+        if(!shield.gameObject.activeSelf)
+            DoKillSequence();
+    }
 
     //
     // (Required by IKillable)
     // Player kill sequence.
     //
-    public void Kill()
+    public void DoKillSequence()
     {
         // Instantiate the explosion prefab
         Instantiate(explosion, transform.position, Quaternion.identity);

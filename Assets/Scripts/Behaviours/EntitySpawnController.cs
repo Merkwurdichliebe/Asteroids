@@ -10,6 +10,7 @@ public class EntitySpawnController : MonoBehaviour {
     //
     [Header("Child objects to include")]
     public GameObject engine;
+    public GameObject shield;
 
 	//
 	// Private fields
@@ -57,6 +58,9 @@ public class EntitySpawnController : MonoBehaviour {
             // Enable/disable the engine child object
             // (hide smoke when unspawned)
             engine.SetActive(value);
+            // shield.SetActive(value);
+
+            // TODO: the above is really ugly and should be streamlined
 
             // Fire event
             if (value)
