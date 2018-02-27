@@ -2,5 +2,5 @@ using UnityEngine;
 
 public abstract class Command {
 
-    public abstract void Execute (GameObject obj);
+    public abstract void Execute (ICommand actor);
 }
