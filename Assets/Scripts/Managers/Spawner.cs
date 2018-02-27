@@ -12,13 +12,12 @@ public class Spawner : MonoBehaviour
 
     [Header("General Settings")]
     public float secondsBetweenSpawns;
-    [Range(0, 1)]
     public float overallSpawnProbability = 1;
 
     // An list of SpawnableObject objects
     // (cf. struct below)
     // Allows dropping prefabs to spawn
-    // and set weight & max values for each
+    // and set spawn chance & max number for each
     [Header("List of Spawnable prefabs to spawn")]
     public SpawnableObject[] spawnableObjects;
 
@@ -26,7 +25,6 @@ public class Spawner : MonoBehaviour
     // Private fields
     //
 
-    private int totalProbabilityWeights;
     private List<SpawnableObject> spawnableObjectsWeighted;
     private Dictionary<string, int> spawnedCount;
     private Coroutine spawnCoroutine;
@@ -59,11 +57,6 @@ public class Spawner : MonoBehaviour
         GameObject empty = new GameObject { name = "Spawner objects" };
         spawnerParent = empty.transform;
 
-        // Initialize a List of SpawnableObject which will contain
-        // a number of each equal to its weight. Its the simplest way
-        // of implementing weights in a random selection
-        spawnableObjectsWeighted = new List<SpawnableObject>();
-
         // Initialize a Dictionary to count how many objects have been spawned
         // of each SpawnableObject type.
         // The key is the prefab's name, the value is the count.
@@ -77,25 +70,14 @@ public class Spawner : MonoBehaviour
             // because array size allows the prefab slot to be empty.
             // Also check if the weight isn't zero, in which case
             // the prefab won't be included in the list at all.
-            if (obj.prefab != null && obj.probabilityWeight >0)
+            if (obj.prefab != null)
             {
-                // Loop through the weight value
-                for (int i = 0; i < obj.probabilityWeight; i++)
+                // Add key value to the count dictionary
+                if (!spawnedCount.ContainsKey(obj.prefab.name))
                 {
-                    spawnableObjectsWeighted.Add(obj);
-
-                    // Add key value to the count dictionary
-                    if (!spawnedCount.ContainsKey(obj.prefab.name))
-                    {
-                        spawnedCount[obj.prefab.name] = 0;
-                    }
+                    spawnedCount[obj.prefab.name] = 0;
                 }
             }
-        }
-
-        if(spawnableObjectsWeighted.Count == 0)
-        {
-            Debug.LogError("[Spawner] Contains no prefabs.");
         }
 
         EnableSpawner();
@@ -143,18 +125,17 @@ public class Spawner : MonoBehaviour
         }
     }
 
-
+    //
+    // Spawn objects based on probability.
+    // We check if the maximum number of objects of each type has been reached
+    // and then compare a random value to its chance to spawn multiplied
+    // by the overall spawn probability.
+    //
     private void SpawnAnObject()
     {
-        // Compare a random value between 0 and 1
-        // to the overallSpawnProbability. 
-        if (Random.value < overallSpawnProbability)
+        foreach (SpawnableObject obj in spawnableObjects)
         {
-            // Get the object to spawn from the weighted List of objects
-            SpawnableObject obj = spawnableObjectsWeighted[Random.Range(0, spawnableObjectsWeighted.Count)];
-
-            // If the maximum number hasn't been reached...
-            if (spawnedCount[obj.prefab.name] < obj.maxSimultaneousInstances)
+            if (spawnedCount[obj.prefab.name] < obj.maxSimultaneousInstances && Random.value < overallSpawnProbability * obj.chanceToSpawn)
             {
                 // ...instantiate the prefab.
                 Spawnable o = Instantiate(obj.prefab);
@@ -175,12 +156,8 @@ public class Spawner : MonoBehaviour
                 TotalCount++;
                 // Debug.Log("[Spawner/SpawnAnObject] " + obj.prefab.name + " spawned");
             }
-            else
-            {
-                // Debug.Log("[Spawner/SpawnAnObject] " + obj.prefab.name + " already at maximum (" + obj.maxSimultaneousInstances + ")");
-            }
-            timeSinceLastSpawn = Time.time;
         }
+        timeSinceLastSpawn = Time.time;
     }
 
     // This method gets called by spawned objects when they are destroyed
@@ -200,8 +177,6 @@ public class Spawner : MonoBehaviour
 public struct SpawnableObject
 {
     public Spawnable prefab;
-
-    [Range(0, 10)]
-    public int probabilityWeight;
+    public float chanceToSpawn;
     public int maxSimultaneousInstances;
 }
