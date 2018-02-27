@@ -17,13 +17,7 @@ public class GameManager : MonoBehaviour
     public GameObject cometPrefab;
 
     // Tunable game data
-    [Header("Game options")]
-    public int startWithLevel = 1;
-    public int startWithAsteroids = 3;
-    public int startWithPlayerLives = 3;
-    public bool spawnAsteroids;
-    public bool spawnPlayer;
-    public bool playLevelIntro;
+    public GameSettings gameSettings;
 
     //
     // Private fields
@@ -31,7 +25,8 @@ public class GameManager : MonoBehaviour
     private int countAsteroids;
     private GameObject spawnSafeZone;
     private AsteroidSpawner asteroidSpawner;
-    // This comment is in the new branch
+    private Spawner spawner;
+    private MusicManager musicManager;
 
     // 
     // Properties
@@ -59,20 +54,24 @@ public class GameManager : MonoBehaviour
         Assert.IsNotNull(spawnSafeZonePrefab);
         
         // Set the level number
-        CurrentLevel = startWithLevel;
+        CurrentLevel = gameSettings.level;
 
         // Create the Player spawn safe zone
         spawnSafeZone = Instantiate(spawnSafeZonePrefab);
 
         // Get a reference to the spawners
         asteroidSpawner = GetComponent<AsteroidSpawner>();
+        spawner = GetComponent<Spawner>();
+        musicManager = GetComponent<MusicManager>();
 
         // Spawn the player
-        if (spawnPlayer)
+        if (gameSettings.spawnPlayer)
         {
             Player = Instantiate(playerPrefab);
-            Player.Lives = startWithPlayerLives;
+            Player.Lives = gameSettings.lives;
         }
+
+        musicManager.enabled = gameSettings.playMusic;
     }
 
     //
@@ -80,6 +79,7 @@ public class GameManager : MonoBehaviour
     //
     void Start()
     {
+        spawner.enabled = gameSettings.spawnOthers;
         PrepareNextLevel();
     }
 
@@ -91,7 +91,7 @@ public class GameManager : MonoBehaviour
     {
         StopAllCoroutines();
 
-        if (playLevelIntro)
+        if (gameSettings.playIntro)
             StartCoroutine(ReadyNextLevel());    
         else
             StartNextLevel();
@@ -129,11 +129,11 @@ public class GameManager : MonoBehaviour
         spawnSafeZone.SetActive(true);
         
         // Spawn asteroids
-        if (spawnAsteroids)
-            asteroidSpawner.Spawn(startWithAsteroids + CurrentLevel - 1);
+        if (gameSettings.spawnAsteroids)
+            asteroidSpawner.Spawn(gameSettings.asteroids + CurrentLevel - 1);
     
         // Spawn the player
-        if (spawnPlayer)
+        if (gameSettings.spawnPlayer)
             Player.SpawnInSeconds(0);
     }
 

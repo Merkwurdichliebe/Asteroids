@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class ScoreManager : MonoBehaviour {
 
-    public int bonusLifeEveryPoints;
-
     //
     // Private fields
     //
@@ -50,7 +48,7 @@ public class ScoreManager : MonoBehaviour {
         {
             ui.ShowTextAtScreenPosition(obj, points.ToString());
         }
-        if (bonusLifeEveryPoints > 0)
+        if (gm.gameSettings.bonusLifeEveryPoints > 0)
         {
             CheckForBonusLife();
         }
@@ -62,10 +60,10 @@ public class ScoreManager : MonoBehaviour {
     //
     private void CheckForBonusLife()
     {
-        if (CurrentScore >= lastBonusLifePoints + bonusLifeEveryPoints)
+        if (CurrentScore >= lastBonusLifePoints + gm.gameSettings.bonusLifeEveryPoints)
         {
             gm.Player.Lives += 1;
-            lastBonusLifePoints += bonusLifeEveryPoints;
+            lastBonusLifePoints += gm.gameSettings.bonusLifeEveryPoints;
         }
     }
 }

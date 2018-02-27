@@ -135,7 +135,7 @@ public class Spawner : MonoBehaviour
     {
         foreach (SpawnableObject obj in spawnableObjects)
         {
-            if (spawnedCount[obj.prefab.name] < obj.maxSimultaneousInstances && Random.value < overallSpawnProbability * obj.chanceToSpawn)
+            if (spawnedCount[obj.prefab.name] < obj.limit && Random.value < overallSpawnProbability * obj.chanceToSpawn)
             {
                 // ...instantiate the prefab.
                 Spawnable o = Instantiate(obj.prefab);
@@ -178,5 +178,5 @@ public struct SpawnableObject
 {
     public Spawnable prefab;
     public float chanceToSpawn;
-    public int maxSimultaneousInstances;
+    public int limit;
 }
