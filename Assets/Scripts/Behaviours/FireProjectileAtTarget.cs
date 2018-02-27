@@ -14,7 +14,7 @@ public class FireProjectileAtTarget : MonoBehaviour, IFire
 
     // projectilePrefab is only used for passing the gameobject.name to ObjectPool
     public GameObject projectilePrefab;
-    public float firingInterval;
+    public float firingInterval = 3.0f;
 
     //
     // Private fields
@@ -34,7 +34,7 @@ public class FireProjectileAtTarget : MonoBehaviour, IFire
     private void Awake()
     {
         // Shorten the firing interval at each level.
-        firingInterval = Mathf.Clamp(firingInterval / GameManager.CurrentLevel, 0.2f, 3.0f);
+        firingInterval = Mathf.Clamp(firingInterval / GameManager.CurrentLevel * 2, 0.2f, firingInterval);
 
         // Find the Player
         target = GameObject.FindWithTag("Player");

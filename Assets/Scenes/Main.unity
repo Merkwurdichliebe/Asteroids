@@ -890,10 +890,10 @@ MonoBehaviour:
     type: 2}
   startWithLevel: 1
   startWithAsteroids: 4
-  startWithPlayerLives: 1
-  spawnAsteroids: 0
-  spawnPlayer: 0
-  playLevelIntro: 0
+  startWithPlayerLives: 3
+  spawnAsteroids: 1
+  spawnPlayer: 1
+  playLevelIntro: 1
 --- !u!82 &2104122571
 AudioSource:
   m_ObjectHideFlags: 0

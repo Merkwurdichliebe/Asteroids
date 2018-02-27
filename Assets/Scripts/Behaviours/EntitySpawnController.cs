@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EntitySpawnController : Entity {
+public class EntitySpawnController : MonoBehaviour {
 
     //
     // Inspector fields
@@ -18,6 +18,9 @@ public class EntitySpawnController : Entity {
 	private bool _activeInScene;
     private IMove moveComponent;
     private IFire[] fireComponents;
+    private SpriteRenderer rend;
+    private Collider2D col;
+    private Rigidbody2D rb;
 
 	//
     // Property: Player active in scene.
@@ -77,10 +80,12 @@ public class EntitySpawnController : Entity {
     //
     // Initialization
     //
-    public override void Awake()
+    private void Awake()
 	{
-		base.Awake();
 		moveComponent = GetComponentInChildren<IMove>();
-        fireComponents = GetComponentsInChildren<IFire>();	
+        fireComponents = GetComponentsInChildren<IFire>();
+        rend = GetComponent<SpriteRenderer>();
+        col = GetComponent<Collider2D>();
+        rb = GetComponent<Rigidbody2D>();
 	}
 }
