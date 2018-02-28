@@ -14,6 +14,8 @@ public class PlayerManager : MonoBehaviour {
 	private bool centerIsClear;
 	private Vector2 spawnPosition;
 
+	public static Action<GameObject> OnPlayerEnabled;
+    public static Action<GameObject> OnPlayerDisabled;
     public static Action OnPlayerLivesZero;
 
 	private void Awake()
@@ -54,7 +56,7 @@ public class PlayerManager : MonoBehaviour {
 		// Check if we should respawn.
 		// Otherwise the game is over and we can destroy the player object.
 		if (Player.Lives > 0) {
-			StartCoroutine(EnablePlayerWhenClear());
+			StartCoroutine(EnablePlayerInSeconds(3f));
 		}
 		else
 		{
@@ -63,28 +65,37 @@ public class PlayerManager : MonoBehaviour {
 		}
 	}
 
-	// Wait for a number of seconds,
-	// then start the safe zone clear check.
-	IEnumerator EnablePlayerWhenClear()
+	IEnumerator EnablePlayerInSeconds(float seconds)
 	{
-		yield return new WaitForSeconds(3);
-		centerIsClear = false;
-		spawnSafeZone.SetActive(true);
-		while (!centerIsClear) { yield return null; }
+		yield return new WaitForSeconds(seconds);
 		EnablePlayer();
 	}
 
 	private void EnablePlayer()
 	{
+		StartCoroutine(EnablePlayerWhenClear());
+	}
+
+	// Wait for a number of seconds,
+	// then start the safe zone clear check.
+	IEnumerator EnablePlayerWhenClear()
+	{
+		centerIsClear = false;
+		spawnSafeZone.SetActive(true);
+		while (!centerIsClear) { yield return null; }
 		Player.ResetPosition(spawnPosition);
 		if (Player != null)
 			Player.gameObject.SetActive(true);
+		if (OnPlayerEnabled != null) OnPlayerEnabled(Player.gameObject);
+		Debug.Log("[Player] enabled");
 	}
 
 	private void DisablePlayer()
 	{
 		if (Player != null)
 			Player.gameObject.SetActive(false);
+		if (OnPlayerDisabled != null) OnPlayerDisabled(Player.gameObject);
+		Debug.Log("[Player] disabled");
 	}
 
 	private void OnEnable()
@@ -102,5 +113,4 @@ public class PlayerManager : MonoBehaviour {
 		PlayerController.OnPlayerDestroyed -= HandlePlayerDied;
 		SafeZone.OnSafeZoneClear -= HandleCenterIsClear;
 	}
-
 }

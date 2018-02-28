@@ -40,7 +40,7 @@ public class FireProjectileAtTarget : MonoBehaviour, IFire
         target = GameObject.FindWithTag("Player");
 
         // Start firing
-        EnableFire();
+        EnableFire(target);
     }
 
     //
@@ -75,7 +75,7 @@ public class FireProjectileAtTarget : MonoBehaviour, IFire
         // Wait for 1 second before starting to fire
         yield return new WaitForSeconds(1);
 
-        while (target != null)
+        while (target != null && target.activeSelf)
         {
             // Update firingprecision at each shot,
             // otherwise the offset is the same every time.
@@ -111,26 +111,25 @@ public class FireProjectileAtTarget : MonoBehaviour, IFire
     //
     private void OnEnable()
     {
-        EntitySpawnController.OnPlayerSpawned += EnableFire;
-        EntitySpawnController.OnPlayerDespawned += DisableFire;
+        PlayerManager.OnPlayerEnabled += EnableFire;
+        PlayerManager.OnPlayerDisabled += DisableFire;
     }
 
     private void OnDisable()
     {
-        EntitySpawnController.OnPlayerSpawned -= EnableFire;
-        EntitySpawnController.OnPlayerDespawned -= DisableFire;
+        PlayerManager.OnPlayerEnabled -= EnableFire;
+        PlayerManager.OnPlayerDisabled -= DisableFire;
     }
 
     //
     // We start and stop firing based on the events above.
     //
-    private void EnableFire() {
-        gameObject.SetActive(true);
+    private void EnableFire(GameObject player) {
+        target = player;
         Fire();
     }
 
-    private void DisableFire() {
-        gameObject.SetActive(false);
+    private void DisableFire(GameObject player) {
         StopCoroutine(fireCoroutine);
     }
 }

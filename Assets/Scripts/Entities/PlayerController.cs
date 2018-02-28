@@ -40,6 +40,7 @@ public class PlayerController : Entity, IKillable
     // 
     // Events
     //
+
     public static Action OnPlayerDestroyed;
     public static Action<int> OnPlayerLivesChanged;
 

@@ -21,8 +21,13 @@ public class SafeZone : MonoBehaviour {
     //
     // Inspector fields
     //
-    public float checkInterval = 0.5f;
-    public float maximumIdleTime = 3.0f;
+    public float checkInterval;
+    public float maximumIdleTime;
+
+    // maximumIdleTime should be higher than checkInterval,
+    // otherwise the safe zone moves immediately on the first check.
+    // We'd like to keep it at the starting position of (0,0)
+    // if possible.
 
     //
     // Private fields
@@ -67,7 +72,8 @@ public class SafeZone : MonoBehaviour {
     {
         if (Time.time > lastCheckTime + checkInterval)
         {
-            // Debug.Log(isClearThisCheck + " " + isClearLastCheck);
+            // If we are clear this frame and weren't last frame
+            // then the zone is clear.
             if (isClearThisCheck && !isClearLastCheck)
             {
                 // Debug.Log("[SpawnSafeZoneManager] Zone is clear");
@@ -75,10 +81,11 @@ public class SafeZone : MonoBehaviour {
                 if (OnSafeZoneClear != null) { OnSafeZoneClear(true, transform.position); }
                 gameObject.SetActive(false);
             }
+
             isClearThisCheck = true;
             lastCheckTime = Time.time;
 
-            // Try to position the zone somewhere else if occupied for too long
+            // Try to position the zone somewhere else
             if (Time.time > timeAtEnabled + maximumIdleTime)
             {
                 float _posX = Random.Range(-4f, 4f);

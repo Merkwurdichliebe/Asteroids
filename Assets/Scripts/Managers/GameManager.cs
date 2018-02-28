@@ -74,8 +74,14 @@ public class GameManager : MonoBehaviour
         // Send message
         if (OnGameLevelIntro != null) { OnGameLevelIntro(); }
 
-        // Animate the comet effect, wait for 3 seconds and start the level
+        // Disable the Spawner
+        spawner.enabled = false;
+
+        // Animate the comet effect
+        // Particle System delay is set to 0,05 to avoid emission at (0,0) on first frame
         Instantiate(cometPrefab);
+        
+        // Wait for 3 seconds and start the level
         yield return new WaitForSeconds(3);
         StartNextLevel();
     }
@@ -87,6 +93,7 @@ public class GameManager : MonoBehaviour
     {
         // Send message
         if (OnGameLevelStart != null) { OnGameLevelStart(); }
+        spawner.enabled = true;
     }
 
     //
@@ -127,3 +134,6 @@ public class GameManager : MonoBehaviour
         KeepInstancesCount.OnLastDestroyed -= CheckLastDestroyed;
     }
 }
+
+// TODO: Increase spawner frequency with level
+// TODO: Fix shield

@@ -67,5 +67,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17297419f33774b119eccda5907343da, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  checkInterval: 0.2
-  maximumIdleTime: 3
+  checkInterval: 0.1
+  maximumIdleTime: 0.2

@@ -79,39 +79,11 @@ public class Spawner : MonoBehaviour
                 }
             }
         }
-
-        EnableSpawner();
-    }
-
-    //
-    // Reset the spawn timer when enabled.
-    //
-    private void OnEnable()
-    {
-        timeSinceLastSpawn = Time.time;
-        EntitySpawnController.OnPlayerSpawned += EnableSpawner;
-        EntitySpawnController.OnPlayerDespawned += DisableSpawner;
-    }
-
-    private void OnDisable()
-    {
-        EntitySpawnController.OnPlayerSpawned -= EnableSpawner;
-        EntitySpawnController.OnPlayerDespawned -= DisableSpawner;
-    }
-
-    private void EnableSpawner()
-    {
-        spawnerEnabled = true;
-    }
-
-    private void DisableSpawner()
-    {
-        spawnerEnabled = false;
     }
 
     private bool ShouldSpawn()
     {
-        return Time.time - timeSinceLastSpawn > secondsBetweenSpawns && spawnerEnabled;
+        return Time.time - timeSinceLastSpawn > secondsBetweenSpawns && this.enabled;
     }
 
     //
