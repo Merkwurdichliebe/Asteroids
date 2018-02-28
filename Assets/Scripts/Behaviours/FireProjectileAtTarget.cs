@@ -124,12 +124,14 @@ public class FireProjectileAtTarget : MonoBehaviour, IFire
     //
     // We start and stop firing based on the events above.
     //
-    private void EnableFire(GameObject player) {
+    private void EnableFire(GameObject player)
+    {
         target = player;
         Fire();
     }
 
-    private void DisableFire(GameObject player) {
+    private void DisableFire(GameObject player)
+    {
         StopCoroutine(fireCoroutine);
     }
 }

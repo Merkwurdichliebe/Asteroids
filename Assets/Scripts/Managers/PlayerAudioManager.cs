@@ -17,14 +17,12 @@ public class PlayerAudioManager : MonoBehaviour {
     {
         MovePlayerControlled.OnPlayerAccelerating += PlayAccelerate;
         MovePlayerControlled.OnPlayerStopped += PlayStop;
-        PlayerController.OnPlayerDestroyed += HandlePlayerDestroyed;
     }
 
     private void OnDisable()
     {
         MovePlayerControlled.OnPlayerAccelerating -= PlayAccelerate;
         MovePlayerControlled.OnPlayerStopped -= PlayStop;
-        PlayerController.OnPlayerDestroyed -= HandlePlayerDestroyed;
     }
 
     private void Start()
@@ -44,13 +42,5 @@ public class PlayerAudioManager : MonoBehaviour {
     void PlayStop()
     {
         audioSource.Stop();
-    }
-
-    void HandlePlayerDestroyed()
-    {
-        // audioSource.Stop();
-        // audioSource.volume = 0.7f;
-        // audioSource.loop = false;
-        // audioSource.PlayOneShot(destroyed);
     }
 }

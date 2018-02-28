@@ -74,8 +74,7 @@ public class Projectile : MonoBehaviour {
 
     //
     // If the projectile collides with anything,
-    // check if it should explode and deactivate it
-    // so that it can be reused by ObjectPool.
+    // destroy it.
     //
     private void OnCollisionEnter2D(Collision2D collision)
     {

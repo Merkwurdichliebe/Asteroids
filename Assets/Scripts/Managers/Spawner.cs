@@ -9,12 +9,11 @@ public class Spawner : MonoBehaviour
     //
     // Inspector fields
     //
-
     [Header("General Settings")]
     public float secondsBetweenSpawns;
     public float overallSpawnProbability = 1;
 
-    // An list of SpawnableObject objects
+    // A list of SpawnableObject objects
     // (cf. struct below)
     // Allows dropping prefabs to spawn
     // and set spawn chance & max number for each
@@ -24,7 +23,6 @@ public class Spawner : MonoBehaviour
     //
     // Private fields
     //
-
     private List<SpawnableObject> spawnableObjectsWeighted;
     private Dictionary<string, int> spawnedCount;
     private Coroutine spawnCoroutine;
@@ -35,7 +33,6 @@ public class Spawner : MonoBehaviour
     //
     // Properties
     //
-
     public int TotalCount { get; private set; }
 
     // Check if the SpawnableObject array size has been set
@@ -43,13 +40,9 @@ public class Spawner : MonoBehaviour
     private void Awake()
     {
         if (spawnableObjects.Length > 0)
-        {
             Initialize();
-        }
         else
-        {
             Debug.LogWarning("[Spawner/Awake] Spawner on '" + this.gameObject.name + "' is empty.");
-        }
     }
 
     private void Initialize()
@@ -109,7 +102,7 @@ public class Spawner : MonoBehaviour
         {
             if (spawnedCount[obj.prefab.name] < obj.limit && Random.value < overallSpawnProbability * obj.chanceToSpawn)
             {
-                // ...instantiate the prefab.
+                // Instantiate the prefab.
                 Spawnable o = Instantiate(obj.prefab);
                 o.transform.parent = spawnerParent;
 
@@ -126,15 +119,16 @@ public class Spawner : MonoBehaviour
                 // and in the public property.
                 spawnedCount[obj.prefab.name]++;
                 TotalCount++;
-                // Debug.Log("[Spawner/SpawnAnObject] " + obj.prefab.name + " spawned");
             }
         }
         timeSinceLastSpawn = Time.time;
     }
 
+    //
     // This method gets called by spawned objects when they are destroyed
     // and decreases the count value in the Dictionary.
     // At least one script on the spawned object should inherit from Spawnable.
+    //
     public void NotifyDestroyed(GameObject obj)
     {
         // Debug.Log("[Spawner/NotifyDestroyed] " + obj.name);
@@ -143,8 +137,10 @@ public class Spawner : MonoBehaviour
     }
 }
 
-// A struct holding an object and a weight for its spawning probability.
+//
+// A struct holding an object and a spawning probability.
 // Make it serializable so its fields are visible in the Inspector.
+//
 [System.Serializable]
 public struct SpawnableObject
 {

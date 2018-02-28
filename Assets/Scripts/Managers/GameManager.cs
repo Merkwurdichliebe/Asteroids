@@ -113,7 +113,7 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator LevelCleared()
     {
-        yield return new WaitForSeconds(2);
+        yield return new WaitForSeconds(1);
         if (!GameOverManager.IsGameOver)
         {
             CurrentLevel += 1;

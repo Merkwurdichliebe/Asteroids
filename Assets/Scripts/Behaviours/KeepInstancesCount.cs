@@ -3,9 +3,9 @@ using UnityEngine;
 
 /// <summary>
 /// This MonoBehaviour uses a static variable to keep count of
-/// instances of itself and sends a message when zero it reached.
+/// instances of itself and sends a message when zero is reached.
 /// The message passes this class which can then be used to inspect
-/// the gameobject's tag (among other things).
+/// e.g. the gameobject's tag.
 /// </summary>
 
 public class KeepInstancesCount : MonoBehaviour {

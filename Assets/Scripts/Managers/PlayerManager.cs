@@ -5,19 +5,31 @@ using UnityEngine;
 
 public class PlayerManager : MonoBehaviour {
 
+	//
+	// Inspector fields
+	//
 	public PlayerController playerPrefab;
 	public GameSettings gameSettings;
 	public PlayerController Player { get; private set; }
 	public GameObject spawnSafeZonePrefab;
 
+	//
+	// Private fields
+	//
 	private GameObject spawnSafeZone;
 	private bool centerIsClear;
 	private Vector2 spawnPosition;
 
+	//
+	// Events
+	//
 	public static Action<GameObject> OnPlayerEnabled;
     public static Action<GameObject> OnPlayerDisabled;
     public static Action OnPlayerLivesZero;
 
+	//
+	// Initialisation
+	//
 	private void Awake()
 	{
 		// Create the Player & Safe Zone
@@ -25,10 +37,7 @@ public class PlayerManager : MonoBehaviour {
 		spawnPosition = Vector2.zero;
 		spawnSafeZone.SetActive(true);
 		if (gameSettings.spawnPlayer)
-        {
-            Player = Instantiate(playerPrefab);
-			// DisablePlayer();
-        }
+        	Player = Instantiate(playerPrefab);
 	}
 
 	private void Start()
@@ -41,7 +50,9 @@ public class PlayerManager : MonoBehaviour {
 	//
     // Event handler for when the center spawn safe zone is clear.
     // It gets the position where the safe zone
-    // has repositioned itself and checked it is clear of hostiles.
+    // has repositioned itself and checked it is clear of hostiles,
+    // and sets the centerIsClear variable, which is used to break out
+    // of the loop in the coroutine below.
     //
     private void HandleCenterIsClear(bool clear, Vector2 zonePosition)
     {
@@ -49,6 +60,9 @@ public class PlayerManager : MonoBehaviour {
         spawnPosition = zonePosition;
     }
 
+	//
+	// React to player death based on number of lives left.
+	//
 	private void HandlePlayerDied()
 	{
 		DisablePlayer();
@@ -65,19 +79,30 @@ public class PlayerManager : MonoBehaviour {
 		}
 	}
 
+	//
+	// Coroutine only used for adding respawn delay.
+	//
 	IEnumerator EnablePlayerInSeconds(float seconds)
 	{
 		yield return new WaitForSeconds(seconds);
 		EnablePlayer();
 	}
 
+	//
+	// This can't be integrated as part of the coroutine
+	// because it's called by the Action subscribtion in OnEnable
+	// and therefore needs to match the delegate signature
+	// of GameManager.OnGameLevelStart.
+	//
 	private void EnablePlayer()
 	{
 		StartCoroutine(EnablePlayerWhenClear());
 	}
 
-	// Wait for a number of seconds,
-	// then start the safe zone clear check.
+	//
+	// Activate the safe zone. When it's clear, set the
+	// player position and enable the player.
+	//
 	IEnumerator EnablePlayerWhenClear()
 	{
 		centerIsClear = false;
@@ -87,7 +112,6 @@ public class PlayerManager : MonoBehaviour {
 		if (Player != null)
 			Player.gameObject.SetActive(true);
 		if (OnPlayerEnabled != null) OnPlayerEnabled(Player.gameObject);
-		Debug.Log("[Player] enabled");
 	}
 
 	private void DisablePlayer()
@@ -95,7 +119,6 @@ public class PlayerManager : MonoBehaviour {
 		if (Player != null)
 			Player.gameObject.SetActive(false);
 		if (OnPlayerDisabled != null) OnPlayerDisabled(Player.gameObject);
-		Debug.Log("[Player] disabled");
 	}
 
 	private void OnEnable()
