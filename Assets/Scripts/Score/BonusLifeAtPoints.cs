@@ -13,21 +13,21 @@ public class BonusLifeAtPoints : MonoBehaviour {
     // Private fields
     //
     private int nextBonusLifePoints;
-    private ScoreManager sm;
-    private GameManager gm;
+    private ScoreManager scoreManager;
+    private PlayerManager playerManager;
 
     private void Awake()
     {
-        sm = GetComponent<ScoreManager>();
-        gm = GetComponent<GameManager>();
+        scoreManager = GetComponent<ScoreManager>();
+        playerManager = GetComponent<PlayerManager>();
         nextBonusLifePoints = bonusLifeEveryPoints;
     }
 
     private void CheckForBonusLife()
     {
-        if (sm.CurrentScore >= nextBonusLifePoints)
+        if (scoreManager.CurrentScore >= nextBonusLifePoints)
         {
-            gm.Player.Lives += 1;
+            playerManager.Player.Lives += 1;
             nextBonusLifePoints += bonusLifeEveryPoints;
         }
     }

@@ -47,6 +47,11 @@ public class MovePlayerControlled : MonoBehaviour, IMove
         }
     }
 
+    private void OnEnable()
+    {
+        isAccelerating = false;    
+    }
+
     //
     // Add force if the object is accelerating. 
     //

@@ -7,7 +7,8 @@ public class ScoreManager : MonoBehaviour {
     //
     // Private fields
     //
-    private GameManager gm;
+    private GameManager gameManager;
+    private PlayerManager playerManager;
     private UIManager ui;
     private int lastBonusLifePoints;
 
@@ -22,7 +23,8 @@ public class ScoreManager : MonoBehaviour {
     private void Awake()
     {
         ui = GetComponent<UIManager>();
-        gm = GetComponent<GameManager>();
+        playerManager = GetComponent<PlayerManager>();
+        gameManager = GetComponent<GameManager>();
     }
 
     //
@@ -48,7 +50,7 @@ public class ScoreManager : MonoBehaviour {
         {
             ui.ShowTextAtScreenPosition(obj, points.ToString());
         }
-        if (gm.gameSettings.bonusLifeEveryPoints > 0)
+        if (gameManager.gameSettings.bonusLifeEveryPoints > 0)
         {
             CheckForBonusLife();
         }
@@ -60,10 +62,10 @@ public class ScoreManager : MonoBehaviour {
     //
     private void CheckForBonusLife()
     {
-        if (CurrentScore >= lastBonusLifePoints + gm.gameSettings.bonusLifeEveryPoints)
+        if (CurrentScore >= lastBonusLifePoints + gameManager.gameSettings.bonusLifeEveryPoints)
         {
-            gm.Player.Lives += 1;
-            lastBonusLifePoints += gm.gameSettings.bonusLifeEveryPoints;
+            playerManager.Player.Lives += 1;
+            lastBonusLifePoints += gameManager.gameSettings.bonusLifeEveryPoints;
         }
     }
 }

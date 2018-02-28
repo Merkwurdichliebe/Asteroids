@@ -823,6 +823,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2104122569}
   - component: {fileID: 2104122570}
+  - component: {fileID: 2104122578}
   - component: {fileID: 2104122577}
   - component: {fileID: 2104122575}
   - component: {fileID: 2104122576}
@@ -882,10 +883,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e2def2ab3ccac46e589fbe2fc0ddf241, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerPrefab: {fileID: 114579725366848430, guid: 1cd0fc377425e480f912e5efcaa6121b,
-    type: 2}
-  spawnSafeZonePrefab: {fileID: 1794067495380198, guid: 403a337438dd9426c938e1581c33ed80,
-    type: 2}
   cometPrefab: {fileID: 1661287572815834, guid: 8972d0ae4b3ed4753ae706c86a3f2d2a,
     type: 2}
   gameSettings: {fileID: 11400000, guid: b644df034366b455782e19c521b5b257, type: 2}
@@ -1069,3 +1066,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e397d6304e8aa4d5e87259193cec3ce3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &2104122578
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2104122567}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c0125cd4ec84a431f990e8e44df83033, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerPrefab: {fileID: 114579725366848430, guid: 1cd0fc377425e480f912e5efcaa6121b,
+    type: 2}
+  gameSettings: {fileID: 11400000, guid: b644df034366b455782e19c521b5b257, type: 2}
+  spawnSafeZonePrefab: {fileID: 1794067495380198, guid: 403a337438dd9426c938e1581c33ed80,
+    type: 2}

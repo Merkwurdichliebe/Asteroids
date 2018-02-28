@@ -95,7 +95,7 @@ public class UIManager : MonoBehaviour {
     private void OnEnable()
     {
         PlayerController.OnPlayerLivesChanged += UpdateLives;
-        PlayerController.OnPlayerLivesZero += HandleGameOver;
+        PlayerManager.OnPlayerLivesZero += HandleGameOver;
         MovePlayerControlled.OnPlayerAccelerating += UpdateSpeed;
         GameManager.OnGameLevelReady += DisplayLevelNumber;
         GameManager.OnGameLevelStart += DisplayGameUI;
@@ -105,7 +105,7 @@ public class UIManager : MonoBehaviour {
     private void OnDisable()
     {
         PlayerController.OnPlayerLivesChanged -= UpdateLives;
-        PlayerController.OnPlayerLivesZero -= HandleGameOver;
+        PlayerManager.OnPlayerLivesZero -= HandleGameOver;
         MovePlayerControlled.OnPlayerAccelerating -= UpdateSpeed;
         GameManager.OnGameLevelReady -= DisplayLevelNumber;
         GameManager.OnGameLevelStart -= DisplayGameUI;

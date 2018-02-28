@@ -48,9 +48,9 @@ public class PlayerAudioManager : MonoBehaviour {
 
     void HandlePlayerDestroyed()
     {
-        audioSource.Stop();
-        audioSource.volume = 0.7f;
-        audioSource.loop = false;
-        audioSource.PlayOneShot(destroyed);
+        // audioSource.Stop();
+        // audioSource.volume = 0.7f;
+        // audioSource.loop = false;
+        // audioSource.PlayOneShot(destroyed);
     }
 }

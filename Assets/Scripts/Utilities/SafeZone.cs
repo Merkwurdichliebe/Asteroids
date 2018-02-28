@@ -44,13 +44,20 @@ public class SafeZone : MonoBehaviour {
     void Awake()
     {
         col = GetComponent<Collider2D>();
-        isClearLastCheck = true;
     }
 
     private void OnEnable()
     {
+        isClearThisCheck = false;
+        isClearLastCheck = false;
         timeAtEnabled = Time.time;
         transform.position = Vector2.zero;
+        Debug.Log("[SpawnSafeZoneManager] Zone is enabled");
+    }
+
+    private void OnDisable()
+    {
+        Debug.Log("[SpawnSafeZoneManager] Zone is disabled");
     }
 
     //
@@ -60,11 +67,13 @@ public class SafeZone : MonoBehaviour {
     {
         if (Time.time > lastCheckTime + checkInterval)
         {
+            // Debug.Log(isClearThisCheck + " " + isClearLastCheck);
             if (isClearThisCheck && !isClearLastCheck)
             {
-                // Debug.Log("[SpawnSafeZoneManager] Zone is clear");
+                Debug.Log("[SpawnSafeZoneManager] Zone is clear");
                 isClearLastCheck = true;
                 if (OnSafeZoneClear != null) { OnSafeZoneClear(true, transform.position); }
+                gameObject.SetActive(false);
             }
             isClearThisCheck = true;
             lastCheckTime = Time.time;
@@ -84,7 +93,7 @@ public class SafeZone : MonoBehaviour {
         isClearThisCheck = false;
         if (isClearLastCheck)
         {
-            // Debug.Log("[SpawnSafeZoneManager] Zone is occupied");
+            Debug.Log("[SpawnSafeZoneManager] Zone is occupied");
             isClearLastCheck = false;
             if (OnSafeZoneClear != null) { OnSafeZoneClear(false, transform.position); }
         }

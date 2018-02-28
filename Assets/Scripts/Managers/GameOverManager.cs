@@ -33,11 +33,11 @@ public class GameOverManager : MonoBehaviour
 
     private void OnEnable()
     {
-        PlayerController.OnPlayerLivesZero += GameOver;
+        PlayerManager.OnPlayerLivesZero += GameOver;
     }
 
     private void OnDisable()
     {
-        PlayerController.OnPlayerLivesZero -= GameOver;
+        PlayerManager.OnPlayerLivesZero -= GameOver;
     }
 }

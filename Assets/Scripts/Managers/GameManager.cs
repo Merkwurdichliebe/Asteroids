@@ -9,11 +9,11 @@ public class GameManager : MonoBehaviour
     //
     // Inspector fields
     //
-    [Header("Main game prefabs")]
-    public PlayerController playerPrefab;
+    // [Header("Main game prefabs")]
+    // public PlayerController playerPrefab;
 
     [Header("Extra game prefabs")]
-    public GameObject spawnSafeZonePrefab;
+    
     public GameObject cometPrefab;
 
     // Tunable game data
@@ -23,7 +23,6 @@ public class GameManager : MonoBehaviour
     // Private fields
     //
     private int countAsteroids;
-    private GameObject spawnSafeZone;
     private AsteroidSpawner asteroidSpawner;
     private Spawner spawner;
     private MusicManager musicManager;
@@ -31,7 +30,7 @@ public class GameManager : MonoBehaviour
     // 
     // Properties
     //
-    public PlayerController Player { get; private set; }
+    // public PlayerController Player { get; private set; }
 
     public static int CurrentLevel
     {
@@ -49,15 +48,10 @@ public class GameManager : MonoBehaviour
     //
     void Awake()
     {
-        // Check for unconnected prefabs
-        Assert.IsNotNull(playerPrefab);
-        Assert.IsNotNull(spawnSafeZonePrefab);
-        
         // Set the level number
         CurrentLevel = gameSettings.level;
 
-        // Create the Player spawn safe zone
-        spawnSafeZone = Instantiate(spawnSafeZonePrefab);
+
 
         // Get a reference to the spawners
         asteroidSpawner = GetComponent<AsteroidSpawner>();
@@ -65,11 +59,11 @@ public class GameManager : MonoBehaviour
         musicManager = GetComponent<MusicManager>();
 
         // Spawn the player
-        if (gameSettings.spawnPlayer)
-        {
-            Player = Instantiate(playerPrefab);
-            Player.Lives = gameSettings.lives;
-        }
+        // if (gameSettings.spawnPlayer)
+        // {
+        //     Player = Instantiate(playerPrefab);
+        //     Player.Lives = gameSettings.lives;
+        // }
 
         musicManager.enabled = gameSettings.playMusic;
     }
@@ -105,11 +99,11 @@ public class GameManager : MonoBehaviour
         if (OnGameLevelReady != null) { OnGameLevelReady(); }
 
         // Deactivate the player & safe zone
-        if (Player != null) 
-            Player.GetComponent<EntitySpawnController>().ActiveInScene = false;
+        // if (Player != null) 
+        //     Player.GetComponent<EntitySpawnController>().ActiveInScene = false;
         
         // This needs to come after player deactivation or it will reactivate
-        spawnSafeZone.SetActive(false);
+        // spawnSafeZone.SetActive(false);
 
         // Animate the comet effect, wait for 3 seconds and start the level
         Instantiate(cometPrefab);
@@ -125,16 +119,13 @@ public class GameManager : MonoBehaviour
         // Send message
         if (OnGameLevelStart != null) { OnGameLevelStart(); }
 
-        // Activate the safe zone
-        spawnSafeZone.SetActive(true);
-        
         // Spawn asteroids
         if (gameSettings.spawnAsteroids)
             asteroidSpawner.Spawn(gameSettings.asteroids + CurrentLevel - 1);
     
-        // Spawn the player
-        if (gameSettings.spawnPlayer)
-            Player.SpawnInSeconds(0);
+        // // Spawn the player
+        // if (gameSettings.spawnPlayer)
+        //     Player.SpawnInSeconds(0);
     }
 
     //
@@ -157,34 +148,10 @@ public class GameManager : MonoBehaviour
     // and start a new one.
     void CheckLevelCleared()
     {
-        // TODO: go to next level when asteroids zero even when no player
-        // Not easy : game ends when lives = 0, levels ends when asteroids = 0
-        if (Player != null)
-        {
-            if (Player.Lives != 0)
-            {
-                CurrentLevel += 1;
-                PrepareNextLevel();
-            }
-        }
+        CurrentLevel += 1;
+        PrepareNextLevel();
     }
 
-    //
-    // These are called when the different "OnPlayer" events
-    // subscribed to in OnEnable() are received.
-    // We use this to enable and disable the safe zone
-    // depending on whether the player has spawned
-    // or despawned.
-    //
-    void DisableSafeZone()
-    {
-        spawnSafeZone.SetActive(false);
-    }
-
-    void EnableSafeZone()
-    {
-        spawnSafeZone.SetActive(true);
-    }
 
     //
     // Event subscriptions
@@ -192,16 +159,10 @@ public class GameManager : MonoBehaviour
     void OnEnable()
     {
         KeepInstancesCount.OnLastDestroyed += CheckLastDestroyed;
-        EntitySpawnController.OnPlayerSpawned += DisableSafeZone;
-        EntitySpawnController.OnPlayerDespawned += EnableSafeZone;
-        PlayerController.OnPlayerDestroyed += EnableSafeZone;
     }
 
     void OnDisable()
     {
         KeepInstancesCount.OnLastDestroyed -= CheckLastDestroyed;
-        EntitySpawnController.OnPlayerSpawned -= DisableSafeZone;
-        EntitySpawnController.OnPlayerDespawned -= EnableSafeZone;
-        PlayerController.OnPlayerDestroyed -= EnableSafeZone;
     }
 }
