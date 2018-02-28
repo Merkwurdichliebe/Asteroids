@@ -52,12 +52,12 @@ public class SafeZone : MonoBehaviour {
         isClearLastCheck = false;
         timeAtEnabled = Time.time;
         transform.position = Vector2.zero;
-        Debug.Log("[SpawnSafeZoneManager] Zone is enabled");
+        // Debug.Log("[SpawnSafeZoneManager] Zone is enabled");
     }
 
     private void OnDisable()
     {
-        Debug.Log("[SpawnSafeZoneManager] Zone is disabled");
+        // Debug.Log("[SpawnSafeZoneManager] Zone is disabled");
     }
 
     //
@@ -70,7 +70,7 @@ public class SafeZone : MonoBehaviour {
             // Debug.Log(isClearThisCheck + " " + isClearLastCheck);
             if (isClearThisCheck && !isClearLastCheck)
             {
-                Debug.Log("[SpawnSafeZoneManager] Zone is clear");
+                // Debug.Log("[SpawnSafeZoneManager] Zone is clear");
                 isClearLastCheck = true;
                 if (OnSafeZoneClear != null) { OnSafeZoneClear(true, transform.position); }
                 gameObject.SetActive(false);
@@ -93,7 +93,7 @@ public class SafeZone : MonoBehaviour {
         isClearThisCheck = false;
         if (isClearLastCheck)
         {
-            Debug.Log("[SpawnSafeZoneManager] Zone is occupied");
+            // Debug.Log("[SpawnSafeZoneManager] Zone is occupied");
             isClearLastCheck = false;
             if (OnSafeZoneClear != null) { OnSafeZoneClear(false, transform.position); }
         }
