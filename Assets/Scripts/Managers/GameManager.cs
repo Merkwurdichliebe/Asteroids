@@ -9,38 +9,26 @@ public class GameManager : MonoBehaviour
     //
     // Inspector fields
     //
-    // [Header("Main game prefabs")]
-    // public PlayerController playerPrefab;
-
     [Header("Extra game prefabs")]
-    
     public GameObject cometPrefab;
-
-    // Tunable game data
     public GameSettings gameSettings;
 
     //
     // Private fields
     //
     private int countAsteroids;
-    private AsteroidSpawner asteroidSpawner;
     private Spawner spawner;
     private MusicManager musicManager;
 
     // 
     // Properties
     //
-    // public PlayerController Player { get; private set; }
-
-    public static int CurrentLevel
-    {
-        get; private set;
-    }
+    public static int CurrentLevel { get; private set; }
 
     //
     //  Events
     //
-    public static Action OnGameLevelReady;
+    public static Action OnGameLevelIntro;
     public static Action OnGameLevelStart;
 
     //
@@ -51,20 +39,9 @@ public class GameManager : MonoBehaviour
         // Set the level number
         CurrentLevel = gameSettings.level;
 
-
-
-        // Get a reference to the spawners
-        asteroidSpawner = GetComponent<AsteroidSpawner>();
+        // Cache references
         spawner = GetComponent<Spawner>();
         musicManager = GetComponent<MusicManager>();
-
-        // Spawn the player
-        // if (gameSettings.spawnPlayer)
-        // {
-        //     Player = Instantiate(playerPrefab);
-        //     Player.Lives = gameSettings.lives;
-        // }
-
         musicManager.enabled = gameSettings.playMusic;
     }
 
@@ -84,7 +61,6 @@ public class GameManager : MonoBehaviour
     void PrepareNextLevel()
     {
         StopAllCoroutines();
-
         if (gameSettings.playIntro)
             StartCoroutine(ReadyNextLevel());    
         else
@@ -96,14 +72,7 @@ public class GameManager : MonoBehaviour
     IEnumerator ReadyNextLevel()
     {
         // Send message
-        if (OnGameLevelReady != null) { OnGameLevelReady(); }
-
-        // Deactivate the player & safe zone
-        // if (Player != null) 
-        //     Player.GetComponent<EntitySpawnController>().ActiveInScene = false;
-        
-        // This needs to come after player deactivation or it will reactivate
-        // spawnSafeZone.SetActive(false);
+        if (OnGameLevelIntro != null) { OnGameLevelIntro(); }
 
         // Animate the comet effect, wait for 3 seconds and start the level
         Instantiate(cometPrefab);
@@ -118,14 +87,6 @@ public class GameManager : MonoBehaviour
     {
         // Send message
         if (OnGameLevelStart != null) { OnGameLevelStart(); }
-
-        // Spawn asteroids
-        if (gameSettings.spawnAsteroids)
-            asteroidSpawner.Spawn(gameSettings.asteroids + CurrentLevel - 1);
-    
-        // // Spawn the player
-        // if (gameSettings.spawnPlayer)
-        //     Player.SpawnInSeconds(0);
     }
 
     //
@@ -138,20 +99,20 @@ public class GameManager : MonoBehaviour
     {
         if(component.gameObject.tag.Equals("Asteroid"))
         {
-            CheckLevelCleared();
+            // CheckLevelCleared();
+            StartCoroutine(LevelCleared());
         }
     }
 
-    //
-    // Check the player for null.
-    // If it still has lives left, increment the level number
-    // and start a new one.
-    void CheckLevelCleared()
+    private IEnumerator LevelCleared()
     {
-        CurrentLevel += 1;
-        PrepareNextLevel();
-    }
-
+        yield return new WaitForSeconds(2);
+        if (!GameOverManager.IsGameOver)
+        {
+            CurrentLevel += 1;
+            PrepareNextLevel();
+        }
+    } 
 
     //
     // Event subscriptions

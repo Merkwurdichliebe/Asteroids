@@ -5,6 +5,7 @@ using UnityEngine;
 public class AsteroidSpawner : MonoBehaviour {
 
 	public CloneWhenKilled asteroidPrefab;
+    public GameSettings gameSettings;
 
 	private readonly Vector2 halfUnit = new Vector2(0.5f, 0.5f);
 	private Transform asteroidsParent;
@@ -19,6 +20,12 @@ public class AsteroidSpawner : MonoBehaviour {
         asteroidsParent = new GameObject().transform;
         asteroidsParent.gameObject.name = "Asteroids";
 	}
+
+    private void HandleGameLevelStart()
+    {
+        if (gameSettings.spawnAsteroids)
+            Spawn(gameSettings.asteroids + GameManager.CurrentLevel - 1);
+    }
 
 	//
     // Spawn the first asteroids.
@@ -43,4 +50,14 @@ public class AsteroidSpawner : MonoBehaviour {
             asteroid.gameObject.transform.position = worldPos;
         }
     }
+
+    private void OnEnable()
+	{
+		GameManager.OnGameLevelStart += HandleGameLevelStart;
+	}
+
+	private void OnDisable()
+	{
+		GameManager.OnGameLevelStart -= HandleGameLevelStart;
+	}
 }

@@ -1026,6 +1026,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   asteroidPrefab: {fileID: 114691825597835066, guid: 165fce1b024b44eb7a9ac1c1ea667665,
     type: 2}
+  gameSettings: {fileID: 11400000, guid: b644df034366b455782e19c521b5b257, type: 2}
 --- !u!114 &2104122576
 MonoBehaviour:
   m_ObjectHideFlags: 0

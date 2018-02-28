@@ -5,11 +5,18 @@ using UnityEngine.SceneManagement;
 
 public class GameOverManager : MonoBehaviour
 {
+    public static bool IsGameOver { get; private set; }
     public static Action OnGameOver;
+
+    private void Awake()
+    {
+        IsGameOver = false;    
+    }
 
     void GameOver()
     {
-        // Debug.Log("[GameOverManager/GameOver]");
+        if (OnGameOver != null) { OnGameOver(); }
+        IsGameOver = true;
 
         // Handle high score if necessary
         int highscore = PlayerPrefs.GetInt("highscore");
@@ -23,11 +30,9 @@ public class GameOverManager : MonoBehaviour
         StartCoroutine(DisplayMenu());
     }
 
-    IEnumerator DisplayMenu()
+    private IEnumerator DisplayMenu()
     {
         yield return new WaitForSeconds(5);
-        StopAllCoroutines();
-        if (OnGameOver != null) { OnGameOver(); }
         SceneManager.LoadScene("Menu");
     } 
 

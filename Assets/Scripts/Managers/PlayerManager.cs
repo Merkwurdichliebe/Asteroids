@@ -18,19 +18,22 @@ public class PlayerManager : MonoBehaviour {
 
 	private void Awake()
 	{
-		// Create the Player spawn safe zone
+		// Create the Player & Safe Zone
         spawnSafeZone = Instantiate(spawnSafeZonePrefab);
-
+		spawnPosition = Vector2.zero;
+		spawnSafeZone.SetActive(true);
 		if (gameSettings.spawnPlayer)
         {
             Player = Instantiate(playerPrefab);
-            Player.Lives = gameSettings.lives;
-			DisablePlayer();
+			// DisablePlayer();
         }
+	}
 
-		spawnPosition = Vector2.zero;
-
-		spawnSafeZone.SetActive(true);
+	private void Start()
+	{
+		// This needs to be set in Start in order to let
+		// other objects subscribe in OnEnable.
+		Player.Lives = gameSettings.lives;
 	}
 
 	//
@@ -56,7 +59,7 @@ public class PlayerManager : MonoBehaviour {
 		else
 		{
 			if (OnPlayerLivesZero != null) { OnPlayerLivesZero(); }
-			Destroy(gameObject, 3);
+			Destroy(Player.gameObject, 3);
 		}
 	}
 
@@ -70,7 +73,6 @@ public class PlayerManager : MonoBehaviour {
 		while (!centerIsClear) { yield return null; }
 		EnablePlayer();
 	}
-
 
 	private void EnablePlayer()
 	{
@@ -87,7 +89,7 @@ public class PlayerManager : MonoBehaviour {
 
 	private void OnEnable()
 	{
-		GameManager.OnGameLevelReady += DisablePlayer;
+		GameManager.OnGameLevelIntro += DisablePlayer;
 		GameManager.OnGameLevelStart += EnablePlayer;
 		PlayerController.OnPlayerDestroyed += HandlePlayerDied;
 		SafeZone.OnSafeZoneClear += HandleCenterIsClear;
@@ -95,7 +97,7 @@ public class PlayerManager : MonoBehaviour {
 
 	private void OnDisable()
 	{
-		GameManager.OnGameLevelReady -= DisablePlayer;
+		GameManager.OnGameLevelIntro -= DisablePlayer;
 		GameManager.OnGameLevelStart -= EnablePlayer;
 		PlayerController.OnPlayerDestroyed -= HandlePlayerDied;
 		SafeZone.OnSafeZoneClear -= HandleCenterIsClear;

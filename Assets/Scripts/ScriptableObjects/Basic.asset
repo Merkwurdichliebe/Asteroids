@@ -13,10 +13,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spawnAsteroids: 1
   spawnPlayer: 1
-  spawnOthers: 0
-  playIntro: 0
-  playMusic: 0
+  spawnOthers: 1
+  playIntro: 1
+  playMusic: 1
   level: 1
-  asteroids: 10
-  lives: 10
+  asteroids: 4
+  lives: 3
   bonusLifeEveryPoints: 1000
