@@ -17,6 +17,6 @@ MonoBehaviour:
   playIntro: 1
   playMusic: 1
   level: 1
-  asteroids: 4
+  asteroids: 1
   lives: 3
   bonusLifeEveryPoints: 1000
