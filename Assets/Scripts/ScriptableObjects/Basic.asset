@@ -14,8 +14,8 @@ MonoBehaviour:
   spawnAsteroids: 1
   spawnPlayer: 1
   spawnOthers: 1
-  playIntro: 1
-  playMusic: 1
+  playIntro: 0
+  playMusic: 0
   level: 1
   asteroids: 4
   lives: 3
