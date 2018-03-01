@@ -18,7 +18,6 @@ public class GameManager : MonoBehaviour
     //
     private int countAsteroids;
     private Spawner spawner;
-    private MusicManager musicManager;
 
     // 
     // Properties
@@ -30,6 +29,7 @@ public class GameManager : MonoBehaviour
     //
     public static Action OnGameLevelIntro;
     public static Action OnGameLevelStart;
+    public static Action OnGameLevelComplete;
 
     //
     // Initialisation
@@ -41,8 +41,6 @@ public class GameManager : MonoBehaviour
 
         // Cache references
         spawner = GetComponent<Spawner>();
-        musicManager = GetComponent<MusicManager>();
-        musicManager.enabled = gameSettings.playMusic;
     }
 
     //
@@ -106,7 +104,8 @@ public class GameManager : MonoBehaviour
     {
         if(component.gameObject.tag.Equals("Asteroid"))
         {
-            // CheckLevelCleared();
+            // Send message
+            if (OnGameLevelComplete != null) { OnGameLevelComplete(); }
             StartCoroutine(LevelCleared());
         }
     }
@@ -136,4 +135,3 @@ public class GameManager : MonoBehaviour
 }
 
 // TODO: Increase spawner frequency with level
-// TODO: Fix shield
