@@ -112,7 +112,7 @@ public class PlayerManager : MonoBehaviour {
 		if (Player != null)
 			Player.gameObject.SetActive(true);
 		if (OnPlayerEnabled != null) OnPlayerEnabled(Player.gameObject);
-	}
+}
 
 	private void DisablePlayer()
 	{
