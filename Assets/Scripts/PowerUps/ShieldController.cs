@@ -60,6 +60,17 @@ public class ShieldController : MonoBehaviour {
 	}
 
 	//
+	// Update the shield GUI when enabled
+	// (otherwise GUI script is not updated
+	// when switching levels)
+	//
+	private void OnEnable()
+	{
+		if (ShieldsLevel > 0)
+			UpdateShield();
+	}
+
+	//
 	// Check collision with shield
 	//
 	private void OnCollisionEnter2D(Collision2D other) {
