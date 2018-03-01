@@ -20,11 +20,10 @@ GameObject:
   m_Component:
   - component: {fileID: 4047363594009652}
   - component: {fileID: 212898151852974572}
-  - component: {fileID: 95941605266372640}
-  - component: {fileID: 114515969510895944}
-  m_Layer: 0
-  m_Name: FXShield
-  m_TagString: Untagged
+  - component: {fileID: 95423174196297366}
+  m_Layer: 9
+  m_Name: FXShieldLayer
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -42,7 +41,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!95 &95941605266372640
+--- !u!95 &95423174196297366
 Animator:
   serializedVersion: 3
   m_ObjectHideFlags: 1
@@ -59,17 +58,6 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
---- !u!114 &114515969510895944
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1135924447700862}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 49980f0befbc645b28431219599c0a49, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!212 &212898151852974572
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -105,7 +93,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: b99df0e55e0d14b71ada663fd95a0e84, type: 3}
-  m_Color: {r: 0.08088237, g: 0.22956309, b: 1, a: 1}
+  m_Color: {r: 0.08088237, g: 0.22956309, b: 1, a: 0.491}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0

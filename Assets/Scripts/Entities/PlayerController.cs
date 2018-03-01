@@ -71,17 +71,11 @@ public class PlayerController : Entity, IKillable
 		rb.velocity = Vector2.zero;
     }
 
-    public void Kill()
-    {
-        if(!shield.gameObject.activeSelf)
-            DoKillSequence();
-    }
-
     //
     // (Required by IKillable)
     // Player kill sequence.
     //
-    public void DoKillSequence()
+    public void Kill()
     {
         // Instantiate the explosion prefab
         Instantiate(explosion, transform.position, Quaternion.identity);

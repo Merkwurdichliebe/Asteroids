@@ -25,7 +25,7 @@ GameObject:
   - component: {fileID: 114126343591561888}
   - component: {fileID: 95595693642682452}
   m_Layer: 0
-  m_Name: FXPowerUpBonusLife
+  m_Name: FXPowerUpShieldPickUp
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -53,10 +53,10 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 9bbccfe7a3f714fd983f2ebca957ba9f, type: 3}
+  m_audioClip: {fileID: 8300000, guid: de2333b824c274d3394454d9a55d6446, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.35
-  m_Pitch: 1
+  m_Volume: 0.4
+  m_Pitch: 1.2
   Loop: 0
   Mute: 0
   Spatialize: 0

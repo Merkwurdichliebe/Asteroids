@@ -253,7 +253,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isDestroyedBy:
     serializedVersion: 2
-    m_Bits: 10752
+    m_Bits: 43520
   scoresPointsIfDestroyedBy:
     serializedVersion: 2
     m_Bits: 8704

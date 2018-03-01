@@ -122,7 +122,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6933f16c967cd4f27a416bfeba56504c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pickUpFX: {fileID: 1840075225490294, guid: e9aed829b7df940f9874549d07ac66b3, type: 2}
+  pickUpFX: {fileID: 1840075225490294, guid: 0eacacfca3ef544e29788001d89461be, type: 2}
 --- !u!114 &114842354988568518
 MonoBehaviour:
   m_ObjectHideFlags: 1
