@@ -925,6 +925,8 @@ MonoBehaviour:
   backgroundMusic: {fileID: 8300000, guid: 4dc1a31445a804e10bc4db86adf25ea9, type: 3}
   gameOverSFX: {fileID: 8300000, guid: a8672f9d3eb374246afe8634bb831cc8, type: 3}
   levelCompleteSFX: {fileID: 8300000, guid: 2151449d4917c42148d1211a88ed5812, type: 3}
+  scoreBonusLifeByPointsSFX: {fileID: 8300000, guid: bf33b83499ff043138ada872d35c8f04,
+    type: 3}
 --- !u!114 &2104122574
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -962,10 +964,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   secondsBetweenSpawns: 4
-  overallSpawnProbability: 1
+  overallSpawnProbability: 0.8
   spawnableObjects:
   - prefab: {fileID: 114922881709890478, guid: d34b63115465242f48024485b4dba654, type: 2}
-    chanceToSpawn: 1
+    chanceToSpawn: 0.4
     limit: 1
   - prefab: {fileID: 114710552218260218, guid: 1d1679504999743b89d4ce54966aba00, type: 2}
     chanceToSpawn: 0.01
@@ -990,6 +992,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e397d6304e8aa4d5e87259193cec3ce3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gameSettings: {fileID: 11400000, guid: b644df034366b455782e19c521b5b257, type: 2}
 --- !u!114 &2104122578
 MonoBehaviour:
   m_ObjectHideFlags: 0

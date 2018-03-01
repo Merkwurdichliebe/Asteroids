@@ -1,8 +1,14 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class ScoreManager : MonoBehaviour {
+
+    //
+    // Inspector fields
+    //
+    public GameSettings gameSettings;
 
     //
     // Private fields
@@ -18,6 +24,11 @@ public class ScoreManager : MonoBehaviour {
     public int CurrentScore { get; private set; }
 
     //
+    // Events
+    //
+    public static Action OnScoreBonusLifeByPoints;
+
+    //
     // Initialisation 
     //
     private void Awake()
@@ -25,6 +36,7 @@ public class ScoreManager : MonoBehaviour {
         ui = GetComponent<UIManager>();
         playerManager = GetComponent<PlayerManager>();
         gameManager = GetComponent<GameManager>();
+        CurrentScore = gameSettings.startingScore;
     }
 
     //
@@ -66,6 +78,7 @@ public class ScoreManager : MonoBehaviour {
         {
             playerManager.Player.Lives += 1;
             lastBonusLifePoints += gameManager.gameSettings.bonusLifeEveryPoints;
+            if (OnScoreBonusLifeByPoints != null) { OnScoreBonusLifeByPoints(); }
         }
     }
 }

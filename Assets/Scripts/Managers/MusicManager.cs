@@ -13,12 +13,14 @@ public class MusicManager : MonoBehaviour {
     public AudioClip backgroundMusic;
     public AudioClip gameOverSFX;
     public AudioClip levelCompleteSFX;
+    public AudioClip scoreBonusLifeByPointsSFX;
 
     //
     // Private fields
     //
     private AudioSource audioMusic;
-    private AudioSource audioSFX;
+    private AudioSource audioSFX1;
+    private AudioSource audioSFX2;
 
     //
     // Initialise 2 separate AudioSource components
@@ -27,15 +29,19 @@ public class MusicManager : MonoBehaviour {
     void Awake()
     {
         audioMusic = gameObject.AddComponent<AudioSource>();
-        audioSFX = gameObject.AddComponent<AudioSource>();
+        audioSFX1 = gameObject.AddComponent<AudioSource>();
+        audioSFX2 = gameObject.AddComponent<AudioSource>();
 
         audioMusic.clip = backgroundMusic;
         audioMusic.loop = true;
         audioMusic.volume = 1.0f;
         audioMusic.playOnAwake = false;
 
-        audioSFX.volume = 1.0f;
-        audioMusic.playOnAwake = false;
+        audioSFX1.volume = 1.0f;
+        audioSFX1.playOnAwake = false;
+
+        audioSFX2.volume = 1.0f;
+        audioSFX2.playOnAwake = false;
     }
 
     //
@@ -53,10 +59,10 @@ public class MusicManager : MonoBehaviour {
     private void HandleGameOver()
     {
         audioMusic.Stop();
-        audioSFX.Stop();
-        audioSFX.volume = 1.0f;
-        audioSFX.clip = gameOverSFX;
-        audioSFX.Play();
+        audioSFX1.Stop();
+        audioSFX1.volume = 1.0f;
+        audioSFX1.clip = gameOverSFX;
+        audioSFX1.Play();
     }
 
     //
@@ -68,9 +74,21 @@ public class MusicManager : MonoBehaviour {
         // and GameOver can occur simultaneously.
         if (GameOverManager.IsGameOver)
             return;
-        audioSFX.clip = levelCompleteSFX;
-        audioSFX.volume = 0.8f;
-        audioSFX.Play();
+        audioSFX1.clip = levelCompleteSFX;
+        audioSFX1.volume = 0.8f;
+        audioSFX1.Play();
+    }
+
+    //
+    // Play SFX on ScoreBonusLife
+    //
+    private void HandleScoreBonusLifeByPoints()
+    {
+        audioSFX2.Stop();
+        audioSFX2.volume = 1.2f;
+        audioSFX2.pitch = 1.5f;
+        audioSFX2.clip = scoreBonusLifeByPointsSFX;
+        audioSFX2.Play();
     }
 
     //
@@ -80,11 +98,13 @@ public class MusicManager : MonoBehaviour {
     {
         GameManager.OnGameLevelComplete += HandleGameLevelComplete;
         GameOverManager.OnGameOver += HandleGameOver;
+        ScoreManager.OnScoreBonusLifeByPoints += HandleScoreBonusLifeByPoints;
     }
 
     private void OnDisable() 
     {
         GameManager.OnGameLevelComplete -= HandleGameLevelComplete;
         GameOverManager.OnGameOver -= HandleGameOver;
+        ScoreManager.OnScoreBonusLifeByPoints -= HandleScoreBonusLifeByPoints;
     }
 }

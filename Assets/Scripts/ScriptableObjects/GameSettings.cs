@@ -17,4 +17,5 @@ public class GameSettings : ScriptableObject {
 	public int asteroids;
 	public int lives;
 	public int bonusLifeEveryPoints;
+	public int startingScore;
 }
