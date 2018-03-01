@@ -138,5 +138,4 @@ public class GameManager : MonoBehaviour
 // TODO: Allow more simultaneous ufos per level
 // TODO: fix UFO shooting twice sometimes
 // TODO: picking up a bomb powerup should add bombs
-// TODO: try slowing down the ship when releasing the forward button
 // TODO: try lerping particle system rotation with shield

@@ -8,7 +8,6 @@ public class PlayerController : Entity, IKillable
     //
     // Inspector fields 
     //
-    [Header("When destroyed")]
     public GameObject explosion;
 
     //
@@ -16,8 +15,6 @@ public class PlayerController : Entity, IKillable
     //
     private int _livesLeft;
     
-    public ShieldController shield;
-
     //
     // Property: Player lives count
     //
