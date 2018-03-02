@@ -16,7 +16,7 @@ public class PauseMenuController : MonoBehaviour {
 	//
 	private void Start() 
 	{
-		gameObject.SetActive(false);
+		menuPanel.SetActive(false);
 	}
 
 	//
