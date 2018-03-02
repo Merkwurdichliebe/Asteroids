@@ -19,15 +19,15 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4518788132194178}
+  - component: {fileID: 114199968732939750}
   - component: {fileID: 114309476402267370}
   - component: {fileID: 114288910736832322}
-  - component: {fileID: 114645765304585602}
   - component: {fileID: 114842354988568518}
   - component: {fileID: 212915853838815320}
   - component: {fileID: 58672196902418394}
   - component: {fileID: 50195502157803240}
   m_Layer: 14
-  m_Name: PowerUpEnableRearGun
+  m_Name: PowerUpBombBays
   m_TagString: PowerUp
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -81,6 +81,18 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.18285714
+--- !u!114 &114199968732939750
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1652396518808640}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c269e0f6da7fb46c690d716632dae5d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pickUpFX: {fileID: 1840075225490294, guid: e9aed829b7df940f9874549d07ac66b3, type: 2}
 --- !u!114 &114288910736832322
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -110,18 +122,6 @@ MonoBehaviour:
   addRandomTorque: 1
   torqueDelta: 5
   levelMultiplier: 1
---- !u!114 &114645765304585602
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1652396518808640}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c269e0f6da7fb46c690d716632dae5d3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  pickUpFX: {fileID: 1840075225490294, guid: e9aed829b7df940f9874549d07ac66b3, type: 2}
 --- !u!114 &114842354988568518
 MonoBehaviour:
   m_ObjectHideFlags: 1

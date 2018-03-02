@@ -137,5 +137,5 @@ public class GameManager : MonoBehaviour
 // TODO: Increase spawner frequency with level
 // TODO: Allow more simultaneous ufos per level
 // TODO: fix UFO shooting twice sometimes
-// TODO: picking up a bomb powerup should add bombs
 // TODO: try lerping particle system rotation with shield
+// TODO: work on pickup FX

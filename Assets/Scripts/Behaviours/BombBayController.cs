@@ -1,6 +1,17 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
+
+/// <summary>
+/// This MonoBehaviour is responsible for upgrading and resetting the
+/// bomb bays on the player. All the bomb bays are children of
+/// the bomb bay object. Each of them can fire a projectile.
+/// This MonoBehaviour exposes a List of EnabledBaysPerLevels,
+/// a struct defined below. Each list item contains an array
+/// of bays to enable. First array contains 0 elements,
+/// and increases with each level. The bomb bays themselves
+/// (the children of the bomb bay object ) have to be assigned
+/// in the Inspector in order to configure each bomb bay level.
+/// </summary>
 
 public class BombBayController : MonoBehaviour {
 
@@ -36,12 +47,14 @@ public class BombBayController : MonoBehaviour {
                 Bays.Add(child);
             }
         }
+
+		currentBayLevel = 0;
 	}
 
 	//
 	// Called by the PowerUp
 	//
-	public void EnableBombBay()
+	private void ConfigureBombBays()
 	{
 		// We don't want to go over the maximum number of levels
 		// configured in the Inspector.
@@ -69,12 +82,38 @@ public class BombBayController : MonoBehaviour {
 			// Enable IFire on the current bay
 			bayComponent.IsEnabled = shouldEnable;
 		}
+	}
 
-		// We increase the currentBayLevel when done
-		// rather than at the beginning of the loop
-		// to make iterating through the array simpler
-		// (level 1 is actually array index 0);
+	//
+	// Increase bomb bay level
+	// (this is called by the PowerUpBombBay script)
+	//
+	public void UpgradeBombBays()
+	{
 		currentBayLevel += 1;
+		ConfigureBombBays();
+	}
+
+	//
+	// Reset bay level to zero
+	//
+	public void ResetBombBays()
+	{
+		currentBayLevel = 0;
+		ConfigureBombBays();
+	}
+
+	//
+	// Event subscriptions
+	//
+	private void OnEnable()
+	{
+		PlayerController.OnPlayerDestroyed += ResetBombBays;
+	}
+
+	private void OnDisable()
+	{
+		PlayerController.OnPlayerDestroyed -= ResetBombBays;
 	}
 }
 

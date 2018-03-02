@@ -53,9 +53,6 @@ public class AIAvoidObstacles : MonoBehaviour {
         {
             moveComponent.TurnLeft(); // TODO: turning left when something straight ahead is silly
         }
-        //else
-        //{
-        //    moveComponent.MoveForward();
-        //}
+        // TODO: move this out of FixedUpate
     }
 }
