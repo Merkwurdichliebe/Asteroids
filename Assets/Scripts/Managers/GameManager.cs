@@ -135,7 +135,7 @@ public class GameManager : MonoBehaviour
 }
 
 // TODO: Increase spawner frequency with level
-// TODO: Allow more simultaneous ufos per level
+// TODO: Allow more simultaneous ufos per level - Spawnable class should contain settings for itself and these could be overriden in Spawner for testing
 // TODO: fix UFO shooting twice sometimes
 // TODO: try lerping particle system rotation with shield
 // TODO: work on pickup FX

@@ -12,6 +12,14 @@ public class PauseMenuController : MonoBehaviour {
 	public GameObject menuPanel;
 
 	//
+	// Make sure the menu is not visible when starting
+	//
+	private void Start() 
+	{
+		gameObject.SetActive(false);
+	}
+
+	//
 	// Check for escape key press
 	//
 	private void Update() 
