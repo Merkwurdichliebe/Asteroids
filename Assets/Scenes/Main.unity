@@ -1807,7 +1807,7 @@ MonoBehaviour:
     chanceToSpawn: 0.2
     limit: 3
   - prefab: {fileID: 114199968732939750, guid: 91a355074792b4a1eae272de087d1f0a, type: 2}
-    chanceToSpawn: 0.1
+    chanceToSpawn: 1
     limit: 1
   - prefab: {fileID: 114747743705783574, guid: 5f600e3df2dee4c1287afa4d14ed48f0, type: 2}
     chanceToSpawn: 0.1

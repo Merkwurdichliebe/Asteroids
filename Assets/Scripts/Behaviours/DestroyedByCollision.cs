@@ -21,7 +21,7 @@ public class DestroyedByCollision : MonoBehaviour
     // (explode when killed, destroy when colliding...)
     //
     private IKillable[] killables;
-    private ScoreController sc;
+    private ScoreController scoreController;
 
     //
     // Initialisation 
@@ -29,7 +29,7 @@ public class DestroyedByCollision : MonoBehaviour
     private void Awake()
     {
         killables = gameObject.GetComponents<IKillable>();
-        sc = GetComponent<ScoreController>();
+        scoreController = GetComponent<ScoreController>();
     }
 
     //
@@ -46,9 +46,9 @@ public class DestroyedByCollision : MonoBehaviour
             // If it is, call the ScoreController method.
             if (((1 << collision.gameObject.layer) & scoresPointsIfDestroyedBy) != 0)
             {
-                if (sc != null)
+                if (scoreController != null)
                 {
-                    sc.ScorePoints();
+                    scoreController.ScorePoints();
                 }
             }
 
