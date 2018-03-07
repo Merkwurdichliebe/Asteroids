@@ -28,7 +28,6 @@ public class Spawner : MonoBehaviour
     private Coroutine spawnCoroutine;
     private float timeSinceLastSpawn;
     private bool spawnerEnabled;
-    private Transform spawnerParent;
 
     //
     // Properties
@@ -47,9 +46,6 @@ public class Spawner : MonoBehaviour
 
     private void Initialize()
     {
-        GameObject empty = new GameObject { name = "Spawner objects" };
-        spawnerParent = empty.transform;
-
         // Initialize a Dictionary to count how many objects have been spawned
         // of each SpawnableObject type.
         // The key is the prefab's name, the value is the count.
@@ -103,8 +99,7 @@ public class Spawner : MonoBehaviour
             if (spawnedCount[obj.prefab.name] < obj.limit && Random.value < overallSpawnProbability * obj.chanceToSpawn)
             {
                 // Instantiate the prefab.
-                Spawnable o = Instantiate(obj.prefab);
-                o.transform.parent = spawnerParent;
+                Spawnable o = Instantiate(obj.prefab, this.transform);
 
                 // Set the gameObject's name. This is crucial for the
                 // NotifyDestroyed() method to work, because the name

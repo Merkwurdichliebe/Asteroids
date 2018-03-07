@@ -12,12 +12,12 @@ public class GameManager : MonoBehaviour
     [Header("Extra game prefabs")]
     public GameObject cometPrefab;
     public GameSettings gameSettings;
+    public GameObject spawnerPrefab;
 
     //
     // Private fields
     //
-    private int countAsteroids;
-    private Spawner spawner;
+    private GameObject spawner;
 
     // 
     // Properties
@@ -38,9 +38,6 @@ public class GameManager : MonoBehaviour
     {
         // Set the level number
         CurrentLevel = gameSettings.level;
-
-        // Cache references
-        spawner = GetComponent<Spawner>();
     }
 
     //
@@ -48,7 +45,8 @@ public class GameManager : MonoBehaviour
     //
     void Start()
     {
-        spawner.enabled = gameSettings.spawnOthers;
+        if (gameSettings.spawnOthers)
+            spawner = Instantiate(spawnerPrefab);
         PrepareNextLevel();
     }
 
@@ -59,12 +57,14 @@ public class GameManager : MonoBehaviour
     void PrepareNextLevel()
     {
         StopAllCoroutines();
+
         if (gameSettings.playIntro)
             StartCoroutine(ReadyNextLevel());    
         else
             StartNextLevel();
     }
 
+    //
     // Level intro sequence
     //
     IEnumerator ReadyNextLevel()
@@ -73,7 +73,8 @@ public class GameManager : MonoBehaviour
         if (OnGameLevelIntro != null) { OnGameLevelIntro(); }
 
         // Disable the Spawner
-        spawner.enabled = false;
+        if (spawner)
+            spawner.SetActive(false);
 
         // Animate the comet effect
         // Particle System delay is set to 0,05 to avoid emission at (0,0) on first frame
@@ -89,9 +90,12 @@ public class GameManager : MonoBehaviour
     //
     void StartNextLevel()
     {
+        // Must be done first for the spawner to receive the message!
+        if (spawner)
+            spawner.SetActive(true);
+
         // Send message
         if (OnGameLevelStart != null) { OnGameLevelStart(); }
-        spawner.enabled = true;
     }
 
     //
@@ -102,7 +106,7 @@ public class GameManager : MonoBehaviour
     //
     public void CheckLastDestroyed(KeepInstancesCount component)
     {
-        if(component.gameObject.tag.Equals("Asteroid"))
+        if(component.gameObject.tag.Equals("Asteroid")) // FIXME: CompareTag
         {
             // Send message
             if (OnGameLevelComplete != null) { OnGameLevelComplete(); }
