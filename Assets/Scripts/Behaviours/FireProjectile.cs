@@ -63,7 +63,7 @@ public class FireProjectile : MonoBehaviour, IFire
         if (objectPoolExists && gameObject.activeSelf && IsEnabled && (Time.time - lastShortFired) > minInterval)
         {
             GameObject projectile = ObjectPool.Instance.GetPooledObject(projectilePrefab.name);
-            // Debug.Log(projectile.name);
+            
             if (projectile != null)
             {
                 projectile.transform.position = transform.position;

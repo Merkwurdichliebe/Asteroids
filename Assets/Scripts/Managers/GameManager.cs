@@ -47,6 +47,7 @@ public class GameManager : MonoBehaviour
     {
         if (gameSettings.spawnOthers)
             spawner = Instantiate(spawnerPrefab);
+
         PrepareNextLevel();
     }
 
@@ -59,7 +60,7 @@ public class GameManager : MonoBehaviour
         StopAllCoroutines();
 
         if (gameSettings.playIntro)
-            StartCoroutine(ReadyNextLevel());    
+            StartCoroutine(PlayLevelIntroSequence());    
         else
             StartNextLevel();
     }
@@ -67,7 +68,7 @@ public class GameManager : MonoBehaviour
     //
     // Level intro sequence
     //
-    IEnumerator ReadyNextLevel()
+    IEnumerator PlayLevelIntroSequence()
     {
         // Send message
         if (OnGameLevelIntro != null) { OnGameLevelIntro(); }
@@ -106,7 +107,7 @@ public class GameManager : MonoBehaviour
     //
     public void CheckLastDestroyed(KeepInstancesCount component)
     {
-        if(component.gameObject.tag.Equals("Asteroid")) // FIXME: CompareTag
+        if(component.gameObject.CompareTag("Asteroid"))
         {
             // Send message
             if (OnGameLevelComplete != null) { OnGameLevelComplete(); }
@@ -144,3 +145,5 @@ public class GameManager : MonoBehaviour
 // TODO: try lerping particle system rotation with shield
 // TODO: work on pickup FX
 // TODO: implement command & state machine, make UFO search with OverlapSphere : https://www.youtube.com/watch?v=D6hAftj3AgM
+// TODO: show lives left as icons
+// TODO: Make player die reset bomb bays and weapons in the same place (now they are in two classes)

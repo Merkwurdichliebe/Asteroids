@@ -10,8 +10,6 @@ using UnityEngine;
 
 public class KeepInstancesCount : MonoBehaviour {
 
-    GameObject reference;
-    
     //
     // Static fields
     //

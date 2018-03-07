@@ -18,7 +18,7 @@ public class DestroyedByCollision : MonoBehaviour
     // Private fields
     //
     // We need to send Kill() to all components implementing IKillable
-    // (explode when killed, destroy when colliding...)
+    // (CloneWhenKilled, ExplodeWhenKilled, PlayerController)
     //
     private IKillable[] killables;
     private ScoreController scoreController;
@@ -33,7 +33,7 @@ public class DestroyedByCollision : MonoBehaviour
     }
 
     //
-    // Check for collisions. 
+    // Check for collisions.
     //
     void OnCollisionEnter2D(Collision2D collision)
     {

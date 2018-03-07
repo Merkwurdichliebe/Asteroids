@@ -23,7 +23,6 @@ public class AsteroidSpawner : MonoBehaviour {
 
     private void HandleGameLevelStart()
     {
-        Debug.Log("Handle");
         if (gameSettings.spawnAsteroids)
             Spawn(gameSettings.asteroids + GameManager.CurrentLevel - 1);
     }

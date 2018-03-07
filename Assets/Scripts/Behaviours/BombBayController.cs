@@ -64,9 +64,6 @@ public class BombBayController : MonoBehaviour {
 		// Loop through all the available weapon bays
 		foreach (GameObject bay in Bays)
 		{
-			// Get the IFire interface in each of them
-			IFire bayComponent = bay.GetComponent<IFire>();
-
 			// For each current bay, loop through the array of the bays
 			// that should be enabled and set shouldEnable to true
 			// if there's a match.
@@ -79,8 +76,9 @@ public class BombBayController : MonoBehaviour {
 				}
 			}
 
-			// Enable IFire on the current bay
-			bayComponent.IsEnabled = shouldEnable;
+			// Set the IsEnabled property of IFire on the current bay
+			// We don't cache this because it only runs when picking up the powerup
+			bay.GetComponent<IFire>().IsEnabled = shouldEnable;
 		}
 	}
 
