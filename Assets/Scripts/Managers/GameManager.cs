@@ -144,6 +144,7 @@ public class GameManager : MonoBehaviour
 // TODO: fix UFO shooting twice sometimes
 // TODO: try lerping particle system rotation with shield
 // TODO: work on pickup FX
+// TODO: audiomanager with scriptable object?
 // TODO: implement command & state machine, make UFO search with OverlapSphere : https://www.youtube.com/watch?v=D6hAftj3AgM
 // TODO: show lives left as icons
 // TODO: Make player die reset bomb bays and weapons in the same place (now they are in two classes)
