@@ -1,4 +1,7 @@
-﻿using System;
+﻿// Unity retro Asteroids game
+// Tal Zana 2018
+
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Assertions;
